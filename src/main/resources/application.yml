@@ -1,0 +1,128 @@
+# =============================================
+# SpeedCalendar 应用配置
+# =============================================
+
+spring:
+  application:
+    name: SpeedCalendar-server
+
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Xu821120
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # 连接池配置
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: none # 不自动生成表结构，使用手动SQL建表
+    show-sql: true # 显示SQL语句
+    properties:
+      hibernate:
+        format_sql: true # 格式化SQL
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: Xu821120
+      database: 0
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+  # Jackson配置
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  tomcat:
+    uri-encoding: UTF-8
+    max-connections: 10000
+    threads:
+      max: 200
+      min-spare: 10
+
+# JWT配置
+jwt:
+  secret: SpeedCalendar-JWT-Secret-Key-2025-Change-This-In-Production # 生产环境必须修改
+  access-token-expiration: 7200 # 访问令牌有效期（秒）：2小时
+  refresh-token-expiration: 2592000 # 刷新令牌有效期（秒）：30天
+
+# 验证码配置
+verification:
+  code:
+    length: 6 # 验证码长度
+    expiration: 300 # 验证码有效期（秒）：5分钟
+    daily-limit: 10 # 每个手机号每天发送次数限制
+    interval: 60 # 发送间隔（秒）：1分钟
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.example.speedcalendarserver: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/speedcalendar.log
+    max-size: 10MB
+    max-history: 30
+
+# 开发环境配置
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: update # 开发环境自动更新表结构
+
+logging:
+  level:
+    root: DEBUG
+    com.example.speedcalendarserver: DEBUG
+
+# 生产环境配置
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    root: WARN
+    com.example.speedcalendarserver: INFO
