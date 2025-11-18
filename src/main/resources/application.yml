@@ -52,6 +52,13 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB # 单个文件最大大小
+      max-request-size: 10MB # 请求最大大小
+
 # 服务器配置
 server:
   port: 8080
@@ -77,6 +84,27 @@ verification:
     expiration: 300 # 验证码有效期（秒）：5分钟
     daily-limit: 10 # 每个手机号每天发送次数限制
     interval: 60 # 发送间隔（秒）：1分钟
+
+# 文件存储配置
+# TODO: 生产环境需要切换到OSS
+file:
+  storage:
+    type: local # 存储类型：local（本地存储）或 oss（阿里云OSS）| TODO: 生产环境改为 oss
+    local:
+      upload-dir: D:/speedcalendar/uploads/avatars # 使用简短的绝对路径 | TODO: 生产环境修改为服务器路径
+      #base-url: http://localhost:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
+      base-url:  http://10.0.2.2:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
+    # TODO: 生产环境需要配置OSS参数
+    oss:
+      endpoint: # OSS endpoint，例如: oss-cn-hangzhou.aliyuncs.com
+      bucket: # OSS bucket名称，例如: speedcalendar-avatars
+      access-key: ${OSS_ACCESS_KEY:} # AccessKey ID（使用环境变量）
+      secret-key: ${OSS_SECRET_KEY:} # AccessKey Secret（使用环境变量）
+      cdn-domain: # CDN域名（可选），例如: https://cdn.speedcalendar.com
+  avatar:
+    max-size: 5242880 # 最大文件大小（字节）：5MB
+    allowed-types: jpg,jpeg,png,webp # 允许的文件扩展名
+    allowed-mime-types: image/jpeg,image/png,image/webp # 允许的MIME类型
 
 # 日志配置
 logging:
@@ -121,6 +149,18 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: validate
+
+# TODO: 生产环境文件存储配置
+# 取消下面的注释并填写实际的OSS配置
+#file:
+#  storage:
+#    type: oss # 切换到OSS
+#    oss:
+#      endpoint: oss-cn-hangzhou.aliyuncs.com
+#      bucket: speedcalendar-avatars
+#      access-key: ${OSS_ACCESS_KEY}
+#      secret-key: ${OSS_SECRET_KEY}
+#      cdn-domain: https://cdn.speedcalendar.com
 
 logging:
   level:

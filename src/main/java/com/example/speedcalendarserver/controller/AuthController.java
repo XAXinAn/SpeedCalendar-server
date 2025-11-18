@@ -128,20 +128,24 @@ public class AuthController {
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息（支持隐私过滤）
      *
-     * GET /api/auth/user/{userId}
+     * GET /api/auth/user/{userId}?requesterId=xxx
      * 响应: { "code": 200, "message": "获取成功", "data": { ... } }
      *
-     * @param userId 用户ID
-     * @return 用户信息
+     * @param userId 用户ID（被查看者）
+     * @param requesterId 请求者ID（查看者），可选参数。不提供则返回完整信息
+     * @return 用户信息（根据隐私设置过滤）
      */
     @GetMapping("/user/{userId}")
-    public ApiResponse<UserInfo> getUserInfo(@PathVariable String userId) {
+    public ApiResponse<UserInfo> getUserInfo(
+            @PathVariable String userId,
+            @RequestParam(required = false) String requesterId
+    ) {
         try {
-            log.info("【获取用户信息】userId: {}", userId);
+            log.info("【获取用户信息】targetUserId: {}, requesterId: {}", userId, requesterId);
 
-            UserInfo userInfo = authService.getUserInfo(userId);
+            UserInfo userInfo = authService.getUserInfo(userId, requesterId);
 
             return ApiResponse.success("获取成功", userInfo);
         } catch (Exception e) {

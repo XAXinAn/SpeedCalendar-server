@@ -137,6 +137,38 @@ CREATE TABLE user_tokens (
 
 
 -- =============================================
+-- 表4: user_privacy_settings (用户隐私设置表)
+-- 功能：管理用户各字段的隐私级别，支持未来好友系统扩展
+-- 性能优化：联合唯一索引，使用ENUM节省空间
+-- =============================================
+DROP TABLE IF EXISTS user_privacy_settings;
+CREATE TABLE user_privacy_settings (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+
+    -- 关联用户
+    user_id VARCHAR(64) NOT NULL COMMENT '用户ID',
+
+    -- 隐私字段
+    field_name VARCHAR(50) NOT NULL COMMENT '字段名：phone/email/birthday/gender/bio',
+
+    -- 可见性级别（使用ENUM节省存储空间）
+    visibility_level ENUM('PUBLIC', 'FRIENDS_ONLY', 'PRIVATE') NOT NULL DEFAULT 'PUBLIC'
+        COMMENT '可见性：PUBLIC-公开，FRIENDS_ONLY-仅好友（预留），PRIVATE-私密',
+
+    -- 时间戳
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+
+    -- 约束
+    PRIMARY KEY (id),
+    -- 联合唯一索引：每个用户的每个字段只能有一条隐私设置
+    UNIQUE KEY uk_user_field (user_id, field_name),
+    -- 单列索引：用于快速查询某个用户的所有隐私设置
+    KEY idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户隐私设置表';
+
+
+-- =============================================
 -- 初始化数据（可选）
 -- =============================================
 -- 插入测试用户（密码：123456，BCrypt加密后的hash）
@@ -156,8 +188,10 @@ CREATE TABLE user_tokens (
 -- SHOW CREATE TABLE users;
 -- SHOW CREATE TABLE verification_codes;
 -- SHOW CREATE TABLE user_tokens;
+-- SHOW CREATE TABLE user_privacy_settings;
 
 -- 查看索引
 -- SHOW INDEX FROM users;
 -- SHOW INDEX FROM verification_codes;
 -- SHOW INDEX FROM user_tokens;
+-- SHOW INDEX FROM user_privacy_settings;

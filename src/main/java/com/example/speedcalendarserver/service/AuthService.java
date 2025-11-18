@@ -39,6 +39,7 @@ public class AuthService {
     private final VerificationCodeRepository verificationCodeRepository;
     private final UserTokenRepository userTokenRepository;
     private final JwtUtil jwtUtil;
+    private final PrivacyService privacyService;
 
     /**
      * 验证码长度
@@ -333,7 +334,31 @@ public class AuthService {
     }
 
     /**
-     * 根据用户ID获取用户信息
+     * 根据用户ID获取用户信息（带隐私过滤）
+     * 性能优化：使用 PrivacyService 的缓存机制
+     *
+     * @param userId 用户ID（被查看者）
+     * @param requesterId 请求者ID（查看者），如果为null则返回完整信息
+     * @return 用户信息（根据隐私设置过滤）
+     */
+    public UserInfo getUserInfo(String userId, String requesterId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        UserInfo userInfo = UserInfo.fromEntity(user);
+
+        // 如果没有提供请求者ID，返回完整信息（兼容旧版本）
+        if (requesterId == null || requesterId.isEmpty()) {
+            return userInfo;
+        }
+
+        // 使用隐私服务过滤字段
+        return privacyService.filterUserInfo(userInfo, requesterId);
+    }
+
+    /**
+     * 根据用户ID获取用户信息（完整版本，不过滤）
+     * 仅用于内部调用
      *
      * @param userId 用户ID
      * @return 用户信息
