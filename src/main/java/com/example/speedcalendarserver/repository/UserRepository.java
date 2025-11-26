@@ -62,4 +62,13 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @return true-存在，false-不存在
      */
     boolean existsByEmailAndIsDeleted(String email, Integer isDeleted);
+
+    /**
+     * 根据用户ID查找用户（未删除）
+     *
+     * @param userId    用户ID
+     * @param isDeleted 删除标记
+     * @return 用户Optional
+     */
+    Optional<User> findByUserIdAndIsDeleted(String userId, Integer isDeleted);
 }

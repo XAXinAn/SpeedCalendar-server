@@ -68,7 +68,8 @@ langchain4j:
       base-url: https://api.siliconflow.cn/v1
       api-key: ${SILICON_API_KEY:}
       #model-name: Qwen/Qwen2.5-7B-Instruct
-      model-name: Qwen/Qwen2.5-32B-Instruct
+      #model-name: Qwen/Qwen2.5-32B-Instruct
+      model-name: Qwen/Qwen3-Next-80B-A3B-Instruct  # 工具调用不稳定，暂不使用
       log-requests: true
       log-responses: true
       timeout: PT2M

@@ -109,8 +109,8 @@ public class AuthService {
      * 手机号登录
      * 如果用户不存在则自动注册
      *
-     * @param request        登录请求
-     * @param httpRequest    HTTP请求
+     * @param request     登录请求
+     * @param httpRequest HTTP请求
      * @return 登录响应
      */
     @Transactional(rollbackFor = Exception.class)
@@ -137,6 +137,70 @@ public class AuthService {
 
         // 6. 构建响应
         return buildLoginResponse(user, accessToken, refreshToken);
+    }
+
+    /**
+     * 刷新Token
+     * 使用refreshToken换取新的accessToken和refreshToken
+     *
+     * @param refreshToken 刷新令牌
+     * @param httpRequest  HTTP请求
+     * @return 刷新Token响应
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public com.example.speedcalendarserver.dto.RefreshTokenResponse refreshToken(String refreshToken,
+            HttpServletRequest httpRequest) {
+        // 1. 验证refreshToken格式和签名
+        if (!jwtUtil.validateToken(refreshToken)) {
+            throw new RuntimeException("refreshToken无效或已过期");
+        }
+
+        // 2. 从refreshToken中获取用户ID
+        String userId = jwtUtil.getUserIdFromToken(refreshToken);
+        if (userId == null) {
+            throw new RuntimeException("无法解析refreshToken");
+        }
+
+        // 3. 查找数据库中的Token记录
+        UserToken userToken = userTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new RuntimeException("refreshToken不存在或已被使用"));
+
+        // 4. 验证Token记录是否有效
+        if (userToken.getStatus() != 1) {
+            throw new RuntimeException("Token记录已失效");
+        }
+
+        // 5. 验证refreshToken是否过期（数据库中的过期时间）
+        if (userToken.getRefreshTokenExpiresAt().isBefore(LocalDateTime.now())) {
+            // 将旧Token标记为失效
+            userToken.setStatus(0);
+            userTokenRepository.save(userToken);
+            throw new RuntimeException("refreshToken已过期，请重新登录");
+        }
+
+        // 6. 验证用户是否存在且有效
+        User user = userRepository.findByUserIdAndIsDeleted(userId, 0)
+                .orElseThrow(() -> new RuntimeException("用户不存在或已被禁用"));
+
+        // 7. 生成新的Token
+        String newAccessToken = jwtUtil.generateAccessToken(userId);
+        String newRefreshToken = jwtUtil.generateRefreshToken(userId);
+
+        // 8. 将旧Token记录标记为失效
+        userToken.setStatus(0);
+        userTokenRepository.save(userToken);
+
+        // 9. 保存新Token记录
+        saveUserToken(userId, newAccessToken, newRefreshToken, httpRequest);
+
+        log.info("【刷新Token成功】userId: {}", userId);
+
+        // 10. 返回新Token
+        return com.example.speedcalendarserver.dto.RefreshTokenResponse.builder()
+                .token(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .expiresIn(jwtUtil.getAccessTokenExpiration())
+                .build();
     }
 
     /**
@@ -337,7 +401,7 @@ public class AuthService {
      * 根据用户ID获取用户信息（带隐私过滤）
      * 性能优化：使用 PrivacyService 的缓存机制
      *
-     * @param userId 用户ID（被查看者）
+     * @param userId      用户ID（被查看者）
      * @param requesterId 请求者ID（查看者），如果为null则返回完整信息
      * @return 用户信息（根据隐私设置过滤）
      */

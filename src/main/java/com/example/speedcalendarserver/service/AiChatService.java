@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -237,15 +236,16 @@ public class AiChatService {
 
     /**
      * 获取当前日期字符串，包含星期信息
-     * 格式：yyyy-MM-dd（星期X）
+     * 格式：yyyy-MM-dd（星期X）HH:mm
      *
-     * @return 格式化的日期字符串
+     * @return 格式化的日期时间字符串
      */
     private String getCurrentDateString() {
-        LocalDate today = LocalDate.now();
-        String dateStr = today.format(DateTimeFormatter.ISO_LOCAL_DATE);
-        String weekDay = getChineseWeekDay(today.getDayOfWeek());
-        return dateStr + "（" + weekDay + "）";
+        LocalDateTime now = LocalDateTime.now();
+        String dateStr = now.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String timeStr = now.format(DateTimeFormatter.ofPattern("HH:mm"));
+        String weekDay = getChineseWeekDay(now.getDayOfWeek());
+        return dateStr + "（" + weekDay + "）" + timeStr;
     }
 
     /**
