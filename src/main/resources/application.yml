@@ -59,6 +59,20 @@ spring:
       max-file-size: 10MB # 单个文件最大大小
       max-request-size: 10MB # 请求最大大小
 
+# =============================================
+# LangChain4j AI 配置 (硅基流动 API)
+# =============================================
+langchain4j:
+  open-ai:
+    chat-model:
+      base-url: https://api.siliconflow.cn/v1
+      api-key: ${SILICON_API_KEY:}
+      #model-name: Qwen/Qwen2.5-7B-Instruct
+      model-name: Qwen/Qwen2.5-32B-Instruct
+      log-requests: true
+      log-responses: true
+      timeout: PT2M
+
 # 服务器配置
 server:
   port: 8080
