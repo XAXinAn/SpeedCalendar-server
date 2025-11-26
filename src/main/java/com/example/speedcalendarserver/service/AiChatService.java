@@ -138,21 +138,21 @@ public class AiChatService {
             // 获取当前最大序号
             Integer maxSequenceNum = chatMessageRepository.findMaxSequenceNum(sessionId);
 
-            // 保存用户消息（独立事务）
-            saveUserMessage(sessionId, userId, userMessage, maxSequenceNum + 1);
-
-            // 调用 CalendarAssistant 获取 AI 回复（支持工具调用）
+            // 调用 CalendarAssistant 获取 AI 回复（支持工具调用和会话记忆）
+            // 注意：用户消息在 AI 调用之后保存，避免与 ChatMemoryStore 冲突
             String aiReply;
             try {
                 // 生成当前日期字符串，格式：yyyy-MM-dd（星期X）
                 String currentDate = getCurrentDateString();
-                aiReply = calendarAssistant.chat(currentDate, userMessage);
+                // 传入 sessionId，LangChain4j 会自动从数据库加载历史消息作为上下文
+                aiReply = calendarAssistant.chat(sessionId, currentDate, userMessage);
             } catch (Exception e) {
                 log.error("调用 AI 模型失败: {}", e.getMessage(), e);
                 throw new RuntimeException("AI 服务暂时不可用，请稍后重试", e);
             }
 
-            // 保存 AI 回复并更新会话（独立事务）
+            // AI 调用成功后，保存用户消息和 AI 回复到数据库
+            saveUserMessage(sessionId, userId, userMessage, maxSequenceNum + 1);
             ChatMessage aiMsg = saveAiReplyAndUpdateSession(session, sessionId, userId, aiReply, maxSequenceNum + 2);
 
             log.info("会话 {} 完成一轮对话，当前消息数: {}", sessionId, session.getMessageCount() + 2);

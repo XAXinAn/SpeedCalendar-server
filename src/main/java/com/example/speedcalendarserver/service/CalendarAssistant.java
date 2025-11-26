@@ -1,5 +1,6 @@
 package com.example.speedcalendarserver.service;
 
+import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
@@ -94,10 +95,13 @@ public interface CalendarAssistant {
     /**
      * 与用户进行对话
      *
+     * @param sessionId   会话ID，用于隔离不同会话的记忆
      * @param currentDate 当前日期，格式：yyyy-MM-dd（星期X）
      * @param userMessage 用户消息
      * @return AI 回复
      */
     @SystemMessage(SYSTEM_PROMPT)
-    String chat(@V("currentDate") String currentDate, @UserMessage String userMessage);
+    String chat(@MemoryId String sessionId,
+            @V("currentDate") String currentDate,
+            @UserMessage String userMessage);
 }

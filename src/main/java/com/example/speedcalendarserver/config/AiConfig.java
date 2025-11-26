@@ -2,6 +2,8 @@ package com.example.speedcalendarserver.config;
 
 import com.example.speedcalendarserver.service.CalendarAssistant;
 import com.example.speedcalendarserver.service.CalendarTools;
+import com.example.speedcalendarserver.service.DatabaseChatMemoryStore;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.service.AiServices;
 import jakarta.annotation.PostConstruct;
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 public class AiConfig {
 
     private final CalendarTools calendarTools;
+    private final DatabaseChatMemoryStore chatMemoryStore;
 
     @Value("${langchain4j.open-ai.chat-model.api-key:}")
     private String siliconApiKey;
@@ -43,14 +46,20 @@ public class AiConfig {
      */
     @Bean
     public CalendarAssistant calendarAssistant(ChatModel chatModel) {
-        log.info("正在构建 CalendarAssistant，绑定工具: CalendarTools");
+        log.info("正在构建 CalendarAssistant，绑定工具和会话记忆");
 
         CalendarAssistant assistant = AiServices.builder(CalendarAssistant.class)
                 .chatModel(chatModel)
                 .tools(calendarTools)
+                // 为每个会话提供独立的记忆，从数据库加载历史消息
+                .chatMemoryProvider(sessionId -> MessageWindowChatMemory.builder()
+                        .id(sessionId)
+                        .maxMessages(20) // 保留最近 20 条消息作为上下文
+                        .chatMemoryStore(chatMemoryStore)
+                        .build())
                 .build();
 
-        log.info("CalendarAssistant 构建完成，已启用工具调用功能");
+        log.info("CalendarAssistant 构建完成，已启用工具调用和会话记忆功能");
         return assistant;
     }
 
