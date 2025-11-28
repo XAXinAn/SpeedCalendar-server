@@ -124,9 +124,10 @@ public class AiChatService {
 
             // 如果没有提供会话ID，创建新会话
             if (sessionId == null || sessionId.isBlank()) {
+                log.info("准备为用户 {} 创建新会话...", userId); // <--- 增加这行日志
                 session = createSession(userId);
                 sessionId = session.getSessionId();
-                log.info("为用户 {} 创建新会话: {}", userId, sessionId);
+                log.info("为用户 {} 创建新会话成功: {}", userId, sessionId);
             } else {
                 // 会话隔离校验
                 session = chatSessionRepository
@@ -231,7 +232,8 @@ public class AiChatService {
     public ChatSession getSession(String sessionId, String userId) {
         return chatSessionRepository
                 .findBySessionIdAndUserIdAndIsDeleted(sessionId, userId, 0)
-                .orElseThrow(() -> new IllegalArgumentException("会话不存在或无权访问"));
+                //.orElseThrow(() -> new IllegalArgumentException("会话不存在或无权访问"));
+                .orElse(null);
     }
 
     /**

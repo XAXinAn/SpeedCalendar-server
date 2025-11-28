@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: Xu821120
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       # 连接池配置
@@ -108,7 +108,7 @@ file:
     local:
       upload-dir: D:/speedcalendar/uploads/avatars # 使用简短的绝对路径 | TODO: 生产环境修改为服务器路径
       #base-url: http://localhost:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
-      base-url:  http://10.0.2.2:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
+      base-url:  http://192.168.43.227:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
     # TODO: 生产环境需要配置OSS参数
     oss:
       endpoint: # OSS endpoint，例如: oss-cn-hangzhou.aliyuncs.com
