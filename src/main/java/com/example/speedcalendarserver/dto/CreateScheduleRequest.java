@@ -45,4 +45,9 @@ public class CreateScheduleRequest {
      */
     @NotNull(message = "是否全天不能为空")
     private Boolean isAllDay;
+
+    /**
+     * 关联的群组ID，个人日程则为null
+     */
+    private String groupId;
 }

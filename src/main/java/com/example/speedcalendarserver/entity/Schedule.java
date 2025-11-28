@@ -39,6 +39,12 @@ public class Schedule {
     private String userId;
 
     /**
+     * 关联的群组ID, NULL表示个人日程
+     */
+    @Column(name = "group_id", length = 255)
+    private String groupId;
+
+    /**
      * 日程标题
      */
     @Column(name = "title", length = 200, nullable = false)

@@ -1,13 +1,12 @@
 package com.example.speedcalendarserver.dto;
 
 import com.example.speedcalendarserver.entity.Schedule;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 
 /**
@@ -20,6 +19,7 @@ import java.time.ZoneId;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScheduleDTO {
 
     /**
@@ -28,9 +28,14 @@ public class ScheduleDTO {
     private String scheduleId;
 
     /**
-     * 用户ID
+     * 创建者用户ID
      */
     private String userId;
+
+    /**
+     * 关联的群组ID，个人日程则为null
+     */
+    private String groupId;
 
     /**
      * 日程标题
@@ -74,6 +79,7 @@ public class ScheduleDTO {
         return ScheduleDTO.builder()
                 .scheduleId(schedule.getScheduleId())
                 .userId(schedule.getUserId())
+                .groupId(schedule.getGroupId()) // 添加groupId的映射
                 .title(schedule.getTitle())
                 .scheduleDate(schedule.getScheduleDate().toString())
                 .startTime(schedule.getStartTime() != null ? schedule.getStartTime().toString() : null)

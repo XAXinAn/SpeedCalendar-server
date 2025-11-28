@@ -1,7 +1,10 @@
 -- =============================================
 -- SpeedCalendar 数据库完整初始化脚本
 -- 合并时间: 2025-11-28
+-- v1.1: 修正了建表语句的排序规则(Collation)不一致问题
 -- =============================================
+
+drop database speed_calendar;
 
 -- 创建数据库
 CREATE DATABASE IF NOT EXISTS speed_calendar
@@ -11,7 +14,7 @@ CREATE DATABASE IF NOT EXISTS speed_calendar
 USE speed_calendar;
 
 -- =============================================
--- 表1: users (用户表)
+-- 统一删除所有表，注意有外键依赖的表要先删除
 -- =============================================
 DROP TABLE IF EXISTS user_tokens;
 DROP TABLE IF EXISTS user_privacy_settings;
@@ -23,6 +26,9 @@ DROP TABLE IF EXISTS user_group;
 DROP TABLE IF EXISTS `group`;
 DROP TABLE IF EXISTS users;
 
+-- =============================================
+-- 表1: users (用户表)
+-- =============================================
 CREATE TABLE users (
     user_id VARCHAR(64) NOT NULL COMMENT '用户唯一ID (UUID)',
     phone VARCHAR(20) DEFAULT NULL COMMENT '手机号（主要登录方式）',
@@ -108,11 +114,31 @@ CREATE TABLE user_privacy_settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户隐私设置表';
 
 -- =============================================
--- 表5: schedules (日程表)
+-- 表5: group & user_group (群组相关表)
+-- =============================================
+CREATE TABLE `group` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `owner_id` varchar(255) DEFAULT NULL,
+  `invitation_code` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_invitation_code` (`invitation_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `user_group` (
+  `user_id` varchar(255) NOT NULL,
+  `group_id` varchar(255) NOT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =============================================
+-- 表6: schedules (日程表)
 -- =============================================
 CREATE TABLE schedules (
     schedule_id VARCHAR(64) NOT NULL COMMENT '日程唯一ID (UUID)',
-    user_id VARCHAR(64) NOT NULL COMMENT '用户ID',
+    user_id VARCHAR(64) NOT NULL COMMENT '创建者用户ID',
+    group_id VARCHAR(255) DEFAULT NULL COMMENT '关联的群组ID, NULL表示个人日程',
     title VARCHAR(200) NOT NULL COMMENT '日程标题',
     schedule_date DATE NOT NULL COMMENT '日程日期 (YYYY-MM-DD)',
     start_time TIME DEFAULT NULL COMMENT '开始时间 (HH:mm)',
@@ -124,28 +150,12 @@ CREATE TABLE schedules (
     is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除：0-未删除，1-已删除',
     PRIMARY KEY (schedule_id),
     KEY idx_user_id (user_id),
+    KEY idx_group_id (group_id),
     KEY idx_schedule_date (schedule_date),
     KEY idx_user_date (user_id, schedule_date),
-    KEY idx_created_at (created_at),
-    CONSTRAINT fk_schedules_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    CONSTRAINT fk_schedules_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_schedules_group FOREIGN KEY (group_id) REFERENCES `group`(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='日程表';
-
--- =============================================
--- 表6: group & user_group (群组相关表)
--- =============================================
-CREATE TABLE `group` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `owner_id` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `user_group` (
-  `user_id` varchar(255) NOT NULL,
-  `group_id` varchar(255) NOT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =============================================
 -- 表7: chat_sessions & chat_messages (AI聊天相关表)

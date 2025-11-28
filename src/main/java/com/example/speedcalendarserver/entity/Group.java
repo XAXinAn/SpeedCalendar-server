@@ -13,4 +13,5 @@ public class Group {
     private String id;
     private String name;
     private String ownerId;
+    private String invitationCode;
 }
