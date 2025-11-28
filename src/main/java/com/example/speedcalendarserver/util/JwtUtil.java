@@ -116,11 +116,11 @@ public class JwtUtil {
      */
     public Claims getClaimsFromToken(String token) {
         try {
+            // 使用 jjwt-0.11.2 版本的 API
             return Jwts.parser()
-                    .verifyWith(getSignKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
+                    .setSigningKey(getSignKey())
+                    .parseClaimsJws(token)
+                    .getBody();
         } catch (Exception e) {
             return null;
         }

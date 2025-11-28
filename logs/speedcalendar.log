@@ -4202,3 +4202,2244 @@ P陈昊天
 2025-11-28 00:28:33 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-11-28 00:28:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-11-28 00:28:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-28 17:19:02 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 40816 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 17:19:02 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 17:19:02 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 17:19:02 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\jiang\.m2\repository\org\apache\opennlp\opennlp-tools\2.5.4\opennlp-tools-2.5.4.jar referenced one or more files that do not exist: file:/C:/Users/jiang/.m2/repository/org/apache/opennlp/opennlp-tools/2.5.4/slf4j-api-2.0.17.jar
+2025-11-28 17:19:02 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-28 17:19:02 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 153 ms. Found 7 JPA repository interfaces.
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 17:19:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-11-28 17:19:04 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 17:19:04 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 17:19:04 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-28 17:19:04 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-11-28 17:19:04 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1669 ms
+2025-11-28 17:19:04 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 17:19:04 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-28 17:19:04 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 17:19:04 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 17:19:04 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 17:19:05 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@416a5b9c
+2025-11-28 17:19:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 17:19:05 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 17:19:05 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 17:19:05 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 17:19:06 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 17:19:06 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 17:19:06 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig - AI 配置加载成功:
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Base URL: https://api.siliconflow.cn/v1
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - Model: Qwen/Qwen3-Next-80B-A3B-Instruct
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Key: sk-xilgc...(已隐藏)
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - 工具调用: 已启用 (CalendarTools)
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig - 正在构建 CalendarAssistant，绑定工具和会话记忆
+2025-11-28 17:19:07 [restartedMain] INFO  c.e.s.config.AiConfig - CalendarAssistant 构建完成，已启用工具调用和会话记忆功能
+2025-11-28 17:19:07 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-28 17:19:07 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 23 mappings in 'requestMappingHandlerMapping'
+2025-11-28 17:19:07 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-28 17:19:07 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-11-28 17:19:07 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-11-28 17:19:08 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-28 17:19:08 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-11-28 17:19:08 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Started SpeedCalendarServerApplication in 6.573 seconds (process running for 7.883)
+2025-11-28 17:19:49 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-28 17:19:49 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@46ef8638
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@35dac2
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-11-28 17:19:49 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-28 17:19:49 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/ai/chat/sessions", parameters={}
+2025-11-28 17:19:50 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.AiChatController#getSessions(HttpServletRequest)
+2025-11-28 17:19:50 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:19:50 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=401, message=未授权，请先登录, data=null)]
+2025-11-28 17:19:50 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/auth/refresh", parameters={}
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.AuthController#refreshToken(RefreshTokenRequest, HttpServletRequest)
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=utf-8" to [RefreshTokenRequest(refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiY2Y1ZGM2ZC0wMTA3LTQ1NzgtYjE1MC03Mm (truncated)...]
+2025-11-28 17:19:50 [http-nio-8080-exec-3] INFO  c.e.s.controller.AuthController - 【刷新Token】IP: 192.168.43.1
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        ut1_0.id,
+        ut1_0.access_token,
+        ut1_0.access_token_expires_at,
+        ut1_0.created_at,
+        ut1_0.device_id,
+        ut1_0.device_type,
+        ut1_0.ip_address,
+        ut1_0.refresh_token,
+        ut1_0.refresh_token_expires_at,
+        ut1_0.status,
+        ut1_0.updated_at,
+        ut1_0.user_agent,
+        ut1_0.user_id 
+    from
+        user_tokens ut1_0 
+    where
+        ut1_0.refresh_token=?
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.avatar,
+        u1_0.bio,
+        u1_0.birthday,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.gender,
+        u1_0.is_deleted,
+        u1_0.last_login_ip,
+        u1_0.last_login_time,
+        u1_0.login_type,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.status,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=? 
+        and u1_0.is_deleted=?
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        user_tokens
+        (access_token, access_token_expires_at, created_at, device_id, device_type, ip_address, refresh_token, refresh_token_expires_at, status, updated_at, user_agent, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 17:19:50 [http-nio-8080-exec-3] INFO  c.e.s.service.AuthService - 【刷新Token成功】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    update
+        user_tokens 
+    set
+        access_token=?,
+        access_token_expires_at=?,
+        device_id=?,
+        device_type=?,
+        ip_address=?,
+        refresh_token=?,
+        refresh_token_expires_at=?,
+        status=?,
+        updated_at=?,
+        user_agent=?,
+        user_id=? 
+    where
+        id=?
+2025-11-28 17:19:50 [http-nio-8080-exec-3] INFO  c.e.s.controller.AuthController - 【刷新Token成功】
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=刷新成功, data=RefreshTokenResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ (truncated)...]
+2025-11-28 17:19:50 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/ai/chat/sessions", parameters={}
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.AiChatController#getSessions(HttpServletRequest)
+2025-11-28 17:19:51 [http-nio-8080-exec-4] INFO  c.e.s.controller.AiChatController - 【获取会话列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.session_id,
+        cs1_0.created_at,
+        cs1_0.is_deleted,
+        cs1_0.last_message_at,
+        cs1_0.message_count,
+        cs1_0.status,
+        cs1_0.title,
+        cs1_0.updated_at,
+        cs1_0.user_id 
+    from
+        chat_sessions cs1_0 
+    where
+        cs1_0.user_id=? 
+        and cs1_0.is_deleted=? 
+    order by
+        cs1_0.last_message_at desc,
+        cs1_0.created_at desc
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.content,
+        cm1_0.created_at,
+        cm1_0.role,
+        cm1_0.sequence_num,
+        cm1_0.session_id,
+        cm1_0.tokens_used,
+        cm1_0.user_id 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.session_id=? 
+    order by
+        cm1_0.sequence_num desc 
+    limit
+        1
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.content,
+        cm1_0.created_at,
+        cm1_0.role,
+        cm1_0.sequence_num,
+        cm1_0.session_id,
+        cm1_0.tokens_used,
+        cm1_0.user_id 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.session_id=? 
+    order by
+        cm1_0.sequence_num desc 
+    limit
+        1
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.content,
+        cm1_0.created_at,
+        cm1_0.role,
+        cm1_0.sequence_num,
+        cm1_0.session_id,
+        cm1_0.tokens_used,
+        cm1_0.user_id 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.session_id=? 
+    order by
+        cm1_0.sequence_num desc 
+    limit
+        1
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cm1_0.id,
+        cm1_0.content,
+        cm1_0.created_at,
+        cm1_0.role,
+        cm1_0.sequence_num,
+        cm1_0.session_id,
+        cm1_0.tokens_used,
+        cm1_0.user_id 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.session_id=? 
+    order by
+        cm1_0.sequence_num desc 
+    limit
+        1
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ChatSessionDTO(id=533275d0-74d5-4462-a93d-45cd190ba934, ti (truncated)...]
+2025-11-28 17:19:51 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:19:59 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:19:59 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=2c10e514-bef7-4beb-ab4e-a5477712ffd (truncated)...]
+2025-11-28 17:19:59 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/schedules", parameters={}
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#createSchedule(CreateScheduleRequest, HttpServletRequest)
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [CreateScheduleRequest(title=开会, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location=203 (truncated)...]
+2025-11-28 17:20:15 [http-nio-8080-exec-5] INFO  c.e.s.controller.ScheduleController - 【创建日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, title: 开会
+2025-11-28 17:20:15 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 创建日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 标题: 开会
+2025-11-28 17:20:15 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 日程创建成功 - 日程ID: 43fbf58d-441a-4fe9-ba24-adc035fb5d48
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        schedules
+        (created_at, end_time, is_all_day, is_deleted, location, schedule_date, start_time, title, updated_at, user_id, schedule_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=创建成功, data=ScheduleDTO(scheduleId=43fbf58d-441a-4fe9-ba24-adc035fb5d48 (truncated)...]
+2025-11-28 17:20:15 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:20:16 [http-nio-8080-exec-6] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:20:16 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=43fbf58d-441a-4fe9-ba24-adc035fb5d4 (truncated)...]
+2025-11-28 17:20:16 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:22:17 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:22:17 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=43fbf58d-441a-4fe9-ba24-adc035fb5d4 (truncated)...]
+2025-11-28 17:22:17 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:24:00 [http-nio-8080-exec-1] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:24:00 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=43fbf58d-441a-4fe9-ba24-adc035fb5d4 (truncated)...]
+2025-11-28 17:24:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:26:14 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:26:14 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=43fbf58d-441a-4fe9-ba24-adc035fb5d4 (truncated)...]
+2025-11-28 17:26:14 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/43fbf58d-441a-4fe9-ba24-adc035fb5d48", parameters={}
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 17:26:29 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: 43fbf58d-441a-4fe9-ba24-adc035fb5d48
+2025-11-28 17:26:29 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: 43fbf58d-441a-4fe9-ba24-adc035fb5d48
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 17:26:29 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: 43fbf58d-441a-4fe9-ba24-adc035fb5d48
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 17:26:29 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/2c10e514-bef7-4beb-ab4e-a5477712ffd9", parameters={}
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 17:26:33 [http-nio-8080-exec-5] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: 2c10e514-bef7-4beb-ab4e-a5477712ffd9
+2025-11-28 17:26:33 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: 2c10e514-bef7-4beb-ab4e-a5477712ffd9
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 17:26:33 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: 2c10e514-bef7-4beb-ab4e-a5477712ffd9
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 17:26:33 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/bc7461d5-015d-401a-a856-cbd05d2a32ee", parameters={}
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 17:26:36 [http-nio-8080-exec-6] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: bc7461d5-015d-401a-a856-cbd05d2a32ee
+2025-11-28 17:26:36 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: bc7461d5-015d-401a-a856-cbd05d2a32ee
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 17:26:36 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: bc7461d5-015d-401a-a856-cbd05d2a32ee
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 17:26:36 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:50:50 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:50:50 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:50:50 [http-nio-8080-exec-9] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:50:50 [http-nio-8080-exec-9] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:50:50 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:50:51 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:50:51 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 17:50:51 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/schedules", parameters={}
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#createSchedule(CreateScheduleRequest, HttpServletRequest)
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [CreateScheduleRequest(title=你好, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location=你好, (truncated)...]
+2025-11-28 17:51:02 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【创建日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, title: 你好
+2025-11-28 17:51:02 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 创建日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 标题: 你好
+2025-11-28 17:51:02 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 日程创建成功 - 日程ID: dff0d742-ed8b-41e3-86fd-d3360fca43fe
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        schedules
+        (created_at, end_time, is_all_day, is_deleted, location, schedule_date, start_time, title, updated_at, user_id, schedule_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=创建成功, data=ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43fe (truncated)...]
+2025-11-28 17:51:02 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:51:03 [http-nio-8080-exec-10] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:51:03 [http-nio-8080-exec-10] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 17:51:03 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:51:35 [http-nio-8080-exec-3] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:51:35 [http-nio-8080-exec-3] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 17:51:35 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:51:48 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:51:48 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 17:51:48 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:55:12 [http-nio-8080-exec-5] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:55:12 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 17:55:12 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 17:55:18 [http-nio-8080-exec-7] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 17:55:18 [http-nio-8080-exec-7] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 17:55:18 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:00:58 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:00:58 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 18:00:58 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:08 [http-nio-8080-exec-10] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:08 [http-nio-8080-exec-10] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 18:01:08 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:11 [http-nio-8080-exec-1] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:11 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 18:01:11 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:14 [http-nio-8080-exec-3] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:14 [http-nio-8080-exec-3] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 18:01:14 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:17 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:17 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=dff0d742-ed8b-41e3-86fd-d3360fca43f (truncated)...]
+2025-11-28 18:01:17 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/dff0d742-ed8b-41e3-86fd-d3360fca43fe", parameters={}
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 18:01:22 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: dff0d742-ed8b-41e3-86fd-d3360fca43fe
+2025-11-28 18:01:22 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: dff0d742-ed8b-41e3-86fd-d3360fca43fe
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 18:01:22 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: dff0d742-ed8b-41e3-86fd-d3360fca43fe
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 18:01:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:22 [http-nio-8080-exec-5] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:22 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 18:01:22 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/schedules", parameters={}
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#createSchedule(CreateScheduleRequest, HttpServletRequest)
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [CreateScheduleRequest(title=哈哈, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location=, i (truncated)...]
+2025-11-28 18:01:31 [http-nio-8080-exec-6] INFO  c.e.s.controller.ScheduleController - 【创建日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, title: 哈哈
+2025-11-28 18:01:31 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 创建日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 标题: 哈哈
+2025-11-28 18:01:31 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 日程创建成功 - 日程ID: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        schedules
+        (created_at, end_time, is_all_day, is_deleted, location, schedule_date, start_time, title, updated_at, user_id, schedule_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=创建成功, data=ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d2 (truncated)...]
+2025-11-28 18:01:31 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:01:31 [http-nio-8080-exec-7] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:01:31 [http-nio-8080-exec-7] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d (truncated)...]
+2025-11-28 18:01:31 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:04:04 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:04:04 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d (truncated)...]
+2025-11-28 18:04:04 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:04:09 [http-nio-8080-exec-10] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:04:09 [http-nio-8080-exec-10] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d (truncated)...]
+2025-11-28 18:04:09 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - PUT "/api/schedules/ebb9e683-d795-474f-988e-4179e3c5d1d2", parameters={}
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#updateSchedule(String, UpdateScheduleRequest, HttpServletRequest)
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [UpdateScheduleRequest(title=哈哈, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location=啊？, (truncated)...]
+2025-11-28 18:04:18 [http-nio-8080-exec-1] INFO  c.e.s.controller.ScheduleController - 【更新日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:18 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 更新日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 18:04:18 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 日程更新成功 - 日程ID: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=更新成功, data=ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d2 (truncated)...]
+2025-11-28 18:04:18 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:04:19 [http-nio-8080-exec-3] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:04:19 [http-nio-8080-exec-3] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=ebb9e683-d795-474f-988e-4179e3c5d1d (truncated)...]
+2025-11-28 18:04:19 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/ebb9e683-d795-474f-988e-4179e3c5d1d2", parameters={}
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 18:04:22 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:22 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 18:04:22 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: ebb9e683-d795-474f-988e-4179e3c5d1d2
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 18:04:22 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:04:23 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:04:23 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 18:04:23 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:08:34 [http-nio-8080-exec-6] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:08:34 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 18:08:34 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:08:44 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/schedules", parameters={}
+2025-11-28 18:08:44 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#createSchedule(CreateScheduleRequest, HttpServletRequest)
+2025-11-28 18:08:44 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [CreateScheduleRequest(title=bsjsja, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location (truncated)...]
+2025-11-28 18:08:44 [http-nio-8080-exec-7] INFO  c.e.s.controller.ScheduleController - 【创建日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, title: bsjsja
+2025-11-28 18:08:45 [http-nio-8080-exec-7] INFO  c.e.s.service.ScheduleService - 创建日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 标题: bsjsja
+2025-11-28 18:08:45 [http-nio-8080-exec-7] INFO  c.e.s.service.ScheduleService - 日程创建成功 - 日程ID: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:08:45 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        schedules
+        (created_at, end_time, is_all_day, is_deleted, location, schedule_date, start_time, title, updated_at, user_id, schedule_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 18:08:45 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:08:45 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=创建成功, data=ScheduleDTO(scheduleId=c6b4a50e-2405-4935-8a0d-53189fa32c2d (truncated)...]
+2025-11-28 18:08:45 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:08:45 [http-nio-8080-exec-9] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:08:45 [http-nio-8080-exec-9] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=c6b4a50e-2405-4935-8a0d-53189fa32c2 (truncated)...]
+2025-11-28 18:08:45 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - PUT "/api/schedules/c6b4a50e-2405-4935-8a0d-53189fa32c2d", parameters={}
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#updateSchedule(String, UpdateScheduleRequest, HttpServletRequest)
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [UpdateScheduleRequest(title=bsjsja, scheduleDate=2025-11-28, startTime=09:00, endTime=null, location (truncated)...]
+2025-11-28 18:08:50 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【更新日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:08:50 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 更新日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 18:08:50 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 日程更新成功 - 日程ID: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=更新成功, data=ScheduleDTO(scheduleId=c6b4a50e-2405-4935-8a0d-53189fa32c2d (truncated)...]
+2025-11-28 18:08:50 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:08:51 [http-nio-8080-exec-10] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:08:51 [http-nio-8080-exec-10] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=c6b4a50e-2405-4935-8a0d-53189fa32c2 (truncated)...]
+2025-11-28 18:08:51 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:09:05 [http-nio-8080-exec-3] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:09:05 [http-nio-8080-exec-3] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[ScheduleDTO(scheduleId=c6b4a50e-2405-4935-8a0d-53189fa32c2 (truncated)...]
+2025-11-28 18:09:05 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - DELETE "/api/schedules/c6b4a50e-2405-4935-8a0d-53189fa32c2d", parameters={}
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#deleteSchedule(String, HttpServletRequest)
+2025-11-28 18:09:28 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【删除日程】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, scheduleId: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:09:28 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 删除日程 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 日程ID: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.schedule_id=? 
+        and s1_0.user_id=? 
+        and s1_0.is_deleted=?
+2025-11-28 18:09:28 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 日程删除成功 - 日程ID: c6b4a50e-2405-4935-8a0d-53189fa32c2d
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    update
+        schedules 
+    set
+        end_time=?,
+        is_all_day=?,
+        is_deleted=?,
+        location=?,
+        schedule_date=?,
+        start_time=?,
+        title=?,
+        updated_at=?,
+        user_id=? 
+    where
+        schedule_id=?
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=删除成功, data=null)]
+2025-11-28 18:09:28 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 18:09:29 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 18:09:29 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 18:09:29 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:11:54 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:11:54 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:11:54 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:11:54 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=401, message=未授权，请先登录, data=null)]
+2025-11-28 20:11:54 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/auth/refresh", parameters={}
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.AuthController#refreshToken(RefreshTokenRequest, HttpServletRequest)
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=utf-8" to [RefreshTokenRequest(refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiY2Y1ZGM2ZC0wMTA3LTQ1NzgtYjE1MC03Mm (truncated)...]
+2025-11-28 20:11:55 [http-nio-8080-exec-7] INFO  c.e.s.controller.AuthController - 【刷新Token】IP: 192.168.43.1
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        ut1_0.id,
+        ut1_0.access_token,
+        ut1_0.access_token_expires_at,
+        ut1_0.created_at,
+        ut1_0.device_id,
+        ut1_0.device_type,
+        ut1_0.ip_address,
+        ut1_0.refresh_token,
+        ut1_0.refresh_token_expires_at,
+        ut1_0.status,
+        ut1_0.updated_at,
+        ut1_0.user_agent,
+        ut1_0.user_id 
+    from
+        user_tokens ut1_0 
+    where
+        ut1_0.refresh_token=?
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.avatar,
+        u1_0.bio,
+        u1_0.birthday,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.gender,
+        u1_0.is_deleted,
+        u1_0.last_login_ip,
+        u1_0.last_login_time,
+        u1_0.login_type,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.status,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=? 
+        and u1_0.is_deleted=?
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        user_tokens
+        (access_token, access_token_expires_at, created_at, device_id, device_type, ip_address, refresh_token, refresh_token_expires_at, status, updated_at, user_agent, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-11-28 20:11:55 [http-nio-8080-exec-7] INFO  c.e.s.service.AuthService - 【刷新Token成功】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    update
+        user_tokens 
+    set
+        access_token=?,
+        access_token_expires_at=?,
+        device_id=?,
+        device_type=?,
+        ip_address=?,
+        refresh_token=?,
+        refresh_token_expires_at=?,
+        status=?,
+        updated_at=?,
+        user_agent=?,
+        user_id=? 
+    where
+        id=?
+2025-11-28 20:11:55 [http-nio-8080-exec-7] INFO  c.e.s.controller.AuthController - 【刷新Token成功】
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=刷新成功, data=RefreshTokenResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ (truncated)...]
+2025-11-28 20:11:55 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:11:55 [http-nio-8080-exec-9] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:11:55 [http-nio-8080-exec-9] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:11:55 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:14:52 [http-nio-8080-exec-1] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:14:52 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:14:52 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:16:53 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:16:53 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:16:53 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:16:54 [http-nio-8080-exec-2] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:16:54 [http-nio-8080-exec-2] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:16:54 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:16:55 [http-nio-8080-exec-5] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:16:55 [http-nio-8080-exec-5] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:16:55 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:16:57 [http-nio-8080-exec-6] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:16:57 [http-nio-8080-exec-6] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:16:57 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:16:58 [http-nio-8080-exec-7] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:16:58 [http-nio-8080-exec-7] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:16:58 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:24:35 [http-nio-8080-exec-8] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:24:35 [http-nio-8080-exec-8] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:24:35 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/groups/my", parameters={}
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups/my.]
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/api/error", parameters={}
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 20:24:39 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 20:24:39 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/groups/my", parameters={}
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups/my.]
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/api/error", parameters={}
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 20:25:00 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 20:25:00 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 20:36:16 [http-nio-8080-exec-4] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 20:36:16 [http-nio-8080-exec-4] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 20:36:16 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/groups/my", parameters={}
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups/my.]
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/api/error", parameters={}
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 20:36:22 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 20:36:22 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/groups/my", parameters={}
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups/my.]
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for GET "/api/error", parameters={}
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 20:36:26 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 20:36:26 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 20:55:58 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 20:55:58 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 20:55:58 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 20:55:58 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-28 20:55:58 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-28 21:08:10 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 55572 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 21:08:10 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 21:08:10 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\jiang\.m2\repository\org\apache\opennlp\opennlp-tools\2.5.4\opennlp-tools-2.5.4.jar referenced one or more files that do not exist: file:/C:/Users/jiang/.m2/repository/org/apache/opennlp/opennlp-tools/2.5.4/slf4j-api-2.0.17.jar
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 121 ms. Found 9 JPA repository interfaces.
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.GroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserGroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:11 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-11-28 21:08:12 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 21:08:12 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1336 ms
+2025-11-28 21:08:12 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 21:08:12 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-28 21:08:12 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 21:08:12 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 21:08:12 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 21:08:12 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@30498f30
+2025-11-28 21:08:12 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 21:08:12 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 21:08:12 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 21:08:12 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 21:08:13 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 21:08:13 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:08:13 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 21:08:17 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 49076 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 21:08:17 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 21:08:17 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 21:08:17 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\jiang\.m2\repository\org\apache\opennlp\opennlp-tools\2.5.4\opennlp-tools-2.5.4.jar referenced one or more files that do not exist: file:/C:/Users/jiang/.m2/repository/org/apache/opennlp/opennlp-tools/2.5.4/slf4j-api-2.0.17.jar
+2025-11-28 21:08:17 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-28 21:08:17 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 117 ms. Found 9 JPA repository interfaces.
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.GroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserGroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:08:18 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-11-28 21:08:19 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 21:08:19 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 21:08:19 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-28 21:08:19 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-11-28 21:08:19 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1316 ms
+2025-11-28 21:08:19 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 21:08:19 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-28 21:08:19 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 21:08:19 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 21:08:19 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 21:08:19 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@53b4fb75
+2025-11-28 21:08:19 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 21:08:19 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 21:08:19 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 21:08:19 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 21:08:20 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 21:08:20 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:08:20 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig - AI 配置加载成功:
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Base URL: https://api.siliconflow.cn/v1
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig -   - Model: Qwen/Qwen3-Next-80B-A3B-Instruct
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Key: sk-xilgc...(已隐藏)
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig -   - 工具调用: 已启用 (CalendarTools)
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig - 正在构建 CalendarAssistant，绑定工具和会话记忆
+2025-11-28 21:08:21 [restartedMain] INFO  c.e.s.config.AiConfig - CalendarAssistant 构建完成，已启用工具调用和会话记忆功能
+2025-11-28 21:08:21 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-28 21:08:21 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 26 mappings in 'requestMappingHandlerMapping'
+2025-11-28 21:08:21 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-28 21:08:21 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-11-28 21:08:21 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-11-28 21:08:22 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-28 21:08:22 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-11-28 21:08:22 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Started SpeedCalendarServerApplication in 4.778 seconds (process running for 5.411)
+2025-11-28 21:08:41 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-28 21:08:41 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@568b0fd8
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@5278e2
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-11-28 21:08:41 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/schedules?year=2025&month=11", parameters={masked}
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.speedcalendarserver.controller.ScheduleController#getSchedules(Integer, Integer, HttpServletRequest)
+2025-11-28 21:08:41 [http-nio-8080-exec-1] INFO  c.e.s.controller.ScheduleController - 【获取日程列表】userId: bcf5dc6d-0107-4578-b150-72a0661b9eef, year: 2025, month: 11
+2025-11-28 21:08:41 [http-nio-8080-exec-1] INFO  c.e.s.service.ScheduleService - 获取日程列表 - 用户ID: bcf5dc6d-0107-4578-b150-72a0661b9eef, 年: 2025, 月: 11
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        s1_0.schedule_id,
+        s1_0.created_at,
+        s1_0.end_time,
+        s1_0.is_all_day,
+        s1_0.is_deleted,
+        s1_0.location,
+        s1_0.schedule_date,
+        s1_0.start_time,
+        s1_0.title,
+        s1_0.updated_at,
+        s1_0.user_id 
+    from
+        schedules s1_0 
+    where
+        s1_0.user_id=? 
+        and s1_0.schedule_date>=? 
+        and s1_0.schedule_date<? 
+        and s1_0.is_deleted=0 
+    order by
+        s1_0.schedule_date,
+        s1_0.start_time
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [ApiResponse(code=200, message=获取成功, data=[])]
+2025-11-28 21:08:41 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/groups", parameters={}
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups.]
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for POST "/api/error", parameters={}
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 21:08:56 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 21:08:56 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/groups", parameters={}
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups.]
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for POST "/api/error", parameters={}
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 21:09:03 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 21:09:03 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 21:09:06 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 21:09:06 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 21:09:06 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:09:06 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-28 21:09:06 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-28 21:09:09 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 47204 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 21:09:09 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 21:09:09 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 21:09:09 [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\jiang\.m2\repository\org\apache\opennlp\opennlp-tools\2.5.4\opennlp-tools-2.5.4.jar referenced one or more files that do not exist: file:/C:/Users/jiang/.m2/repository/org/apache/opennlp/opennlp-tools/2.5.4/slf4j-api-2.0.17.jar
+2025-11-28 21:09:09 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-11-28 21:09:09 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-11-28 21:09:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:09:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 124 ms. Found 9 JPA repository interfaces.
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.GroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserGroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 21:09:10 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 21:09:10 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-28 21:09:10 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-11-28 21:09:10 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1426 ms
+2025-11-28 21:09:10 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 21:09:10 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.33.Final
+2025-11-28 21:09:10 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 21:09:11 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 21:09:11 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 21:09:11 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@160a2f7b
+2025-11-28 21:09:11 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 21:09:11 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 21:09:11 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 21:09:11 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 21:09:12 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 21:09:12 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:09:13 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig - AI 配置加载成功:
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Base URL: https://api.siliconflow.cn/v1
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig -   - Model: Qwen/Qwen3-Next-80B-A3B-Instruct
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Key: sk-xilgc...(已隐藏)
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig -   - 工具调用: 已启用 (CalendarTools)
+2025-11-28 21:09:13 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:09:14 [restartedMain] INFO  c.e.s.config.AiConfig - 正在构建 CalendarAssistant，绑定工具和会话记忆
+2025-11-28 21:09:14 [restartedMain] INFO  c.e.s.config.AiConfig - CalendarAssistant 构建完成，已启用工具调用和会话记忆功能
+2025-11-28 21:09:14 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-28 21:09:14 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 26 mappings in 'requestMappingHandlerMapping'
+2025-11-28 21:09:14 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-28 21:09:14 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-11-28 21:09:14 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-11-28 21:09:14 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-28 21:09:14 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-11-28 21:09:14 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Started SpeedCalendarServerApplication in 6.077 seconds (process running for 6.714)
+2025-11-28 21:09:16 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-28 21:09:16 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5708404d
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@5d1baea4
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-11-28 21:09:16 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/groups", parameters={}
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource groups.]
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 404 NOT_FOUND
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - "ERROR" dispatch for POST "/api/error", parameters={}
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [{timestamp=Fri Nov 28 21:09:16 CST 2025, status=404, error=Not Found, trace=org.springframework.web. (truncated)...]
+2025-11-28 21:09:16 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Exiting from "ERROR" dispatch, status 404
+2025-11-28 21:10:04 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2025-11-28 21:10:04 [Thread-5] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 21:10:04 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 21:10:04 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:10:04 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-28 21:10:04 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-11-28 21:10:04 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 47204 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 21:10:04 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 21:10:04 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 21:10:04 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:10:04 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 9 JPA repository interfaces.
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.GroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserGroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 21:10:05 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 21:10:05 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-28 21:10:05 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 445 ms
+2025-11-28 21:10:05 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 21:10:05 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 21:10:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2025-11-28 21:10:05 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ca84039
+2025-11-28 21:10:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2025-11-28 21:10:05 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 21:10:05 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 21:10:05 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 21:10:05 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig - AI 配置加载成功:
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Base URL: https://api.siliconflow.cn/v1
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig -   - Model: Qwen/Qwen3-Next-80B-A3B-Instruct
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Key: sk-xilgc...(已隐藏)
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig -   - 工具调用: 已启用 (CalendarTools)
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig - 正在构建 CalendarAssistant，绑定工具和会话记忆
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.config.AiConfig - CalendarAssistant 构建完成，已启用工具调用和会话记忆功能
+2025-11-28 21:10:05 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-28 21:10:05 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 23 mappings in 'requestMappingHandlerMapping'
+2025-11-28 21:10:05 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-28 21:10:05 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-11-28 21:10:05 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-11-28 21:10:05 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Started SpeedCalendarServerApplication in 1.029 seconds (process running for 57.516)
+2025-11-28 21:10:05 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-28 21:10:07 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-11-28 21:10:07 [Thread-7] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 21:10:07 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 21:10:07 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:10:07 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2025-11-28 21:10:07 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Starting SpeedCalendarServerApplication using Java 21.0.8 with PID 47204 (E:\develop\Android Studio\workspace\SpeedCalendar-server\target\classes started by jiang in E:\develop\Android Studio\workspace\SpeedCalendar-server)
+2025-11-28 21:10:07 [restartedMain] DEBUG c.e.s.SpeedCalendarServerApplication - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 9 JPA repository interfaces.
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatMessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ChatSessionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.GroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.ScheduleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserGroupRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserPrivacySettingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.UserTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.speedcalendarserver.repository.VerificationCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-28 21:10:07 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 21:10:07 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-28 21:10:07 [restartedMain] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 293 ms
+2025-11-28 21:10:07 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 21:10:07 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 21:10:07 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2025-11-28 21:10:07 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@494e8c5e
+2025-11-28 21:10:07 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2025-11-28 21:10:07 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-28 21:10:07 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-28 21:10:07 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 21:10:07 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig - AI 配置加载成功:
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Base URL: https://api.siliconflow.cn/v1
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - Model: Qwen/Qwen3-Next-80B-A3B-Instruct
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - API Key: sk-xilgc...(已隐藏)
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig -   - 工具调用: 已启用 (CalendarTools)
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig - ============================================
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig - 正在构建 CalendarAssistant，绑定工具和会话记忆
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.config.AiConfig - CalendarAssistant 构建完成，已启用工具调用和会话记忆功能
+2025-11-28 21:10:07 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-28 21:10:07 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 26 mappings in 'requestMappingHandlerMapping'
+2025-11-28 21:10:07 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-28 21:10:07 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-11-28 21:10:07 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-11-28 21:10:07 [restartedMain] INFO  c.e.s.SpeedCalendarServerApplication - Started SpeedCalendarServerApplication in 0.707 seconds (process running for 59.697)
+2025-11-28 21:10:07 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-28 21:10:14 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 21:10:14 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 21:10:14 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 21:10:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2025-11-28 21:10:14 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
