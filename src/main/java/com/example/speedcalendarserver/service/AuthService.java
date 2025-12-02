@@ -1,7 +1,9 @@
 package com.example.speedcalendarserver.service;
 
 import com.example.speedcalendarserver.dto.LoginResponse;
+import com.example.speedcalendarserver.dto.PasswordLoginRequest;
 import com.example.speedcalendarserver.dto.PhoneLoginRequest;
+import com.example.speedcalendarserver.dto.RegisterRequest;
 import com.example.speedcalendarserver.dto.SendCodeRequest;
 import com.example.speedcalendarserver.dto.UpdateUserInfoRequest;
 import com.example.speedcalendarserver.dto.UserInfo;
@@ -19,9 +21,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 认证服务
@@ -40,6 +45,7 @@ public class AuthService {
     private final UserTokenRepository userTokenRepository;
     private final JwtUtil jwtUtil;
     private final PrivacyService privacyService;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 验证码长度
@@ -136,6 +142,87 @@ public class AuthService {
         saveUserToken(user.getUserId(), accessToken, refreshToken, httpRequest);
 
         // 6. 构建响应
+        return buildLoginResponse(user, accessToken, refreshToken);
+    }
+
+    /**
+     * 手机号密码注册（注册后自动登录）
+     *
+     * @param request     注册请求
+     * @param httpRequest HTTP请求
+     * @return 登录响应（包含token和用户信息）
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public LoginResponse register(RegisterRequest request, HttpServletRequest httpRequest) {
+        String phone = request.getPhone();
+
+        // 检查手机号是否已注册
+        if (userRepository.findByPhoneAndIsDeleted(phone, 0).isPresent()) {
+            throw new RuntimeException("该手机号已注册");
+        }
+
+        // 创建用户
+        User user = User.builder()
+                .userId(UUID.randomUUID().toString())
+                .phone(phone)
+                .password(passwordEncoder.encode(request.getPassword()))
+                .username("用户" + phone.substring(phone.length() - 4))
+                .avatar("https://api.dicebear.com/7.x/initials/svg?seed=" + phone.substring(phone.length() - 4))
+                .loginType("phone")
+                .status(1)
+                .isDeleted(0)
+                .build();
+
+        userRepository.save(user);
+        log.info("【注册成功】手机号: {}, userId: {}", phone, user.getUserId());
+
+        // 注册成功后自动登录：更新登录信息
+        updateUserLoginInfo(user, httpRequest);
+
+        // 生成 Token
+        String accessToken = jwtUtil.generateAccessToken(user.getUserId());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUserId());
+
+        // 保存 Token
+        saveUserToken(user.getUserId(), accessToken, refreshToken, httpRequest);
+
+        log.info("【注册并登录成功】手机号: {}, userId: {}", phone, user.getUserId());
+
+        return buildLoginResponse(user, accessToken, refreshToken);
+    }
+
+    /**
+     * 手机号密码登录
+     *
+     * @param request     登录请求
+     * @param httpRequest HTTP请求
+     * @return 登录响应
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public LoginResponse passwordLogin(PasswordLoginRequest request, HttpServletRequest httpRequest) {
+        String phone = request.getPhone();
+
+        // 查找用户
+        User user = userRepository.findByPhoneAndIsDeleted(phone, 0)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 验证密码
+        if (user.getPassword() == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("密码错误");
+        }
+
+        // 更新登录信息
+        updateUserLoginInfo(user, httpRequest);
+
+        // 生成 Token
+        String accessToken = jwtUtil.generateAccessToken(user.getUserId());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUserId());
+
+        // 保存 Token
+        saveUserToken(user.getUserId(), accessToken, refreshToken, httpRequest);
+
+        log.info("【密码登录成功】手机号: {}, userId: {}", phone, user.getUserId());
+
         return buildLoginResponse(user, accessToken, refreshToken);
     }
 

@@ -2,9 +2,11 @@ package com.example.speedcalendarserver.controller;
 
 import com.example.speedcalendarserver.dto.ApiResponse;
 import com.example.speedcalendarserver.dto.LoginResponse;
+import com.example.speedcalendarserver.dto.PasswordLoginRequest;
 import com.example.speedcalendarserver.dto.PhoneLoginRequest;
 import com.example.speedcalendarserver.dto.RefreshTokenRequest;
 import com.example.speedcalendarserver.dto.RefreshTokenResponse;
+import com.example.speedcalendarserver.dto.RegisterRequest;
 import com.example.speedcalendarserver.dto.SendCodeRequest;
 import com.example.speedcalendarserver.dto.UpdateUserInfoRequest;
 import com.example.speedcalendarserver.dto.UserInfo;
@@ -30,6 +32,78 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+
+    /**
+     * 手机号密码注册（注册后自动登录）
+     *
+     * POST /api/auth/register
+     * 请求体: { "phone": "13800138000", "password": "123456" }
+     * 响应: {
+     * "code": 200,
+     * "message": "注册成功",
+     * "data": {
+     * "userId": "xxx",
+     * "token": "jwt-access-token",
+     * "refreshToken": "jwt-refresh-token",
+     * "expiresIn": 7200,
+     * "userInfo": { ... }
+     * }
+     * }
+     *
+     * @param request     注册请求
+     * @param httpRequest HTTP请求
+     * @return 登录响应（包含token和用户信息）
+     */
+    @PostMapping("/register")
+    public ApiResponse<LoginResponse> register(
+            @Valid @RequestBody RegisterRequest request,
+            HttpServletRequest httpRequest) {
+        try {
+            log.info("【注册】手机号: {}", request.getPhone());
+            LoginResponse response = authService.register(request, httpRequest);
+            log.info("【注册成功】userId: {}, phone: {}", response.getUserId(), request.getPhone());
+            return ApiResponse.success("注册成功", response);
+        } catch (RuntimeException e) {
+            log.warn("【注册失败】{}", e.getMessage());
+            return ApiResponse.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 手机号密码登录
+     *
+     * POST /api/auth/login
+     * 请求体: { "phone": "13800138000", "password": "123456" }
+     * 响应: {
+     * "code": 200,
+     * "message": "登录成功",
+     * "data": {
+     * "userId": "xxx",
+     * "token": "jwt-access-token",
+     * "refreshToken": "jwt-refresh-token",
+     * "expiresIn": 7200,
+     * "userInfo": { ... }
+     * }
+     * }
+     *
+     * @param request     登录请求
+     * @param httpRequest HTTP请求
+     * @return 登录响应
+     */
+    @PostMapping("/login")
+    public ApiResponse<LoginResponse> login(
+            @Valid @RequestBody PasswordLoginRequest request,
+            HttpServletRequest httpRequest) {
+        try {
+            log.info("【密码登录】手机号: {}", request.getPhone());
+            LoginResponse response = authService.passwordLogin(request, httpRequest);
+            log.info("【登录成功】userId: {}, phone: {}", response.getUserId(), request.getPhone());
+            return ApiResponse.success("登录成功", response);
+        } catch (RuntimeException e) {
+            log.warn("【登录失败】{}", e.getMessage());
+            return ApiResponse.error(e.getMessage());
+        }
+    }
 
     /**
      * 发送验证码
