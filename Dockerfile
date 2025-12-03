@@ -5,7 +5,7 @@
 # =============================================
 
 # 阶段一: 构建阶段 (使用 Maven 构建 JAR)
-FROM eclipse-temurin:17-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -13,6 +13,22 @@ WORKDIR /app
 COPY pom.xml .
 COPY mvnw .
 COPY .mvn .mvn
+
+# 配置 Maven 使用阿里云镜像（国内加速）
+RUN mkdir -p /root/.m2 && \
+    echo '<?xml version="1.0" encoding="UTF-8"?>\
+    <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" \
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \
+    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">\
+    <mirrors>\
+    <mirror>\
+    <id>aliyunmaven</id>\
+    <mirrorOf>*</mirrorOf>\
+    <name>阿里云公共仓库</name>\
+    <url>https://maven.aliyun.com/repository/public</url>\
+    </mirror>\
+    </mirrors>\
+    </settings>' > /root/.m2/settings.xml
 
 # 下载依赖（单独一层，便于缓存）
 RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
@@ -23,13 +39,10 @@ COPY src src
 # 构建项目（跳过测试加快构建速度）
 RUN ./mvnw package -DskipTests -B
 
-# 解压 JAR 以便分层（提高镜像缓存效率）
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-
 # =============================================
 # 阶段二: 运行阶段 (精简镜像)
 # =============================================
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # 创建非 root 用户运行应用（安全最佳实践）
 RUN addgroup -S spring && adduser -S spring -G spring
@@ -37,15 +50,13 @@ RUN addgroup -S spring && adduser -S spring -G spring
 # 设置工作目录
 WORKDIR /app
 
-# 从构建阶段复制解压后的依赖（分层缓存）
-COPY --from=builder /app/target/dependency/BOOT-INF/lib /app/lib
-COPY --from=builder /app/target/dependency/META-INF /app/META-INF
-COPY --from=builder /app/target/dependency/BOOT-INF/classes /app
+# 直接复制 JAR 文件（简单可靠）
+COPY --from=builder /app/target/*.jar app.jar
 
 # 创建上传目录
 RUN mkdir -p /data/speedcalendar/uploads/avatars && \
     mkdir -p /data/logs && \
-    chown -R spring:spring /data
+    chown -R spring:spring /data /app
 
 # 切换到非 root 用户
 USER spring:spring
@@ -61,4 +72,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/auth/health || exit 1
 
 # 启动应用
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -cp app:app/lib/* com.example.speedcalendarserver.SpeedCalendarServerApplication"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

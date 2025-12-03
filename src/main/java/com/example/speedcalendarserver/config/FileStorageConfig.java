@@ -58,7 +58,7 @@ public class FileStorageConfig {
          *
          * TODO: 生产环境改为实际域名 https://api.speedcalendar.com/api/files
          */
-        private String baseUrl = "http://localhost:8080/api/files";
+        private String baseUrl = "http://122.51.127.61:8080/api/files";
     }
 
     /**

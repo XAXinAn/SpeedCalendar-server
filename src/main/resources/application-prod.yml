@@ -22,7 +22,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: validate  # 生产环境只验证，不自动修改表结构
+      ddl-auto: update  # 首次部署用 update，稳定后可改为 validate
     properties:
       hibernate:
         format_sql: false
