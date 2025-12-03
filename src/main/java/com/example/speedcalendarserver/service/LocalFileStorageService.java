@@ -3,10 +3,13 @@ package com.example.speedcalendarserver.service;
 import com.example.speedcalendarserver.config.FileStorageConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,28 +52,52 @@ public class LocalFileStorageService implements FileStorageService {
             log.info("【文件上传】上传目录已存在: {}", uploadPath.toAbsolutePath());
         }
 
-        // 生成唯一文件名
+        // 生成唯一文件名（压缩后统一使用 .jpg 格式）
         String originalFilename = file.getOriginalFilename();
-        String extension = originalFilename != null && originalFilename.contains(".")
-                ? originalFilename.substring(originalFilename.lastIndexOf("."))
-                : ".jpg";
+        FileStorageConfig.CompressionConfig compressionConfig = config.getCompression();
+        String extension = compressionConfig.isEnabled()
+                ? "." + compressionConfig.getOutputFormat()
+                : (originalFilename != null && originalFilename.contains(".")
+                        ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                        : ".jpg");
         String filename = userId + "_" + System.currentTimeMillis() + extension;
 
         // 保存文件
         Path filePath = uploadPath.resolve(filename);
         log.info("【文件上传】准备保存到: {}", filePath.toAbsolutePath());
-        log.info("【文件上传】文件大小: {} bytes", file.getSize());
+        log.info("【文件上传】原始文件大小: {} bytes", file.getSize());
 
         File targetFile = filePath.toFile();
         log.info("【文件上传】目标文件对象: {}", targetFile.getAbsolutePath());
         log.info("【文件上传】父目录是否存在: {}", targetFile.getParentFile().exists());
         log.info("【文件上传】父目录是否可写: {}", targetFile.getParentFile().canWrite());
 
-        file.transferTo(targetFile);
+        // 判断是否启用压缩
+        if (compressionConfig.isEnabled()) {
+            // 使用 Thumbnailator 压缩图片
+            log.info("【图片压缩】开始压缩，目标尺寸: {}x{}, 质量: {}, 格式: {}",
+                    compressionConfig.getMaxWidth(), compressionConfig.getMaxHeight(),
+                    compressionConfig.getQuality(), compressionConfig.getOutputFormat());
 
-        log.info("【文件上传】transferTo执行完成");
+            Thumbnails.of(file.getInputStream())
+                    .size(compressionConfig.getMaxWidth(), compressionConfig.getMaxHeight())
+                    .outputQuality(compressionConfig.getQuality())
+                    .keepAspectRatio(true)
+                    .outputFormat(compressionConfig.getOutputFormat())
+                    .toFile(targetFile);
+
+            long compressedSize = targetFile.length();
+            double compressionRate = (1 - (double) compressedSize / file.getSize()) * 100;
+            log.info("【图片压缩】压缩完成，压缩后大小: {} bytes", compressedSize);
+            log.info("【图片压缩】压缩率: {}%", String.format("%.2f", compressionRate));
+        } else {
+            // 不压缩，直接保存原文件
+            file.transferTo(targetFile);
+        }
+
+        log.info("【文件上传】保存完成");
         log.info("【文件上传】文件是否存在: {}", targetFile.exists());
-        log.info("【文件上传】文件大小: {} bytes", targetFile.length());
+        log.info("【文件上传】最终文件大小: {} bytes", targetFile.length());
         log.info("【文件上传】成功保存文件: {} -> {}", originalFilename, filename);
 
         // 返回访问URL

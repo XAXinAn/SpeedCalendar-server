@@ -66,6 +66,13 @@ file:
       access-key: ${OSS_ACCESS_KEY:}
       secret-key: ${OSS_SECRET_KEY:}
       cdn-domain: ${OSS_CDN_DOMAIN:}
+    # 图片压缩配置
+    compression:
+      enabled: ${IMAGE_COMPRESSION_ENABLED:true}
+      max-width: ${IMAGE_MAX_WIDTH:800}
+      max-height: ${IMAGE_MAX_HEIGHT:800}
+      quality: ${IMAGE_QUALITY:0.85}
+      output-format: ${IMAGE_OUTPUT_FORMAT:jpg}
 
 # 日志配置 - 生产环境（精简日志）
 logging:

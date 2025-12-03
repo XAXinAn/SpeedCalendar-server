@@ -35,7 +35,7 @@ public class ActivityMessageService {
 
     private final ActivityMessageRepository activityMessageRepository;
     private final UserReadMessageRepository userReadMessageRepository;
-    
+
     /**
      * ISO 8601 日期时间格式化器
      */
@@ -203,7 +203,8 @@ public class ActivityMessageService {
                 .linkUrl(message.getLinkUrl())
                 .isRead(isRead)
                 .createdAt(message.getCreatedAt() != null
-                        ? message.getCreatedAt().atZone(ZoneId.of("Asia/Shanghai")).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                        ? message.getCreatedAt().atZone(ZoneId.of("Asia/Shanghai"))
+                                .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
                         : null)
                 .build();
     }

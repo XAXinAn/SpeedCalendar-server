@@ -93,6 +93,13 @@ file:
     max-size: 5242880  # 最大文件大小（字节）：5MB
     allowed-types: jpg,jpeg,png,webp
     allowed-mime-types: image/jpeg,image/png,image/webp
+  storage:
+    compression:
+      enabled: true          # 是否启用图片压缩
+      max-width: 800         # 最大宽度（像素）
+      max-height: 800        # 最大高度（像素）
+      quality: 0.85          # 压缩质量 (0.0-1.0)
+      output-format: jpg     # 输出格式
 
 # 日志配置（公共部分）
 logging:

@@ -42,6 +42,11 @@ public class FileStorageConfig {
     private AvatarConfig avatar = new AvatarConfig();
 
     /**
+     * 图片压缩配置
+     */
+    private CompressionConfig compression = new CompressionConfig();
+
+    /**
      * 本地存储配置
      */
     @Data
@@ -113,11 +118,42 @@ public class FileStorageConfig {
         /**
          * 允许的文件类型
          */
-        private String[] allowedTypes = {"jpg", "jpeg", "png", "webp"};
+        private String[] allowedTypes = { "jpg", "jpeg", "png", "webp" };
 
         /**
          * 允许的MIME类型
          */
-        private String[] allowedMimeTypes = {"image/jpeg", "image/png", "image/webp"};
+        private String[] allowedMimeTypes = { "image/jpeg", "image/png", "image/webp" };
+    }
+
+    /**
+     * 图片压缩配置
+     */
+    @Data
+    public static class CompressionConfig {
+        /**
+         * 是否启用压缩
+         */
+        private boolean enabled = true;
+
+        /**
+         * 最大宽度（像素）
+         */
+        private int maxWidth = 800;
+
+        /**
+         * 最大高度（像素）
+         */
+        private int maxHeight = 800;
+
+        /**
+         * 压缩质量 (0.0 - 1.0)
+         */
+        private double quality = 0.85;
+
+        /**
+         * 输出格式 (jpg/png)
+         */
+        private String outputFormat = "jpg";
     }
 }
