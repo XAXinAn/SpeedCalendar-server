@@ -16,6 +16,8 @@ USE speed_calendar;
 -- =============================================
 -- 统一删除所有表，注意有外键依赖的表要先删除
 -- =============================================
+DROP TABLE IF EXISTS user_read_messages;
+DROP TABLE IF EXISTS activity_messages;
 DROP TABLE IF EXISTS user_tokens;
 DROP TABLE IF EXISTS user_privacy_settings;
 DROP TABLE IF EXISTS verification_codes;
@@ -193,3 +195,47 @@ CREATE TABLE chat_messages (
     CONSTRAINT fk_chat_messages_session FOREIGN KEY (session_id) REFERENCES chat_sessions(session_id) ON DELETE CASCADE,
     CONSTRAINT fk_chat_messages_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI聊天消息表';
+
+-- =============================================
+-- 表8: activity_messages (活动消息表)
+-- =============================================
+CREATE TABLE activity_messages (
+    id VARCHAR(36) NOT NULL COMMENT '消息ID (UUID)',
+    title VARCHAR(200) NOT NULL COMMENT '标题',
+    content TEXT COMMENT '内容描述',
+    image_url VARCHAR(500) DEFAULT NULL COMMENT '图片URL (可选)',
+    tag VARCHAR(50) DEFAULT NULL COMMENT '标签，如 "新功能"、"活动"',
+    link_type VARCHAR(20) NOT NULL DEFAULT 'none' COMMENT '链接类型: none/internal/webview',
+    link_url VARCHAR(500) DEFAULT NULL COMMENT '跳转链接 (可选)',
+    is_active TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否有效/上线',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    expire_at DATETIME DEFAULT NULL COMMENT '过期时间 (可选，null表示永不过期)',
+    sort_order INT NOT NULL DEFAULT 0 COMMENT '排序权重，越大越靠前',
+    PRIMARY KEY (id),
+    KEY idx_is_active (is_active),
+    KEY idx_created_at (created_at),
+    KEY idx_expire_at (expire_at),
+    KEY idx_sort_order (sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='活动消息表';
+
+-- =============================================
+-- 表9: user_read_messages (用户已读记录表)
+-- =============================================
+CREATE TABLE user_read_messages (
+    user_id VARCHAR(64) NOT NULL COMMENT '用户ID',
+    message_id VARCHAR(36) NOT NULL COMMENT '消息ID',
+    read_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '阅读时间',
+    PRIMARY KEY (user_id, message_id),
+    KEY idx_user_id (user_id),
+    KEY idx_message_id (message_id),
+    CONSTRAINT fk_user_read_messages_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_read_messages_message FOREIGN KEY (message_id) REFERENCES activity_messages(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户已读消息记录表';
+
+-- =============================================
+-- 插入测试数据: 活动消息
+-- =============================================
+INSERT INTO activity_messages (id, title, content, image_url, tag, link_type, link_url, created_at, sort_order) VALUES
+('msg_001', '新的一天从 04:00 开始', '为了完整记录你的深夜学习，我们已将每日数据刷新时间延后至凌晨4点。\n\n升级到 V5.9.17 以上即可体验，不升级的话，则仍在 24 点结算。\n（鸿蒙设备需升级到 V5.8.35 以上）', NULL, '新功能', 'none', NULL, '2024-12-03 19:55:00', 10),
+('msg_002', '复习机制更新提醒', '为了提高复习效率，减少复习压力。新版本新增了「新学单词 - 次日仅复习错词」的复习方式。\n如需应用，可前往「学习设置」配置。', NULL, NULL, 'internal', '/settings', '2024-07-26 19:58:00', 5),
+('msg_003', '冲刺季打卡挑战开始报名啦！！', '年底最后一波冲刺，和好友一起坚持！\n轻轻松松赢酷币，戳我报名 >>>', 'https://example.com/banner.png', '打卡挑战', 'webview', 'https://example.com/activity', '2024-11-13 22:34:00', 8);
