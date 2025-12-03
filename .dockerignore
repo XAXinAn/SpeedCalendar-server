@@ -1,0 +1,45 @@
+# =============================================
+# Docker 构建忽略文件
+# 排除不需要的文件，减小构建上下文
+# =============================================
+
+# 环境变量（敏感信息）
+.env
+.env.local
+.env.production
+
+# IDE 文件
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Maven 构建产物（会在容器内重新构建）
+target/
+
+# 日志文件
+logs/
+*.log
+
+# 上传文件
+uploads/
+
+# 测试文件
+src/test/
+
+# 文档
+*.md
+!README.md
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 环境配置（敏感信息）
+.env
+*.env.local

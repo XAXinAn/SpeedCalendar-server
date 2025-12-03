@@ -1,0 +1,56 @@
+# =============================================
+# SpeedCalendar 开发环境配置 (application-dev.yml)
+# 启动方式: mvn spring-boot:run -Dspring-boot.run.profiles=dev
+# 或: java -Dspring.profiles.active=dev -jar xxx.jar
+# =============================================
+
+spring:
+  # 数据源配置 - 开发环境
+  datasource:
+    url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Xu821120
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  # JPA配置 - 开发环境
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update  # 开发环境可自动更新表结构
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Redis配置 - 开发环境
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: Xu821120
+
+# LangChain4j AI 配置 - 开发环境
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: ${SILICON_API_KEY:}  # 从环境变量读取，或在这里填写开发用的 key
+      log-requests: true
+      log-responses: true
+
+# 文件存储配置 - 开发环境（本地存储）
+file:
+  storage:
+    type: local
+    local:
+      upload-dir: D:/speedcalendar/uploads/avatars
+      base-url: http://localhost:8080/api/files
+
+# 日志配置 - 开发环境（详细日志）
+logging:
+  level:
+    root: INFO
+    com.example.speedcalendarserver: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

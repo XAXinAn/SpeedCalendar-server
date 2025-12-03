@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # MySQL 服务
+  mysql:
+    image: mysql:8.0
+    container_name: speedcalendar-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123456}
+      MYSQL_DATABASE: speed_calendar
+      MYSQL_USER: speedcalendar
+      MYSQL_PASSWORD: ${DB_PASSWORD:-speedcalendar123}
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/database.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - speedcalendar-network
+
+  # Redis 服务
+  redis:
+    image: redis:7-alpine
+    container_name: speedcalendar-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis123456}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis123456}", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - speedcalendar-network
+
+  # SpeedCalendar 后端服务
+  speedcalendar:
+    build: .
+    image: speedcalendar:latest
+    container_name: speedcalendar-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      # 使用容器名作为主机名（Docker 网络内自动解析）
+      - DB_HOST=mysql
+      - DB_NAME=speed_calendar
+      - DB_USERNAME=speedcalendar
+      - DB_PASSWORD=${DB_PASSWORD:-speedcalendar123}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis123456}
+      - JWT_SECRET=${JWT_SECRET:-SpeedCalendar-Prod-Secret-Change-Me-2025}
+      - SILICON_API_KEY=${SILICON_API_KEY:-}
+      - FILE_UPLOAD_DIR=/data/speedcalendar/uploads/avatars
+      - FILE_BASE_URL=${FILE_BASE_URL:-http://localhost:8080/api/files}
+    volumes:
+      - speedcalendar_uploads:/data/speedcalendar/uploads
+      - speedcalendar_logs:/data/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8080/api/auth/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - speedcalendar-network
+
+# 自定义网络
+networks:
+  speedcalendar-network:
+    driver: bridge
+
+# 数据卷（持久化存储）
+volumes:
+  mysql_data:
+  redis_data:
+  speedcalendar_uploads:
+  speedcalendar_logs:

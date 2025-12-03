@@ -1,0 +1,80 @@
+# =============================================
+# SpeedCalendar 生产环境配置 (application-prod.yml)
+# 启动方式: java -Dspring.profiles.active=prod -jar xxx.jar
+# 或设置环境变量: SPRING_PROFILES_ACTIVE=prod
+# =============================================
+
+spring:
+  # 数据源配置 - 生产环境
+  # 敏感信息通过环境变量注入，部署时设置: DB_HOST, DB_USERNAME, DB_PASSWORD
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/${DB_NAME:speed_calendar}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=true&allowPublicKeyRetrieval=false
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  # JPA配置 - 生产环境
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate  # 生产环境只验证，不自动修改表结构
+    properties:
+      hibernate:
+        format_sql: false
+
+  # Redis配置 - 生产环境
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 2
+
+# LangChain4j AI 配置 - 生产环境
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: ${SILICON_API_KEY:}  # 必须通过环境变量设置
+      log-requests: false
+      log-responses: false
+
+# JWT配置 - 生产环境（必须修改密钥！）
+jwt:
+  secret: ${JWT_SECRET:SpeedCalendar-Prod-Secret-Change-Me}
+
+# 文件存储配置 - 生产环境
+# 方式一：本地存储（需要配置服务器路径和域名）
+file:
+  storage:
+    type: ${FILE_STORAGE_TYPE:local}
+    local:
+      upload-dir: ${FILE_UPLOAD_DIR:/data/speedcalendar/uploads/avatars}
+      base-url: ${FILE_BASE_URL:https://your-domain.com/api/files}
+    # 方式二：OSS存储（推荐生产使用）
+    oss:
+      endpoint: ${OSS_ENDPOINT:}
+      bucket: ${OSS_BUCKET:}
+      access-key: ${OSS_ACCESS_KEY:}
+      secret-key: ${OSS_SECRET_KEY:}
+      cdn-domain: ${OSS_CDN_DOMAIN:}
+
+# 日志配置 - 生产环境（精简日志）
+logging:
+  level:
+    root: WARN
+    com.example.speedcalendarserver: INFO
+    org.springframework.web: WARN
+    org.hibernate.SQL: WARN
+  file:
+    name: /data/logs/speedcalendar.log
+    max-size: 50MB
+    max-history: 60

@@ -1,48 +1,40 @@
 # =============================================
-# SpeedCalendar 应用配置
+# SpeedCalendar 应用配置（公共配置）
+# 环境专用配置请参见:
+#   - application-dev.yml  (开发环境)
+#   - application-prod.yml (生产环境)
 # =============================================
 
 spring:
   application:
     name: SpeedCalendar-server
 
-  # 数据源配置
+  # 默认激活开发环境，生产部署时通过环境变量或JVM参数覆盖
+  # 例如: java -Dspring.profiles.active=prod -jar xxx.jar
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # 数据源配置（公共部分，具体值由 profile 文件覆盖）
   datasource:
-    url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: Xu821120
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      # 连接池配置
-      maximum-pool-size: 20
-      minimum-idle: 5
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
 
-  # JPA配置
+  # JPA配置（公共部分）
   jpa:
-    hibernate:
-      ddl-auto: none # 不自动生成表结构，使用手动SQL建表
-    show-sql: true # 显示SQL语句
     properties:
       hibernate:
-        format_sql: true # 格式化SQL
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  # Redis配置
+  # Redis配置（公共部分）
   data:
     redis:
-      host: localhost
-      port: 6379
-      password: Xu821120
       database: 0
       timeout: 3000ms
       lettuce:
         pool:
-          max-active: 8
-          max-idle: 8
-          min-idle: 0
           max-wait: -1ms
 
   # Jackson配置
@@ -56,8 +48,8 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 10MB # 单个文件最大大小
-      max-request-size: 10MB # 请求最大大小
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 # =============================================
 # LangChain4j AI 配置 (硅基流动 API)
@@ -66,12 +58,7 @@ langchain4j:
   open-ai:
     chat-model:
       base-url: https://api.siliconflow.cn/v1
-      api-key: ${SILICON_API_KEY:}
-      #model-name: Qwen/Qwen2.5-7B-Instruct
-      #model-name: Qwen/Qwen2.5-32B-Instruct
-      model-name: Qwen/Qwen3-Next-80B-A3B-Instruct  # 工具调用不稳定，暂不使用
-      log-requests: true
-      log-responses: true
+      model-name: Qwen/Qwen3-Next-80B-A3B-Instruct
       timeout: PT2M
 
 # 服务器配置
@@ -86,49 +73,29 @@ server:
       max: 200
       min-spare: 10
 
-# JWT配置
+# JWT配置（公共部分，密钥由 profile 文件或环境变量覆盖）
 jwt:
-  secret: SpeedCalendar-JWT-Secret-Key-2025-Change-This-In-Production # 生产环境必须修改
-  access-token-expiration: 7200 # 访问令牌有效期（秒）：2小时
-  refresh-token-expiration: 2592000 # 刷新令牌有效期（秒）：30天
+  secret: ${JWT_SECRET:SpeedCalendar-JWT-Secret-Key-2025-Change-This-In-Production}
+  access-token-expiration: 7200      # 访问令牌有效期（秒）：2小时
+  refresh-token-expiration: 2592000  # 刷新令牌有效期（秒）：30天
 
 # 验证码配置
 verification:
   code:
-    length: 6 # 验证码长度
-    expiration: 300 # 验证码有效期（秒）：5分钟
-    daily-limit: 10 # 每个手机号每天发送次数限制
-    interval: 60 # 发送间隔（秒）：1分钟
+    length: 6          # 验证码长度
+    expiration: 300    # 验证码有效期（秒）：5分钟
+    daily-limit: 10    # 每个手机号每天发送次数限制
+    interval: 60       # 发送间隔（秒）：1分钟
 
-# 文件存储配置
-# TODO: 生产环境需要切换到OSS
+# 文件存储配置（公共部分）
 file:
-  storage:
-    type: local # 存储类型：local（本地存储）或 oss（阿里云OSS）| TODO: 生产环境改为 oss
-    local:
-      upload-dir: D:/speedcalendar/uploads/avatars # 使用简短的绝对路径 | TODO: 生产环境修改为服务器路径
-      base-url: http://localhost:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
-#      base-url:  http://192.168.43.227:8080/api/files # 访问基础URL | TODO: 生产环境改为实际域名
-    # TODO: 生产环境需要配置OSS参数
-    oss:
-      endpoint: # OSS endpoint，例如: oss-cn-hangzhou.aliyuncs.com
-      bucket: # OSS bucket名称，例如: speedcalendar-avatars
-      access-key: ${OSS_ACCESS_KEY:} # AccessKey ID（使用环境变量）
-      secret-key: ${OSS_SECRET_KEY:} # AccessKey Secret（使用环境变量）
-      cdn-domain: # CDN域名（可选），例如: https://cdn.speedcalendar.com
   avatar:
-    max-size: 5242880 # 最大文件大小（字节）：5MB
-    allowed-types: jpg,jpeg,png,webp # 允许的文件扩展名
-    allowed-mime-types: image/jpeg,image/png,image/webp # 允许的MIME类型
+    max-size: 5242880  # 最大文件大小（字节）：5MB
+    allowed-types: jpg,jpeg,png,webp
+    allowed-mime-types: image/jpeg,image/png,image/webp
 
-# 日志配置
+# 日志配置（公共部分）
 logging:
-  level:
-    root: INFO
-    com.example.speedcalendarserver: DEBUG
-    org.springframework.web: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
@@ -136,48 +103,3 @@ logging:
     name: logs/speedcalendar.log
     max-size: 10MB
     max-history: 30
-
-# 开发环境配置
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-  jpa:
-    hibernate:
-      ddl-auto: update # 开发环境自动更新表结构
-
-logging:
-  level:
-    root: DEBUG
-    com.example.speedcalendarserver: DEBUG
-
-# 生产环境配置
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: validate
-
-# TODO: 生产环境文件存储配置
-# 取消下面的注释并填写实际的OSS配置
-#file:
-#  storage:
-#    type: oss # 切换到OSS
-#    oss:
-#      endpoint: oss-cn-hangzhou.aliyuncs.com
-#      bucket: speedcalendar-avatars
-#      access-key: ${OSS_ACCESS_KEY}
-#      secret-key: ${OSS_SECRET_KEY}
-#      cdn-domain: https://cdn.speedcalendar.com
-
-logging:
-  level:
-    root: WARN
-    com.example.speedcalendarserver: INFO
