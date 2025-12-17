@@ -81,6 +81,36 @@ public class Schedule {
     private Integer isAllDay = 0;
 
     /**
+     * 日程颜色 (十六进制颜色值)
+     */
+    @Column(name = "color", length = 20)
+    private String color = "#4AC4CF";
+
+    /**
+     * 日程备注/笔记
+     */
+    @Column(name = "notes", columnDefinition = "TEXT")
+    private String notes;
+
+    /**
+     * 提醒时间（分钟）：提前多少分钟提醒，NULL表示不提醒
+     */
+    @Column(name = "reminder_minutes")
+    private Integer reminderMinutes;
+
+    /**
+     * 重复类型：none-不重复，daily-每天，weekly-每周，monthly-每月，yearly-每年
+     */
+    @Column(name = "repeat_type", length = 20)
+    private String repeatType = "none";
+
+    /**
+     * 重复结束日期
+     */
+    @Column(name = "repeat_end_date")
+    private LocalDate repeatEndDate;
+
+    /**
      * 创建时间
      */
     @Column(name = "created_at", nullable = false, updatable = false)

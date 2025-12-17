@@ -44,6 +44,12 @@ RUN ./mvnw package -DskipTests -B
 # =============================================
 FROM eclipse-temurin:21-jre-alpine
 
+# 设置时区为上海（北京时间）
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del tzdata
+
 # 创建非 root 用户运行应用（安全最佳实践）
 RUN addgroup -S spring && adduser -S spring -G spring
 

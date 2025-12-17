@@ -3,7 +3,6 @@ package com.example.speedcalendarserver.controller;
 import com.example.speedcalendarserver.dto.*;
 import com.example.speedcalendarserver.entity.ChatMessage;
 import com.example.speedcalendarserver.entity.ChatSession;
-import com.example.speedcalendarserver.repository.ChatMessageRepository;
 import com.example.speedcalendarserver.service.AiChatService;
 import com.example.speedcalendarserver.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +10,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,28 +28,31 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@RequestMapping("/ai/chat")
+@RequestMapping("/ai")
 @RequiredArgsConstructor
 public class AiChatController {
 
     private final AiChatService aiChatService;
-    private final ChatMessageRepository chatMessageRepository;
     private final JwtUtil jwtUtil;
 
     /**
      * 获取聊天会话列表
      *
-     * GET /api/ai/chat/sessions
+     * GET /api/ai/sessions
      * Headers: Authorization: Bearer {token}
      * 响应: {
      * "code": 200,
      * "message": "获取成功",
      * "data": [
      * {
-     * "id": "xxx",
+     * "sessionId": "xxx",
+     * "userId": "xxx",
      * "title": "会话标题",
-     * "lastMessage": "最后一条消息预览",
-     * "timestamp": 1234567890000
+     * "status": 1,
+     * "messageCount": 5,
+     * "createdAt": "2025-12-17T10:00:00",
+     * "updatedAt": "2025-12-17T10:30:00",
+     * "lastMessageAt": "2025-12-17T10:30:00"
      * }
      * ]
      * }
@@ -68,22 +73,16 @@ public class AiChatController {
             List<ChatSession> sessions = aiChatService.getUserSessions(userId);
 
             List<ChatSessionDTO> sessionDTOs = sessions.stream()
-                    .map(session -> {
-                        // 获取最后一条消息
-                        ChatMessage lastMsg = chatMessageRepository.findLastMessage(session.getSessionId());
-                        String lastMessage = lastMsg != null ? truncateMessage(lastMsg.getContent(), 50) : "";
-
-                        return ChatSessionDTO.builder()
-                                .id(session.getSessionId())
-                                .title(session.getTitle() != null ? session.getTitle() : "新对话")
-                                .lastMessage(lastMessage)
-                                .timestamp(session.getLastMessageAt() != null
-                                        ? session.getLastMessageAt().atZone(ZoneId.systemDefault()).toInstant()
-                                                .toEpochMilli()
-                                        : session.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()
-                                                .toEpochMilli())
-                                .build();
-                    })
+                    .map(session -> ChatSessionDTO.builder()
+                            .sessionId(session.getSessionId())
+                            .userId(session.getUserId())
+                            .title(session.getTitle() != null ? session.getTitle() : "新对话")
+                            .status(session.getStatus())
+                            .messageCount(session.getMessageCount())
+                            .createdAt(session.getCreatedAt())
+                            .updatedAt(session.getUpdatedAt())
+                            .lastMessageAt(session.getLastMessageAt())
+                            .build())
                     .collect(Collectors.toList());
 
             return ApiResponse.success("获取成功", sessionDTOs);
@@ -96,21 +95,25 @@ public class AiChatController {
     /**
      * 创建新会话
      *
-     * POST /api/ai/chat/sessions
+     * POST /api/ai/sessions
      * Headers: Authorization: Bearer {token}
-     * Body: { "userId": "xxx" }
+     * Body: 空（无需请求体）
      * 响应: {
      * "code": 200,
      * "message": "创建成功",
      * "data": {
-     * "id": "xxx",
+     * "sessionId": "xxx",
+     * "userId": "xxx",
      * "title": "新对话",
-     * "lastMessage": "",
-     * "timestamp": 1234567890000
+     * "status": 1,
+     * "messageCount": 0,
+     * "createdAt": "2025-12-17T12:00:00",
+     * "updatedAt": "2025-12-17T12:00:00",
+     * "lastMessageAt": null
      * }
      * }
      *
-     * @param request     创建会话请求
+     * @param request     创建会话请求（可选）
      * @param httpRequest HTTP请求
      * @return 新创建的会话
      */
@@ -129,10 +132,14 @@ public class AiChatController {
             ChatSession session = aiChatService.createSession(userId);
 
             ChatSessionDTO sessionDTO = ChatSessionDTO.builder()
-                    .id(session.getSessionId())
+                    .sessionId(session.getSessionId())
+                    .userId(session.getUserId())
                     .title(session.getTitle() != null ? session.getTitle() : "新对话")
-                    .lastMessage("")
-                    .timestamp(session.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                    .status(session.getStatus())
+                    .messageCount(session.getMessageCount())
+                    .createdAt(session.getCreatedAt())
+                    .updatedAt(session.getUpdatedAt())
+                    .lastMessageAt(session.getLastMessageAt())
                     .build();
 
             return ApiResponse.success("创建成功", sessionDTO);
@@ -143,31 +150,90 @@ public class AiChatController {
     }
 
     /**
-     * 发送消息
+     * 发送消息（SSE流式响应）
      *
-     * POST /api/ai/chat/message
-     * Headers: Authorization: Bearer {token}
-     * Body: {
-     * "message": "用户消息",
-     * "sessionId": "xxx",
-     * "userId": "xxx"
-     * }
-     * 响应: {
-     * "code": 200,
-     * "message": "发送成功",
-     * "data": {
-     * "sessionId": "xxx",
-     * "message": "AI回复内容",
-     * "timestamp": 1234567890000
-     * }
-     * }
+     * POST /api/ai/sessions/{sessionId}/messages
+     * Headers: Authorization: Bearer {token}, Accept: text/event-stream
+     * Body: { "content": "用户消息" }
+     * 响应: SSE 流式事件
      *
+     * @param sessionId   会话ID
      * @param request     发送消息请求
      * @param httpRequest HTTP请求
-     * @return AI回复
+     * @return SSE 流式响应
      */
-    @PostMapping("/message")
-    public ApiResponse<ChatMessageResponse> sendMessage(
+    @PostMapping(value = "/sessions/{sessionId}/messages", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter sendMessageStream(
+            @PathVariable String sessionId,
+            @Valid @RequestBody ChatMessageRequest request,
+            HttpServletRequest httpRequest) {
+
+        // 创建 SSE 发射器，设置超时时间为 5 分钟
+        SseEmitter emitter = new SseEmitter(5 * 60 * 1000L);
+
+        String userId = getUserIdFromRequest(httpRequest);
+        if (userId == null) {
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"未授权，请先登录\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+            }
+            return emitter;
+        }
+
+        // 支持从 path 或 body 获取 sessionId
+        String effectiveSessionId = sessionId != null && !sessionId.equals("new") ? sessionId : request.getSessionId();
+        String title = request.getTitle();
+
+        // 兼容旧的 message 字段和新的 content 字段
+        String messageContent = request.getContent() != null ? request.getContent() : request.getMessage();
+
+        if (messageContent == null || messageContent.isBlank()) {
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"消息内容不能为空\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+            }
+            return emitter;
+        }
+
+        log.info("【流式发送消息】userId: {}, sessionId: {}, title: {}, message: {}",
+                userId, effectiveSessionId, title, truncateMessage(messageContent, 100));
+
+        try {
+            // 调用流式服务
+            aiChatService.sendMessageStream(effectiveSessionId, userId, messageContent, title, emitter);
+        } catch (IllegalArgumentException e) {
+            log.warn("【流式发送消息失败】{}", e.getMessage());
+            try {
+                emitter.send(SseEmitter.event().data(
+                        String.format("{\"error\": \"%s\", \"done\": true}", escapeJson(e.getMessage()))));
+                emitter.complete();
+            } catch (IOException ex) {
+                emitter.completeWithError(ex);
+            }
+        } catch (Exception e) {
+            log.error("【流式发送消息失败】{}", e.getMessage(), e);
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"AI服务暂时不可用，请稍后重试\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException ex) {
+                emitter.completeWithError(ex);
+            }
+        }
+
+        return emitter;
+    }
+
+    /**
+     * 发送消息（非流式，兼容旧接口）
+     *
+     * POST /api/ai/chat/message
+     */
+    @PostMapping("/chat/message")
+    public ApiResponse<ChatMessageResponse> sendMessageLegacy(
             @Valid @RequestBody ChatMessageRequest request,
             HttpServletRequest httpRequest) {
         try {
@@ -176,13 +242,14 @@ public class AiChatController {
                 return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
             }
 
-            log.info("【发送消息】userId: {}, sessionId: {}, message: {}",
-                    userId, request.getSessionId(), truncateMessage(request.getMessage(), 100));
+            String sessionId = request.getSessionId();
+            String title = request.getTitle();
+            String messageContent = request.getContent() != null ? request.getContent() : request.getMessage();
 
-            ChatMessage aiReply = aiChatService.sendMessage(
-                    request.getSessionId(),
-                    userId,
-                    request.getMessage());
+            log.info("【发送消息】userId: {}, sessionId: {}, title: {}, message: {}",
+                    userId, sessionId, title, truncateMessage(messageContent, 100));
+
+            ChatMessage aiReply = aiChatService.sendMessage(sessionId, userId, messageContent, title);
 
             ChatMessageResponse response = ChatMessageResponse.builder()
                     .sessionId(aiReply.getSessionId())
@@ -204,9 +271,9 @@ public class AiChatController {
     }
 
     /**
-     * 获取聊天记录
+     * 获取会话历史消息
      *
-     * GET /api/ai/chat/history/{sessionId}
+     * GET /api/ai/sessions/{sessionId}/messages
      * Headers: Authorization: Bearer {token}
      * 响应: {
      * "code": 200,
@@ -215,9 +282,12 @@ public class AiChatController {
      * "messages": [
      * {
      * "id": "xxx",
+     * "sessionId": "xxx",
      * "content": "消息内容",
      * "role": "user",
-     * "timestamp": 1234567890000
+     * "tokensUsed": 10,
+     * "sequenceNum": 1,
+     * "createdAt": "2025-12-17T10:00:00"
      * }
      * ]
      * }
@@ -227,7 +297,7 @@ public class AiChatController {
      * @param httpRequest HTTP请求
      * @return 聊天记录
      */
-    @GetMapping("/history/{sessionId}")
+    @GetMapping("/sessions/{sessionId}/messages")
     public ApiResponse<ChatHistoryResponse> getChatHistory(
             @PathVariable String sessionId,
             HttpServletRequest httpRequest) {
@@ -244,10 +314,12 @@ public class AiChatController {
             List<ChatHistoryMessageDTO> messageDTOs = messages.stream()
                     .map(msg -> ChatHistoryMessageDTO.builder()
                             .id(String.valueOf(msg.getId()))
+                            .sessionId(msg.getSessionId())
                             .content(msg.getContent())
-                            // API文档中使用 user/ai，这里转换 assistant -> ai
-                            .role(msg.getRole() == ChatMessage.MessageRole.assistant ? "ai" : msg.getRole().name())
-                            .timestamp(msg.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                            .role(msg.getRole().name())
+                            .tokensUsed(msg.getTokensUsed())
+                            .sequenceNum(msg.getSequenceNum())
+                            .createdAt(msg.getCreatedAt())
                             .build())
                     .collect(Collectors.toList());
 
@@ -263,6 +335,16 @@ public class AiChatController {
             log.error("【获取聊天记录失败】{}", e.getMessage(), e);
             return ApiResponse.error(e.getMessage());
         }
+    }
+
+    /**
+     * 获取聊天记录（兼容旧接口）
+     */
+    @GetMapping("/chat/history/{sessionId}")
+    public ApiResponse<ChatHistoryResponse> getChatHistoryLegacy(
+            @PathVariable String sessionId,
+            HttpServletRequest httpRequest) {
+        return getChatHistory(sessionId, httpRequest);
     }
 
     /**
@@ -336,5 +418,19 @@ public class AiChatController {
             return message;
         }
         return message.substring(0, maxLength) + "...";
+    }
+
+    /**
+     * 转义 JSON 字符串中的特殊字符
+     */
+    private String escapeJson(String text) {
+        if (text == null)
+            return "";
+        return text
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }

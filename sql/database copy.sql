@@ -1,7 +1,9 @@
 -- =============================================
 -- SpeedCalendar 数据库完整初始化脚本
--- 合并时间: 2025-11-28
+-- 合并时间: 2025-12-17
 -- v1.1: 修正了建表语句的排序规则(Collation)不一致问题
+-- v1.2: 新增日程表字段 (color, notes, reminder_minutes, repeat_type, repeat_end_date)
+--       新增日程附件表 (schedule_attachments)
 -- =============================================
 
 drop database speed_calendar;
@@ -21,6 +23,7 @@ DROP TABLE IF EXISTS activity_messages;
 DROP TABLE IF EXISTS user_tokens;
 DROP TABLE IF EXISTS user_privacy_settings;
 DROP TABLE IF EXISTS verification_codes;
+DROP TABLE IF EXISTS schedule_attachments;
 DROP TABLE IF EXISTS schedules;
 DROP TABLE IF EXISTS chat_messages;
 DROP TABLE IF EXISTS chat_sessions;
@@ -135,7 +138,8 @@ CREATE TABLE `user_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- 表6: schedules (日程表)
+-- 表6: schedules (日程表) - v1.2 更新
+-- 新增字段: color, notes, reminder_minutes, repeat_type, repeat_end_date
 -- =============================================
 CREATE TABLE schedules (
     schedule_id VARCHAR(64) NOT NULL COMMENT '日程唯一ID (UUID)',
@@ -147,6 +151,13 @@ CREATE TABLE schedules (
     end_time TIME DEFAULT NULL COMMENT '结束时间 (HH:mm)',
     location VARCHAR(200) DEFAULT NULL COMMENT '日程地点',
     is_all_day TINYINT NOT NULL DEFAULT 0 COMMENT '是否全天：0-否，1-是',
+    -- 新增字段 v1.2 (前端需求)
+    color VARCHAR(20) DEFAULT '#4AC4CF' COMMENT '日程颜色 (十六进制颜色值)',
+    notes TEXT DEFAULT NULL COMMENT '日程备注/笔记',
+    reminder_minutes INT DEFAULT NULL COMMENT '提醒时间（分钟）：提前多少分钟提醒，NULL表示不提醒',
+    repeat_type ENUM('none', 'daily', 'weekly', 'monthly', 'yearly') DEFAULT 'none' COMMENT '重复类型',
+    repeat_end_date DATE DEFAULT NULL COMMENT '重复结束日期',
+    -- 原有字段
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '逻辑删除：0-未删除，1-已删除',
@@ -158,6 +169,22 @@ CREATE TABLE schedules (
     CONSTRAINT fk_schedules_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_schedules_group FOREIGN KEY (group_id) REFERENCES `group`(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='日程表';
+
+-- =============================================
+-- 表6.1: schedule_attachments (日程附件表) - 新增
+-- =============================================
+CREATE TABLE schedule_attachments (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    schedule_id VARCHAR(64) NOT NULL COMMENT '日程ID',
+    file_name VARCHAR(255) NOT NULL COMMENT '文件名',
+    file_url VARCHAR(500) NOT NULL COMMENT '文件URL',
+    file_type VARCHAR(50) DEFAULT NULL COMMENT '文件类型 (image/jpeg, application/pdf 等)',
+    file_size BIGINT UNSIGNED DEFAULT NULL COMMENT '文件大小（字节）',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (id),
+    KEY idx_schedule_id (schedule_id),
+    CONSTRAINT fk_schedule_attachments_schedule FOREIGN KEY (schedule_id) REFERENCES schedules(schedule_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='日程附件表';
 
 -- =============================================
 -- 表7: chat_sessions & chat_messages (AI聊天相关表)

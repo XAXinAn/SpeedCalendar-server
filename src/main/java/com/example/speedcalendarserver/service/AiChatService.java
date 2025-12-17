@@ -5,16 +5,20 @@ import com.example.speedcalendarserver.entity.ChatSession;
 import com.example.speedcalendarserver.repository.ChatMessageRepository;
 import com.example.speedcalendarserver.repository.ChatSessionRepository;
 import com.example.speedcalendarserver.util.UserContextHolder;
+import dev.langchain4j.service.TokenStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * AI 聊天服务
@@ -33,6 +37,7 @@ import java.util.UUID;
 public class AiChatService {
 
     private final CalendarAssistant calendarAssistant;
+    private final StreamingCalendarAssistant streamingCalendarAssistant;
     private final ChatSessionRepository chatSessionRepository;
     private final ChatMessageRepository chatMessageRepository;
 
@@ -44,16 +49,27 @@ public class AiChatService {
      */
     @Transactional
     public ChatSession createSession(String userId) {
+        return createSession(userId, null);
+    }
+
+    /**
+     * 创建新的聊天会话（可带标题）
+     */
+    public ChatSession createSession(String userId, String title) {
         ChatSession session = ChatSession.builder()
                 .sessionId(UUID.randomUUID().toString())
                 .userId(userId)
                 // TODO: 异步生成会话标题时需显式传入 userId，不能使用 UserContextHolder
                 // 示例：generateSessionTitleAsync(sessionId, userId, firstMessage)
-                .title(null)
+                .title(title)
                 .status(1)
                 .messageCount(0)
                 .isDeleted(0)
                 .build();
+
+        if (title != null && !title.isBlank()) {
+            log.info("🏷️ 新会话标题: {}", title);
+        }
 
         return chatSessionRepository.save(session);
     }
@@ -115,7 +131,7 @@ public class AiChatService {
      * @return AI 回复的消息
      * @throws IllegalArgumentException 如果会话不存在或不属于该用户
      */
-    public ChatMessage sendMessage(String sessionId, String userId, String userMessage) {
+    public ChatMessage sendMessage(String sessionId, String userId, String userMessage, String title) {
         // 设置用户上下文，供 CalendarTools 使用
         UserContextHolder.setUserId(userId);
 
@@ -125,7 +141,7 @@ public class AiChatService {
             // 如果没有提供会话ID，创建新会话
             if (sessionId == null || sessionId.isBlank()) {
                 log.info("准备为用户 {} 创建新会话...", userId); // <--- 增加这行日志
-                session = createSession(userId);
+                session = createSession(userId, title);
                 sessionId = session.getSessionId();
                 log.info("为用户 {} 创建新会话成功: {}", userId, sessionId);
             } else {
@@ -133,7 +149,18 @@ public class AiChatService {
                 session = chatSessionRepository
                         .findBySessionIdAndUserIdAndIsDeleted(sessionId, userId, 0)
                         .orElseThrow(() -> new IllegalArgumentException("会话不存在或无权访问"));
+
+                // 如果传入了标题且原会话未命名，补全标题
+                if ((session.getTitle() == null || session.getTitle().isBlank())
+                        && title != null && !title.isBlank()) {
+                    session.setTitle(title);
+                    chatSessionRepository.save(session);
+                    log.info("🏷️ 更新会话标题: {} -> {}", sessionId, title);
+                }
             }
+
+            // 将 sessionId 记录到线程上下文，工具可通过 SESSION_USER_MAP 回溯 userId
+            UserContextHolder.setSessionId(sessionId);
 
             // 获取当前最大序号
             Integer maxSequenceNum = chatMessageRepository.findMaxSequenceNum(sessionId);
@@ -162,6 +189,161 @@ public class AiChatService {
             // 清理用户上下文，防止线程复用导致的数据污染
             UserContextHolder.clear();
         }
+    }
+
+    /**
+     * 流式发送消息并通过 SSE 返回 AI 回复
+     *
+     * @param sessionId   会话ID（可为null，将自动创建新会话）
+     * @param userId      用户ID
+     * @param userMessage 用户消息内容
+     * @param emitter     SSE 发射器
+     * @return 实际使用的会话ID
+     */
+    public String sendMessageStream(String sessionId, String userId, String userMessage, String title,
+            SseEmitter emitter) {
+        // 设置用户上下文，供 CalendarTools 使用
+        UserContextHolder.setUserId(userId);
+
+        try {
+            ChatSession session;
+
+            // 如果没有提供会话ID，创建新会话
+            if (sessionId == null || sessionId.isBlank()) {
+                log.info("准备为用户 {} 创建新会话...", userId);
+                session = createSession(userId, title);
+                sessionId = session.getSessionId();
+                log.info("为用户 {} 创建新会话成功: {}", userId, sessionId);
+            } else {
+                // 尝试查找现有会话
+                var existingSession = chatSessionRepository
+                        .findBySessionIdAndUserIdAndIsDeleted(sessionId, userId, 0);
+
+                if (existingSession.isPresent()) {
+                    session = existingSession.get();
+
+                    // 如果传入了标题且原会话未命名，补全标题
+                    if ((session.getTitle() == null || session.getTitle().isBlank())
+                            && title != null && !title.isBlank()) {
+                        session.setTitle(title);
+                        chatSessionRepository.save(session);
+                        log.info("🏷️ 更新会话标题: {} -> {}", sessionId, title);
+                    }
+                } else {
+                    // 会话不存在，自动创建新会话
+                    log.info("会话 {} 不存在，为用户 {} 创建新会话...", sessionId, userId);
+                    session = createSession(userId, title);
+                    sessionId = session.getSessionId();
+                    log.info("为用户 {} 创建新会话成功: {}", userId, sessionId);
+                }
+            }
+
+            // 绑定 sessionId 和 userId，供 CalendarTools 在跨线程时获取用户ID
+            UserContextHolder.bindSession(sessionId, userId);
+            UserContextHolder.setSessionId(sessionId);
+
+            // 获取当前最大序号
+            Integer maxSequenceNum = chatMessageRepository.findMaxSequenceNum(sessionId);
+
+            // 先保存用户消息
+            saveUserMessage(sessionId, userId, userMessage, maxSequenceNum + 1);
+
+            // 生成当前日期字符串
+            String currentDate = getCurrentDateString();
+
+            // 用于收集完整的 AI 回复
+            StringBuilder fullResponse = new StringBuilder();
+            AtomicInteger tokensUsed = new AtomicInteger(0);
+
+            // 保存会话相关信息供回调使用
+            final String finalSessionId = sessionId;
+            final ChatSession finalSession = session;
+            final int nextSequenceNum = maxSequenceNum + 2;
+            final String finalUserId = userId; // 保存 userId 供回调线程使用
+
+            // 调用流式 API
+            TokenStream tokenStream = streamingCalendarAssistant.chatStream(sessionId, currentDate, userMessage);
+
+            tokenStream
+                    .onPartialResponse(partialResponse -> {
+                        // 在回调线程中重新设置用户上下文（线程池线程不会继承 ThreadLocal）
+                        UserContextHolder.setUserId(finalUserId);
+                        UserContextHolder.setSessionId(finalSessionId);
+                        try {
+                            String token = partialResponse;
+                            fullResponse.append(token);
+
+                            // 发送 SSE 事件
+                            String sseData = String.format("{\"content\": \"%s\", \"done\": false}",
+                                    escapeJson(token));
+                            log.debug("SSE 发送: {}", sseData);
+                            emitter.send(SseEmitter.event().data(sseData));
+                        } catch (IOException e) {
+                            log.error("发送 SSE 事件失败: {}", e.getMessage());
+                        }
+                    })
+                    .onCompleteResponse(completeResponse -> {
+                        // 在回调线程中重新设置用户上下文
+                        UserContextHolder.setUserId(finalUserId);
+                        UserContextHolder.setSessionId(finalSessionId);
+                        try {
+                            // 保存 AI 回复到数据库
+                            ChatMessage aiMsg = saveAiReplyAndUpdateSession(
+                                    finalSession, finalSessionId, finalUserId,
+                                    fullResponse.toString(), nextSequenceNum);
+
+                            // 发送完成事件（包含 sessionId，让前端知道实际使用的会话）
+                            String doneData = String.format(
+                                    "{\"content\": \"\", \"done\": true, \"sessionId\": \"%s\", \"messageId\": \"%s\", \"tokensUsed\": %d}",
+                                    finalSessionId, aiMsg.getId(), tokensUsed.get());
+                            log.info("SSE 完成: {}", doneData);
+                            emitter.send(SseEmitter.event().data(doneData));
+                            emitter.complete();
+
+                            log.info("会话 {} 流式对话完成，完整回复长度: {}", finalSessionId, fullResponse.length());
+                        } catch (IOException e) {
+                            log.error("发送完成事件失败: {}", e.getMessage());
+                            emitter.completeWithError(e);
+                        } finally {
+                            UserContextHolder.unbindSession(finalSessionId);
+                            UserContextHolder.clear();
+                        }
+                    })
+                    .onError(error -> {
+                        log.error("流式 AI 调用失败: {}", error.getMessage(), error);
+                        try {
+                            String errorData = String.format(
+                                    "{\"error\": \"%s\", \"done\": true}",
+                                    escapeJson(error.getMessage()));
+                            emitter.send(SseEmitter.event().data(errorData));
+                        } catch (IOException e) {
+                            log.error("发送错误事件失败: {}", e.getMessage());
+                        }
+                        emitter.completeWithError(error);
+                        UserContextHolder.unbindSession(finalSessionId);
+                        UserContextHolder.clear();
+                    })
+                    .start();
+
+            return sessionId;
+        } catch (Exception e) {
+            UserContextHolder.clear();
+            throw e;
+        }
+    }
+
+    /**
+     * 转义 JSON 字符串中的特殊字符
+     */
+    private String escapeJson(String text) {
+        if (text == null)
+            return "";
+        return text
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 
     /**
@@ -232,7 +414,7 @@ public class AiChatService {
     public ChatSession getSession(String sessionId, String userId) {
         return chatSessionRepository
                 .findBySessionIdAndUserIdAndIsDeleted(sessionId, userId, 0)
-                //.orElseThrow(() -> new IllegalArgumentException("会话不存在或无权访问"));
+                // .orElseThrow(() -> new IllegalArgumentException("会话不存在或无权访问"));
                 .orElse(null);
     }
 

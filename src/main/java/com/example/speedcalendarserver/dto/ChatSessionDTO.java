@@ -1,9 +1,12 @@
 package com.example.speedcalendarserver.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+
+import java.time.LocalDateTime;
 
 /**
  * 聊天会话 DTO
@@ -18,9 +21,14 @@ import lombok.Builder;
 public class ChatSessionDTO {
 
     /**
-     * 会话ID
+     * 会话唯一标识 (UUID)
      */
-    private String id;
+    private String sessionId;
+
+    /**
+     * 用户ID
+     */
+    private String userId;
 
     /**
      * 会话标题
@@ -28,12 +36,30 @@ public class ChatSessionDTO {
     private String title;
 
     /**
-     * 最后一条消息内容（预览）
+     * 会话状态：0-已关闭，1-活跃
      */
-    private String lastMessage;
+    private Integer status;
 
     /**
-     * 最后消息时间戳（毫秒）
+     * 消息总数
      */
-    private Long timestamp;
+    private Integer messageCount;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    /**
+     * 更新时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime updatedAt;
+
+    /**
+     * 最后消息时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime lastMessageAt;
 }

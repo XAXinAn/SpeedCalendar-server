@@ -29,7 +29,7 @@ public class UserReadMessage {
      * 用户ID
      */
     @Id
-    @Column(name = "user_id", length = 36, nullable = false)
+    @Column(name = "user_id", length = 64, nullable = false)
     private String userId;
 
     /**

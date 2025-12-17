@@ -50,4 +50,29 @@ public class UpdateScheduleRequest {
      * 关联的群组ID，个人日程则为null
      */
     private String groupId;
+
+    /**
+     * 日程颜色 (十六进制颜色值，如 #F44336)
+     */
+    private String color;
+
+    /**
+     * 日程备注/笔记
+     */
+    private String notes;
+
+    /**
+     * 提醒时间（分钟）：提前多少分钟提醒
+     */
+    private Integer reminderMinutes;
+
+    /**
+     * 重复类型：none-不重复，daily-每天，weekly-每周，monthly-每月，yearly-每年
+     */
+    private String repeatType;
+
+    /**
+     * 重复结束日期 (YYYY-MM-DD)
+     */
+    private String repeatEndDate;
 }

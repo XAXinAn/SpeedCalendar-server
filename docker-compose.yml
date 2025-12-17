@@ -82,7 +82,7 @@ services:
       start_period: 60s
     networks:
       - speedcalendar-network
-      -
+
   # Adminer 数据库管理工具
   adminer:
     image: adminer

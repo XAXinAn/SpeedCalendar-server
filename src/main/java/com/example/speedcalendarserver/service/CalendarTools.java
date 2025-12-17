@@ -44,12 +44,16 @@ public class CalendarTools {
      * 创建新日程
      * 使用独立参数，可选参数如果AI不传则使用空字符串，代码中判断处理
      *
-     * @param title     日程标题（必填）
-     * @param date      日程日期（必填）
-     * @param startTime 开始时间（可选，不传则传空字符串）
-     * @param endTime   结束时间（可选，不传则传空字符串）
-     * @param location  地点（可选，不传则传空字符串）
-     * @param isAllDay  是否全天
+     * @param title           日程标题（必填）
+     * @param date            日程日期（必填）
+     * @param startTime       开始时间（可选）
+     * @param endTime         结束时间（可选）
+     * @param location        地点（可选）
+     * @param isAllDay        是否全天
+     * @param notes           备注（可选）
+     * @param reminderMinutes 提醒分钟数（可选）
+     * @param repeatType      重复类型（可选）
+     * @param color           颜色（可选）
      * @return 创建结果消息
      */
     @Tool(name = "createSchedule", value = "创建一个新的日程安排。当用户说'帮我添加日程'、'创建日程'、'新建日程'或表达想要添加日程的意图时调用此工具。")
@@ -59,17 +63,21 @@ public class CalendarTools {
             @P("开始时间，可选，格式HH:mm如14:00，没有则传空字符串") String startTime,
             @P("结束时间，可选，格式HH:mm，没有则传空字符串") String endTime,
             @P("地点，可选，没有则传空字符串") String location,
-            @P("是否全天，有具体时间传false，没有具体时间传true") boolean isAllDay) {
+            @P("是否全天，有具体时间传false，没有具体时间传true") boolean isAllDay,
+            @P("备注信息，可选，没有则传空字符串") String notes,
+            @P("提前提醒分钟数，可选，如10表示提前10分钟提醒，不需要提醒则传0") int reminderMinutes,
+            @P("重复类型，可选，值为：none(不重复)/daily(每天)/weekly(每周)/monthly(每月)/yearly(每年)，默认none") String repeatType,
+            @P("日程颜色，可选，十六进制如#FF5722，没有则传空字符串") String color) {
 
-        String userId = UserContextHolder.getUserId();
+        String userId = UserContextHolder.resolveUserId();
         if (userId == null) {
             log.error("【CalendarTools】createSchedule 失败：用户上下文为空");
             return "抱歉，无法获取用户信息，请重新登录后再试。";
         }
 
         log.info(
-                "【CalendarTools】createSchedule 被调用 - userId: {}, title: {}, date: {}, startTime: {}, endTime: {}, location: {}, isAllDay: {}",
-                userId, title, date, startTime, endTime, location, isAllDay);
+                "【CalendarTools】createSchedule 被调用 - userId: {}, title: {}, date: {}, startTime: {}, endTime: {}, location: {}, isAllDay: {}, notes: {}, reminder: {}, repeat: {}, color: {}",
+                userId, title, date, startTime, endTime, location, isAllDay, notes, reminderMinutes, repeatType, color);
 
         try {
             // 验证必填字段
@@ -87,6 +95,10 @@ public class CalendarTools {
             String actualStartTime = isBlankOrNull(startTime) ? null : startTime;
             String actualEndTime = isBlankOrNull(endTime) ? null : endTime;
             String actualLocation = isBlankOrNull(location) ? null : location;
+            String actualNotes = isBlankOrNull(notes) ? null : notes;
+            String actualRepeatType = isBlankOrNull(repeatType) ? "none" : repeatType;
+            String actualColor = isBlankOrNull(color) ? null : color;
+            Integer actualReminderMinutes = reminderMinutes > 0 ? reminderMinutes : null;
 
             // 构建请求
             CreateScheduleRequest request = new CreateScheduleRequest();
@@ -96,6 +108,10 @@ public class CalendarTools {
             request.setEndTime(actualEndTime);
             request.setLocation(actualLocation);
             request.setIsAllDay(isAllDay);
+            request.setNotes(actualNotes);
+            request.setReminderMinutes(actualReminderMinutes);
+            request.setRepeatType(actualRepeatType);
+            request.setColor(actualColor);
 
             // 调用服务创建日程
             ScheduleDTO result = scheduleService.createSchedule(userId, request);
@@ -105,12 +121,16 @@ public class CalendarTools {
                             actualStartTime != null ? actualStartTime : "未设置",
                             actualEndTime != null ? actualEndTime : "未设置");
             String locationInfo = (actualLocation != null) ? "，地点：" + actualLocation : "";
+            String reminderInfo = (actualReminderMinutes != null) ? "，提前" + actualReminderMinutes + "分钟提醒" : "";
+            String repeatInfo = !"none".equals(actualRepeatType) ? "，" + getRepeatTypeText(actualRepeatType) : "";
 
-            return String.format("✅ 日程创建成功！\n📅 标题：%s\n📆 日期：%s\n⏰ 时间：%s%s",
+            return String.format("✅ 日程创建成功！\n📅 标题：%s\n📆 日期：%s\n⏰ 时间：%s%s%s%s",
                     result.getTitle(),
                     result.getScheduleDate(),
                     timeInfo,
-                    locationInfo);
+                    locationInfo,
+                    reminderInfo,
+                    repeatInfo);
 
         } catch (DateTimeParseException e) {
             log.error("【CalendarTools】日期格式错误", e);
@@ -119,6 +139,19 @@ public class CalendarTools {
             log.error("【CalendarTools】创建日程失败", e);
             return "抱歉，创建日程时出现错误：" + e.getMessage();
         }
+    }
+
+    /**
+     * 获取重复类型的中文描述
+     */
+    private String getRepeatTypeText(String repeatType) {
+        return switch (repeatType) {
+            case "daily" -> "每天重复";
+            case "weekly" -> "每周重复";
+            case "monthly" -> "每月重复";
+            case "yearly" -> "每年重复";
+            default -> "";
+        };
     }
 
     /**
@@ -132,7 +165,7 @@ public class CalendarTools {
     public String querySchedulesByDate(
             @P("年份，例如 2025") int year,
             @P("月份，1-12，例如 11 表示十一月") int month) {
-        String userId = UserContextHolder.getUserId();
+        String userId = UserContextHolder.resolveUserId();
         if (userId == null) {
             log.error("【CalendarTools】querySchedulesByDate 失败：用户上下文为空");
             return "抱歉，无法获取用户信息，请重新登录后再试。";
@@ -194,7 +227,7 @@ public class CalendarTools {
     @Tool(name = "deleteSchedule", value = "删除日程。用户说删除/取消/删掉某个日程时调用。")
     public String deleteSchedule(
             @P("要删除的日程标题关键词，如健身、开会") String titleKeyword) {
-        String userId = UserContextHolder.getUserId();
+        String userId = UserContextHolder.resolveUserId();
         if (userId == null) {
             log.error("【CalendarTools】deleteSchedule 失败：用户上下文为空");
             return "抱歉，无法获取用户信息，请重新登录后再试。";
@@ -274,7 +307,7 @@ public class CalendarTools {
     public String deleteScheduleByIndex(
             @P("日程标题关键词，与之前查询时相同") String titleKeyword,
             @P("要删除的日程序号，从1开始") int index) {
-        String userId = UserContextHolder.getUserId();
+        String userId = UserContextHolder.resolveUserId();
         if (userId == null) {
             log.error("【CalendarTools】deleteScheduleByIndex 失败：用户上下文为空");
             return "抱歉，无法获取用户信息，请重新登录后再试。";

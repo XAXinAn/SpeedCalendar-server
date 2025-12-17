@@ -3,8 +3,11 @@ package com.example.speedcalendarserver.config;
 import com.example.speedcalendarserver.service.CalendarAssistant;
 import com.example.speedcalendarserver.service.CalendarTools;
 import com.example.speedcalendarserver.service.DatabaseChatMemoryStore;
+import com.example.speedcalendarserver.service.StreamingCalendarAssistant;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
+import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
 
 /**
  * AI 配置类
@@ -38,6 +43,24 @@ public class AiConfig {
     private String baseUrl;
 
     /**
+     * 创建流式聊天模型 Bean
+     * Spring Boot Starter 默认只创建非流式模型，需要手动创建流式模型
+     *
+     * @return StreamingChatModel 实例
+     */
+    @Bean
+    public StreamingChatModel streamingChatModel() {
+        log.info("正在创建 StreamingChatModel，baseUrl: {}, model: {}", baseUrl, modelName);
+
+        return OpenAiStreamingChatModel.builder()
+                .baseUrl(baseUrl)
+                .apiKey(siliconApiKey)
+                .modelName(modelName)
+                .timeout(Duration.ofSeconds(120))
+                .build();
+    }
+
+    /**
      * 创建日历智能助手 Bean
      * 使用 AiServices 构建，绑定 ChatLanguageModel 和 CalendarTools
      *
@@ -60,6 +83,32 @@ public class AiConfig {
                 .build();
 
         log.info("CalendarAssistant 构建完成，已启用工具调用和会话记忆功能");
+        return assistant;
+    }
+
+    /**
+     * 创建流式日历智能助手 Bean
+     * 支持 SSE 流式响应
+     *
+     * @param streamingChatModel LangChain4j 自动配置的流式聊天模型
+     * @return StreamingCalendarAssistant 实例
+     */
+    @Bean
+    public StreamingCalendarAssistant streamingCalendarAssistant(StreamingChatModel streamingChatModel) {
+        log.info("正在构建 StreamingCalendarAssistant，绑定工具和会话记忆");
+
+        StreamingCalendarAssistant assistant = AiServices.builder(StreamingCalendarAssistant.class)
+                .streamingChatModel(streamingChatModel)
+                .tools(calendarTools)
+                // 为每个会话提供独立的记忆，从数据库加载历史消息
+                .chatMemoryProvider(sessionId -> MessageWindowChatMemory.builder()
+                        .id(sessionId)
+                        .maxMessages(20) // 保留最近 20 条消息作为上下文
+                        .chatMemoryStore(chatMemoryStore)
+                        .build())
+                .build();
+
+        log.info("StreamingCalendarAssistant 构建完成，已启用流式响应、工具调用和会话记忆功能");
         return assistant;
     }
 

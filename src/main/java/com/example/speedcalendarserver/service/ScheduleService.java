@@ -42,7 +42,8 @@ public class ScheduleService {
                 .map(UserGroup::getGroupId)
                 .collect(Collectors.toList());
 
-        List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(userId, groupIds, startDate, endDate);
+        List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(userId, groupIds,
+                startDate, endDate);
 
         return schedules.stream()
                 .map(ScheduleDTO::fromEntity)
@@ -58,6 +59,7 @@ public class ScheduleService {
         LocalDate scheduleDate = LocalDate.parse(request.getScheduleDate(), DATE_FORMATTER);
         LocalTime startTime = parseTime(request.getStartTime());
         LocalTime endTime = parseTime(request.getEndTime());
+        LocalDate repeatEndDate = parseDate(request.getRepeatEndDate());
 
         Schedule schedule = Schedule.builder()
                 .userId(userId)
@@ -68,6 +70,12 @@ public class ScheduleService {
                 .endTime(request.getIsAllDay() ? null : endTime)
                 .location(request.getLocation())
                 .isAllDay(request.getIsAllDay() ? 1 : 0)
+                // 新增字段
+                .color(request.getColor() != null ? request.getColor() : "#4AC4CF")
+                .notes(request.getNotes())
+                .reminderMinutes(request.getReminderMinutes())
+                .repeatType(request.getRepeatType() != null ? request.getRepeatType() : "none")
+                .repeatEndDate(repeatEndDate)
                 .isDeleted(0)
                 .build();
 
@@ -89,6 +97,7 @@ public class ScheduleService {
         LocalDate scheduleDate = LocalDate.parse(request.getScheduleDate(), DATE_FORMATTER);
         LocalTime startTime = parseTime(request.getStartTime());
         LocalTime endTime = parseTime(request.getEndTime());
+        LocalDate repeatEndDate = parseDate(request.getRepeatEndDate());
 
         schedule.setTitle(request.getTitle());
         schedule.setScheduleDate(scheduleDate);
@@ -97,6 +106,16 @@ public class ScheduleService {
         schedule.setEndTime(request.getIsAllDay() ? null : endTime);
         schedule.setLocation(request.getLocation());
         schedule.setIsAllDay(request.getIsAllDay() ? 1 : 0);
+        // 新增字段更新
+        if (request.getColor() != null) {
+            schedule.setColor(request.getColor());
+        }
+        schedule.setNotes(request.getNotes());
+        schedule.setReminderMinutes(request.getReminderMinutes());
+        if (request.getRepeatType() != null) {
+            schedule.setRepeatType(request.getRepeatType());
+        }
+        schedule.setRepeatEndDate(repeatEndDate);
 
         Schedule updatedSchedule = scheduleRepository.save(schedule);
         log.info("日程更新成功 - 日程ID: {}", scheduleId);
@@ -120,6 +139,13 @@ public class ScheduleService {
     private LocalTime parseTime(String timeStr) {
         if (StringUtils.hasText(timeStr)) {
             return LocalTime.parse(timeStr, TIME_FORMATTER);
+        }
+        return null;
+    }
+
+    private LocalDate parseDate(String dateStr) {
+        if (StringUtils.hasText(dateStr)) {
+            return LocalDate.parse(dateStr, DATE_FORMATTER);
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.example.speedcalendarserver.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,9 +16,18 @@ import lombok.NoArgsConstructor;
 public class ChatMessageRequest {
 
     /**
-     * 用户消息内容
+     * 用户消息内容（新字段，符合API文档规范）
      */
-    @NotBlank(message = "消息内容不能为空")
+    private String content;
+
+    /**
+     * 会话标题（可选，新建会话时用于设置标题）
+     */
+    private String title;
+
+    /**
+     * 用户消息内容（兼容旧接口）
+     */
     private String message;
 
     /**

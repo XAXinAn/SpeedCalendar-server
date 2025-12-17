@@ -68,6 +68,31 @@ public class ScheduleDTO {
     private Boolean isAllDay;
 
     /**
+     * 日程颜色 (十六进制颜色值)
+     */
+    private String color;
+
+    /**
+     * 日程备注/笔记
+     */
+    private String notes;
+
+    /**
+     * 提醒时间（分钟）
+     */
+    private Integer reminderMinutes;
+
+    /**
+     * 重复类型：none, daily, weekly, monthly, yearly
+     */
+    private String repeatType;
+
+    /**
+     * 重复结束日期 (YYYY-MM-DD)
+     */
+    private String repeatEndDate;
+
+    /**
      * 创建时间（时间戳，毫秒）
      */
     private Long createdAt;
@@ -79,13 +104,18 @@ public class ScheduleDTO {
         return ScheduleDTO.builder()
                 .scheduleId(schedule.getScheduleId())
                 .userId(schedule.getUserId())
-                .groupId(schedule.getGroupId()) // 添加groupId的映射
+                .groupId(schedule.getGroupId())
                 .title(schedule.getTitle())
                 .scheduleDate(schedule.getScheduleDate().toString())
                 .startTime(schedule.getStartTime() != null ? schedule.getStartTime().toString() : null)
                 .endTime(schedule.getEndTime() != null ? schedule.getEndTime().toString() : null)
                 .location(schedule.getLocation())
                 .isAllDay(schedule.getIsAllDay() == 1)
+                .color(schedule.getColor())
+                .notes(schedule.getNotes())
+                .reminderMinutes(schedule.getReminderMinutes())
+                .repeatType(schedule.getRepeatType())
+                .repeatEndDate(schedule.getRepeatEndDate() != null ? schedule.getRepeatEndDate().toString() : null)
                 .createdAt(schedule.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
                 .build();
     }

@@ -72,6 +72,12 @@ public class AuthService {
     private Integer sendInterval;
 
     /**
+     * 本地调试模式开关
+     */
+    @Value("${verification.code.debug-mode:true}")
+    private Boolean debugMode;
+
+    /**
      * 发送验证码
      *
      * @param request   发送验证码请求
@@ -81,11 +87,9 @@ public class AuthService {
     public void sendVerificationCode(SendCodeRequest request, String ipAddress) {
         String phone = request.getPhone();
 
-        // 1. 检查发送频率限制
-        checkSendFrequency(phone);
-
-        // 2. 检查每日发送次数限制
-        checkDailyLimit(phone);
+        // 1/2. 原频率与每日次数限制临时关闭（调试用）
+        // checkSendFrequency(phone);
+        // checkDailyLimit(phone);
 
         // 3. 生成验证码
         String code = generateCode();
@@ -104,11 +108,29 @@ public class AuthService {
                 .build();
         verificationCodeRepository.save(verificationCode);
 
-        // 6. TODO: 实际发送短信（这里仅打印到日志）
-        log.info("【验证码】手机号: {}, 验证码: {}, 有效期: {}秒", phone, code, codeExpiration);
-
-        // 注意：生产环境需要集成真实的短信服务（阿里云、腾讯云等）
-        // smsService.sendCode(phone, code);
+        // 6. 发送验证码（调试模式打印到控制台，生产模式发送短信）
+        if (debugMode) {
+            // 本地调试模式：控制台打印验证码
+            log.warn("\n" +
+                    "========================================\n" +
+                    "【本地调试 - 验证码】\n" +
+                    "手机号: {}\n" +
+                    "验证码: {}\n" +
+                    "有效期: {}秒\n" +
+                    "========================================",
+                    phone, code, codeExpiration);
+            System.out.println("\n========================================");
+            System.out.println("【本地调试 - 验证码】");
+            System.out.println("手机号: " + phone);
+            System.out.println("验证码: " + code);
+            System.out.println("有效期: " + codeExpiration + "秒");
+            System.out.println("========================================\n");
+        } else {
+            // 生产环境：实际发送短信
+            log.info("【发送短信】手机号: {}, 验证码已通过短信服务发送", phone);
+            // TODO: 集成真实的短信服务（阿里云、腾讯云等）
+            // smsService.sendCode(phone, code);
+        }
     }
 
     /**
