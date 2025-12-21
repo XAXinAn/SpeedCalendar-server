@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -40,6 +41,7 @@ public class AiChatService {
     private final StreamingCalendarAssistant streamingCalendarAssistant;
     private final ChatSessionRepository chatSessionRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final DatabaseChatMemoryStore chatMemoryStore;
 
     /**
      * 创建新的聊天会话
@@ -172,7 +174,7 @@ public class AiChatService {
                 // 生成当前日期字符串，格式：yyyy-MM-dd（星期X）
                 String currentDate = getCurrentDateString();
                 // 传入 sessionId，LangChain4j 会自动从数据库加载历史消息作为上下文
-                aiReply = calendarAssistant.chat(sessionId, currentDate, userMessage);
+                aiReply = calendarAssistant.chat(sessionId, sessionId, currentDate, userMessage);
             } catch (Exception e) {
                 log.error("调用 AI 模型失败: {}", e.getMessage(), e);
                 throw new RuntimeException("AI 服务暂时不可用，请稍后重试", e);
@@ -202,6 +204,10 @@ public class AiChatService {
      */
     public String sendMessageStream(String sessionId, String userId, String userMessage, String title,
             SseEmitter emitter) {
+        final long requestStartMs = System.currentTimeMillis();
+        final String traceId = UUID.randomUUID().toString().substring(0, 8);
+        log.info("[AI_TIMELINE][{}] request_received userId={} sessionId={} ts={}", traceId, userId, sessionId,
+                requestStartMs);
         // 设置用户上下文，供 CalendarTools 使用
         UserContextHolder.setUserId(userId);
 
@@ -238,6 +244,10 @@ public class AiChatService {
                 }
             }
 
+            long sessionReadyMs = System.currentTimeMillis();
+            log.info("[AI_TIMELINE][{}] session_ready userId={} sessionId={} +{}ms", traceId, userId, sessionId,
+                    sessionReadyMs - requestStartMs);
+
             // 绑定 sessionId 和 userId，供 CalendarTools 在跨线程时获取用户ID
             UserContextHolder.bindSession(sessionId, userId);
             UserContextHolder.setSessionId(sessionId);
@@ -247,6 +257,10 @@ public class AiChatService {
 
             // 先保存用户消息
             saveUserMessage(sessionId, userId, userMessage, maxSequenceNum + 1);
+
+            long enqueueMs = System.currentTimeMillis();
+            log.info("[AI_TIMELINE][{}] enqueue_model userId={} sessionId={} +{}ms", traceId, userId, sessionId,
+                    enqueueMs - requestStartMs);
 
             // 生成当前日期字符串
             String currentDate = getCurrentDateString();
@@ -260,9 +274,15 @@ public class AiChatService {
             final ChatSession finalSession = session;
             final int nextSequenceNum = maxSequenceNum + 2;
             final String finalUserId = userId; // 保存 userId 供回调线程使用
+            final AtomicBoolean firstTokenLogged = new AtomicBoolean(false);
 
             // 调用流式 API
-            TokenStream tokenStream = streamingCalendarAssistant.chatStream(sessionId, currentDate, userMessage);
+            TokenStream tokenStream = streamingCalendarAssistant.chatStream(sessionId, sessionId, currentDate,
+                    userMessage);
+
+            long modelStartMs = System.currentTimeMillis();
+            log.info("[AI_TIMELINE][{}] model_start userId={} sessionId={} +{}ms", traceId, userId, sessionId,
+                    modelStartMs - requestStartMs);
 
             tokenStream
                     .onPartialResponse(partialResponse -> {
@@ -272,6 +292,13 @@ public class AiChatService {
                         try {
                             String token = partialResponse;
                             fullResponse.append(token);
+                            tokensUsed.addAndGet(token.length());
+
+                            if (firstTokenLogged.compareAndSet(false, true)) {
+                                long firstTokenMs = System.currentTimeMillis();
+                                log.info("[AI_TIMELINE][{}] first_token userId={} sessionId={} +{}ms", traceId,
+                                        finalUserId, finalSessionId, firstTokenMs - requestStartMs);
+                            }
 
                             // 发送 SSE 事件
                             String sseData = String.format("{\"content\": \"%s\", \"done\": false}",
@@ -300,6 +327,11 @@ public class AiChatService {
                             emitter.send(SseEmitter.event().data(doneData));
                             emitter.complete();
 
+                            long completeMs = System.currentTimeMillis();
+                            log.info("[AI_TIMELINE][{}] stream_complete userId={} sessionId={} +{}ms len={}", traceId,
+                                    finalUserId, finalSessionId, completeMs - requestStartMs,
+                                    fullResponse.length());
+
                             log.info("会话 {} 流式对话完成，完整回复长度: {}", finalSessionId, fullResponse.length());
                         } catch (IOException e) {
                             log.error("发送完成事件失败: {}", e.getMessage());
@@ -327,6 +359,125 @@ public class AiChatService {
 
             return sessionId;
         } catch (Exception e) {
+            UserContextHolder.clear();
+            throw e;
+        }
+    }
+
+    /**
+     * 无状态流式对话（不创建会话、不存储消息）
+     * 专为悬浮窗 OCR 快速日程场景设计
+     *
+     * @param userId  用户ID
+     * @param prompt  用户消息（已包含"帮我添加日程："前缀）
+     * @param emitter SSE 发射器
+     */
+    public void streamWithoutSession(String userId, String prompt, SseEmitter emitter) {
+        final long requestStartMs = System.currentTimeMillis();
+        final String traceId = UUID.randomUUID().toString().substring(0, 8);
+        // 使用固定前缀的 sessionId，CalendarTools 通过此前缀识别快速日程场景
+        final String quickSessionId = "quick-schedule-" + userId;
+
+        log.info("[AI_TIMELINE][{}] quick_schedule_received userId={} ts={}", traceId, userId, requestStartMs);
+
+        // 🔑 关键：清理该用户的快速日程内存缓存，确保每次都是独立的单轮对话
+        chatMemoryStore.clearCache(quickSessionId);
+        log.debug("[快速日程] 已清理会话 {} 的内存缓存", quickSessionId);
+
+        // 设置用户上下文
+        UserContextHolder.setUserId(userId);
+        UserContextHolder.bindSession(quickSessionId, userId);
+        UserContextHolder.setSessionId(quickSessionId);
+
+        try {
+            // 生成当前日期字符串
+            String currentDate = getCurrentDateString();
+
+            // 用于收集完整的 AI 回复
+            StringBuilder fullResponse = new StringBuilder();
+            AtomicInteger tokensUsed = new AtomicInteger(0);
+            final AtomicBoolean firstTokenLogged = new AtomicBoolean(false);
+
+            log.info("[AI_TIMELINE][{}] quick_schedule_model_start userId={} +{}ms", traceId, userId,
+                    System.currentTimeMillis() - requestStartMs);
+
+            // 调用流式 API（不使用历史消息，每次都是独立的单轮对话）
+            TokenStream tokenStream = streamingCalendarAssistant.chatStream(
+                    quickSessionId, quickSessionId, currentDate, prompt);
+
+            tokenStream
+                    .onPartialResponse(partialResponse -> {
+                        // 在回调线程中重新设置用户上下文
+                        UserContextHolder.setUserId(userId);
+                        UserContextHolder.setSessionId(quickSessionId);
+                        try {
+                            String token = partialResponse;
+                            fullResponse.append(token);
+                            tokensUsed.addAndGet(token.length());
+
+                            if (firstTokenLogged.compareAndSet(false, true)) {
+                                long firstTokenMs = System.currentTimeMillis();
+                                log.info("[AI_TIMELINE][{}] quick_schedule_first_token userId={} +{}ms", traceId,
+                                        userId, firstTokenMs - requestStartMs);
+                            }
+
+                            // 发送 SSE 事件
+                            String sseData = String.format("{\"content\": \"%s\", \"done\": false}",
+                                    escapeJson(token));
+                            log.debug("SSE 发送: {}", sseData);
+                            emitter.send(SseEmitter.event().data(sseData));
+                        } catch (IOException e) {
+                            log.error("发送 SSE 事件失败: {}", e.getMessage());
+                        }
+                    })
+                    .onCompleteResponse(completeResponse -> {
+                        // 在回调线程中重新设置用户上下文
+                        UserContextHolder.setUserId(userId);
+                        UserContextHolder.setSessionId(quickSessionId);
+                        try {
+                            // 快速日程不存储消息，直接发送完成事件
+                            String doneData = String.format(
+                                    "{\"content\": \"\", \"done\": true, \"tokensUsed\": %d}",
+                                    tokensUsed.get());
+                            log.info("SSE 完成: {}", doneData);
+                            emitter.send(SseEmitter.event().data(doneData));
+                            emitter.complete();
+
+                            long completeMs = System.currentTimeMillis();
+                            log.info("[AI_TIMELINE][{}] quick_schedule_complete userId={} +{}ms len={}", traceId,
+                                    userId, completeMs - requestStartMs, fullResponse.length());
+                        } catch (IOException e) {
+                            log.error("发送完成事件失败: {}", e.getMessage());
+                            emitter.completeWithError(e);
+                        } finally {
+                            // 🔑 关键：调用完成后清理内存缓存，防止累积
+                            chatMemoryStore.clearCache(quickSessionId);
+                            UserContextHolder.unbindSession(quickSessionId);
+                            UserContextHolder.clear();
+                        }
+                    })
+                    .onError(error -> {
+                        log.error("快速日程 AI 调用失败: {}", error.getMessage(), error);
+                        try {
+                            String errorData = String.format(
+                                    "{\"error\": \"%s\", \"done\": true}",
+                                    escapeJson(error.getMessage()));
+                            emitter.send(SseEmitter.event().data(errorData));
+                        } catch (IOException e) {
+                            log.error("发送错误事件失败: {}", e.getMessage());
+                        }
+                        emitter.completeWithError(error);
+                        // 🔑 关键：出错时也清理内存缓存
+                        chatMemoryStore.clearCache(quickSessionId);
+                        UserContextHolder.unbindSession(quickSessionId);
+                        UserContextHolder.clear();
+                    })
+                    .start();
+
+        } catch (Exception e) {
+            // 🔑 关键：异常时也清理内存缓存
+            chatMemoryStore.clearCache(quickSessionId);
+            UserContextHolder.unbindSession(quickSessionId);
             UserContextHolder.clear();
             throw e;
         }

@@ -2,7 +2,8 @@ package com.example.speedcalendarserver.service;
 
 import com.example.speedcalendarserver.dto.CreateScheduleRequest;
 import com.example.speedcalendarserver.dto.ScheduleDTO;
-import com.example.speedcalendarserver.util.UserContextHolder;
+import com.example.speedcalendarserver.entity.ChatSession;
+import com.example.speedcalendarserver.repository.ChatSessionRepository;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.List;
 public class CalendarTools {
 
     private final ScheduleService scheduleService;
+    private final ChatSessionRepository chatSessionRepository;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -58,6 +60,7 @@ public class CalendarTools {
      */
     @Tool(name = "createSchedule", value = "创建一个新的日程安排。当用户说'帮我添加日程'、'创建日程'、'新建日程'或表达想要添加日程的意图时调用此工具。")
     public String createSchedule(
+            @P("会话ID，必须传入当前会话ID") String sessionId,
             @P("日程标题，必填") String title,
             @P("日程日期，必填，格式yyyy-MM-dd") String date,
             @P("开始时间，可选，格式HH:mm如14:00，没有则传空字符串") String startTime,
@@ -69,10 +72,10 @@ public class CalendarTools {
             @P("重复类型，可选，值为：none(不重复)/daily(每天)/weekly(每周)/monthly(每月)/yearly(每年)，默认none") String repeatType,
             @P("日程颜色，可选，十六进制如#FF5722，没有则传空字符串") String color) {
 
-        String userId = UserContextHolder.resolveUserId();
+        String userId = resolveUserIdFromSession(sessionId);
         if (userId == null) {
-            log.error("【CalendarTools】createSchedule 失败：用户上下文为空");
-            return "抱歉，无法获取用户信息，请重新登录后再试。";
+            log.error("【CalendarTools】createSchedule 失败：无法根据 sessionId 获取用户");
+            return "抱歉，无法获取会话用户信息，请重新登录或重试。";
         }
 
         log.info(
@@ -163,12 +166,13 @@ public class CalendarTools {
      */
     @Tool(name = "querySchedulesByDate", value = "查询指定月份的日程列表。当用户说'查看日程'、'我有什么安排'、'这个月的日程'或表达想要查看日程的意图时调用此工具。")
     public String querySchedulesByDate(
+            @P("会话ID，必须传入当前会话ID") String sessionId,
             @P("年份，例如 2025") int year,
             @P("月份，1-12，例如 11 表示十一月") int month) {
-        String userId = UserContextHolder.resolveUserId();
+        String userId = resolveUserIdFromSession(sessionId);
         if (userId == null) {
-            log.error("【CalendarTools】querySchedulesByDate 失败：用户上下文为空");
-            return "抱歉，无法获取用户信息，请重新登录后再试。";
+            log.error("【CalendarTools】querySchedulesByDate 失败：无法根据 sessionId 获取用户");
+            return "抱歉，无法获取会话用户信息，请重新登录或重试。";
         }
 
         log.info("【CalendarTools】querySchedulesByDate 被调用 - userId: {}, year: {}, month: {}", userId, year, month);
@@ -226,11 +230,12 @@ public class CalendarTools {
      */
     @Tool(name = "deleteSchedule", value = "删除日程。用户说删除/取消/删掉某个日程时调用。")
     public String deleteSchedule(
+            @P("会话ID，必须传入当前会话ID") String sessionId,
             @P("要删除的日程标题关键词，如健身、开会") String titleKeyword) {
-        String userId = UserContextHolder.resolveUserId();
+        String userId = resolveUserIdFromSession(sessionId);
         if (userId == null) {
-            log.error("【CalendarTools】deleteSchedule 失败：用户上下文为空");
-            return "抱歉，无法获取用户信息，请重新登录后再试。";
+            log.error("【CalendarTools】deleteSchedule 失败：无法根据 sessionId 获取用户");
+            return "抱歉，无法获取会话用户信息，请重新登录或重试。";
         }
 
         log.info("【CalendarTools】deleteSchedule - userId: {}, keyword: {}", userId, titleKeyword);
@@ -305,12 +310,13 @@ public class CalendarTools {
      */
     @Tool(name = "deleteScheduleByIndex", value = "当用户说'删除第X个'时调用此工具，用于在多个匹配日程中按序号删除。")
     public String deleteScheduleByIndex(
+            @P("会话ID，必须传入当前会话ID") String sessionId,
             @P("日程标题关键词，与之前查询时相同") String titleKeyword,
             @P("要删除的日程序号，从1开始") int index) {
-        String userId = UserContextHolder.resolveUserId();
+        String userId = resolveUserIdFromSession(sessionId);
         if (userId == null) {
-            log.error("【CalendarTools】deleteScheduleByIndex 失败：用户上下文为空");
-            return "抱歉，无法获取用户信息，请重新登录后再试。";
+            log.error("【CalendarTools】deleteScheduleByIndex 失败：无法根据 sessionId 获取用户");
+            return "抱歉，无法获取会话用户信息，请重新登录或重试。";
         }
 
         log.info("【CalendarTools】deleteScheduleByIndex 被调用 - userId: {}, titleKeyword: {}, index: {}",
@@ -347,6 +353,35 @@ public class CalendarTools {
         } catch (Exception e) {
             log.error("【CalendarTools】按序号删除日程失败", e);
             return "抱歉，删除日程时出现错误：" + e.getMessage();
+        }
+    }
+
+    /**
+     * 根据会话ID解析用户ID
+     * 支持两种场景：
+     * 1. 普通会话：从数据库查询 ChatSession 获取 userId
+     * 2. 快速日程：sessionId 格式为 "quick-schedule-{userId}"，直接提取 userId
+     */
+    private String resolveUserIdFromSession(String sessionId) {
+        try {
+            if (sessionId == null || sessionId.isBlank()) {
+                return null;
+            }
+
+            // 快速日程场景：sessionId 格式为 "quick-schedule-{userId}"
+            if (sessionId.startsWith("quick-schedule-")) {
+                String userId = sessionId.substring("quick-schedule-".length());
+                log.debug("【CalendarTools】快速日程模式，从 sessionId 提取 userId: {}", userId);
+                return userId;
+            }
+
+            // 普通会话场景：从数据库查询
+            return chatSessionRepository.findBySessionId(sessionId)
+                    .map(ChatSession::getUserId)
+                    .orElse(null);
+        } catch (Exception e) {
+            log.error("根据 sessionId 获取用户失败: {}", e.getMessage(), e);
+            return null;
         }
     }
 }

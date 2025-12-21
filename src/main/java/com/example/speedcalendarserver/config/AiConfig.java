@@ -10,7 +10,6 @@ import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,11 +26,13 @@ import java.time.Duration;
  */
 @Slf4j
 @Configuration
-@RequiredArgsConstructor
 public class AiConfig {
 
-    private final CalendarTools calendarTools;
     private final DatabaseChatMemoryStore chatMemoryStore;
+
+    public AiConfig(DatabaseChatMemoryStore chatMemoryStore) {
+        this.chatMemoryStore = chatMemoryStore;
+    }
 
     @Value("${langchain4j.open-ai.chat-model.api-key:}")
     private String siliconApiKey;
@@ -64,12 +65,14 @@ public class AiConfig {
      * 创建日历智能助手 Bean
      * 使用 AiServices 构建，绑定 ChatLanguageModel 和 CalendarTools
      *
-     * @param chatModel LangChain4j 自动配置的聊天模型
+     * @param chatModel     LangChain4j 自动配置的聊天模型
+     * @param calendarTools 日历工具类（通过方法参数注入，避免循环依赖）
      * @return CalendarAssistant 实例
      */
     @Bean
-    public CalendarAssistant calendarAssistant(ChatModel chatModel) {
+    public CalendarAssistant calendarAssistant(ChatModel chatModel, CalendarTools calendarTools) {
         log.info("正在构建 CalendarAssistant，绑定工具和会话记忆");
+        log.info("CalendarTools 类型: {}", calendarTools.getClass().getName());
 
         CalendarAssistant assistant = AiServices.builder(CalendarAssistant.class)
                 .chatModel(chatModel)
@@ -91,11 +94,14 @@ public class AiConfig {
      * 支持 SSE 流式响应
      *
      * @param streamingChatModel LangChain4j 自动配置的流式聊天模型
+     * @param calendarTools      日历工具类（通过方法参数注入，避免循环依赖）
      * @return StreamingCalendarAssistant 实例
      */
     @Bean
-    public StreamingCalendarAssistant streamingCalendarAssistant(StreamingChatModel streamingChatModel) {
+    public StreamingCalendarAssistant streamingCalendarAssistant(StreamingChatModel streamingChatModel,
+            CalendarTools calendarTools) {
         log.info("正在构建 StreamingCalendarAssistant，绑定工具和会话记忆");
+        log.info("CalendarTools 类型: {}", calendarTools.getClass().getName());
 
         StreamingCalendarAssistant assistant = AiServices.builder(StreamingCalendarAssistant.class)
                 .streamingChatModel(streamingChatModel)

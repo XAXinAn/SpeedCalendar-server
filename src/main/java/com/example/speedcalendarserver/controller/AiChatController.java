@@ -228,6 +228,75 @@ public class AiChatController {
     }
 
     /**
+     * 快速日程识别（无状态，不创建会话）
+     *
+     * POST /api/ai/quick-schedule
+     * Headers: Authorization: Bearer {token}, Accept: text/event-stream
+     * Body: { "text": "OCR识别的文本内容" }
+     * 响应: SSE 流式事件
+     *
+     * <p>
+     * 专为悬浮窗 OCR 截屏场景设计：
+     * - 不创建会话
+     * - 不存储消息历史
+     * - 省去创建会话的网络开销
+     *
+     * @param request     快速日程请求
+     * @param httpRequest HTTP请求
+     * @return SSE 流式响应
+     */
+    @PostMapping(value = "/quick-schedule", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter quickSchedule(
+            @Valid @RequestBody QuickScheduleRequest request,
+            HttpServletRequest httpRequest) {
+
+        // 创建 SSE 发射器，设置超时时间为 5 分钟
+        SseEmitter emitter = new SseEmitter(5 * 60 * 1000L);
+
+        String userId = getUserIdFromRequest(httpRequest);
+        if (userId == null) {
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"未授权，请先登录\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+            }
+            return emitter;
+        }
+
+        String text = request.getText();
+        if (text == null || text.isBlank()) {
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"text 不能为空\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+            }
+            return emitter;
+        }
+
+        // 构造提示词
+        String prompt = "帮我添加日程：" + text;
+
+        log.info("【快速日程】userId: {}, text: {}", userId, truncateMessage(text, 100));
+
+        try {
+            // 调用无状态流式服务
+            aiChatService.streamWithoutSession(userId, prompt, emitter);
+        } catch (Exception e) {
+            log.error("【快速日程失败】{}", e.getMessage(), e);
+            try {
+                emitter.send(SseEmitter.event().data("{\"error\": \"AI服务暂时不可用，请稍后重试\", \"done\": true}"));
+                emitter.complete();
+            } catch (IOException ex) {
+                emitter.completeWithError(ex);
+            }
+        }
+
+        return emitter;
+    }
+
+    /**
      * 发送消息（非流式，兼容旧接口）
      *
      * POST /api/ai/chat/message

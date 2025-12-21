@@ -25,6 +25,7 @@ public interface StreamingCalendarAssistant {
      */
     @SystemMessage(CalendarAssistant.SYSTEM_PROMPT)
     TokenStream chatStream(@MemoryId String sessionId,
+            @V("sessionId") String sessionIdVar,
             @V("currentDate") String currentDate,
             @UserMessage String userMessage);
 }
