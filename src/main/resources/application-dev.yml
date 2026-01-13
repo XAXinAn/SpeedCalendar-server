@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: Xu821120
+    password: 123456
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
@@ -44,7 +44,9 @@ file:
     type: local
     local:
       upload-dir: D:/speedcalendar/uploads/avatars
-      base-url: http://localhost:8080/api/files
+      # 修改为动态获取或使用相对路径，或者在前端配置时替换
+      # 这里为了兼容真机调试，建议暂时不硬编码 localhost
+      base-url: /api/files
 
 # 日志配置 - 开发环境（详细日志）
 logging:

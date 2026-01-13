@@ -6,7 +6,7 @@
 --       新增日程附件表 (schedule_attachments)
 -- =============================================
 
-drop database speed_calendar;
+drop database if exists speed_calendar;
 
 -- 创建数据库
 CREATE DATABASE IF NOT EXISTS speed_calendar

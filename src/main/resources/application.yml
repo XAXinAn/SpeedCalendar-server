@@ -64,6 +64,7 @@ langchain4j:
 # 服务器配置
 server:
   port: 8080
+  address: 0.0.0.0 # 绑定到所有网络接口，允许外部访问
   servlet:
     context-path: /api
   tomcat:
