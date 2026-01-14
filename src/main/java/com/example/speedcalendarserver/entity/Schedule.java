@@ -81,10 +81,28 @@ public class Schedule {
     private Integer isAllDay = 0;
 
     /**
+     * 是否重要：0-否，1-是
+     */
+    @Column(name = "is_important", nullable = false)
+    private Integer isImportant = 0;
+
+    /**
      * 日程颜色 (十六进制颜色值)
      */
     @Column(name = "color", length = 20)
     private String color = "#4AC4CF";
+
+    /**
+     * 日程分类：工作, 学习, 个人, 生活, 健康, 运动, 社交, 家庭, 差旅, 其他
+     */
+    @Column(name = "category", length = 50)
+    private String category = "其他";
+
+    /**
+     * 是否由AI生成：0-否，1-是
+     */
+    @Column(name = "is_ai_generated", nullable = false)
+    private Integer isAiGenerated = 0;
 
     /**
      * 日程备注/笔记

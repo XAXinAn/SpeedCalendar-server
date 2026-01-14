@@ -4,6 +4,8 @@
 -- v1.1: 修正了建表语句的排序规则(Collation)不一致问题
 -- v1.2: 新增日程表字段 (color, notes, reminder_minutes, repeat_type, repeat_end_date)
 --       新增日程附件表 (schedule_attachments)
+-- v1.3: 新增日程表字段 (category, is_ai_generated)
+-- v1.4: 新增日程表字段 (is_important)
 -- =============================================
 
 drop database if exists speed_calendar;
@@ -138,8 +140,10 @@ CREATE TABLE `user_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
--- 表6: schedules (日程表) - v1.2 更新
+-- 表6: schedules (日程表) - v1.4 更新
 -- 新增字段: color, notes, reminder_minutes, repeat_type, repeat_end_date
+-- 新增字段: category, is_ai_generated
+-- 新增字段: is_important
 -- =============================================
 CREATE TABLE schedules (
     schedule_id VARCHAR(64) NOT NULL COMMENT '日程唯一ID (UUID)',
@@ -151,12 +155,17 @@ CREATE TABLE schedules (
     end_time TIME DEFAULT NULL COMMENT '结束时间 (HH:mm)',
     location VARCHAR(200) DEFAULT NULL COMMENT '日程地点',
     is_all_day TINYINT NOT NULL DEFAULT 0 COMMENT '是否全天：0-否，1-是',
+    -- 新增字段 v1.4 (前端需求)
+    is_important TINYINT NOT NULL DEFAULT 0 COMMENT '是否重要：0-否，1-是',
     -- 新增字段 v1.2 (前端需求)
     color VARCHAR(20) DEFAULT '#4AC4CF' COMMENT '日程颜色 (十六进制颜色值)',
     notes TEXT DEFAULT NULL COMMENT '日程备注/笔记',
     reminder_minutes INT DEFAULT NULL COMMENT '提醒时间（分钟）：提前多少分钟提醒，NULL表示不提醒',
     repeat_type ENUM('none', 'daily', 'weekly', 'monthly', 'yearly') DEFAULT 'none' COMMENT '重复类型',
     repeat_end_date DATE DEFAULT NULL COMMENT '重复结束日期',
+    -- 新增字段 v1.3 (前端需求)
+    category VARCHAR(50) DEFAULT '其他' COMMENT '日程分类：工作, 学习, 个人, 生活, 健康, 运动, 社交, 家庭, 差旅, 其他',
+    is_ai_generated TINYINT NOT NULL DEFAULT 0 COMMENT '是否由AI生成：0-否，1-是',
     -- 原有字段
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

@@ -68,9 +68,24 @@ public class ScheduleDTO {
     private Boolean isAllDay;
 
     /**
+     * 是否重要
+     */
+    private Boolean isImportant;
+
+    /**
      * 日程颜色 (十六进制颜色值)
      */
     private String color;
+
+    /**
+     * 日程分类
+     */
+    private String category;
+
+    /**
+     * 是否由AI生成
+     */
+    private Boolean isAiGenerated;
 
     /**
      * 日程备注/笔记
@@ -111,7 +126,10 @@ public class ScheduleDTO {
                 .endTime(schedule.getEndTime() != null ? schedule.getEndTime().toString() : null)
                 .location(schedule.getLocation())
                 .isAllDay(schedule.getIsAllDay() == 1)
+                .isImportant(schedule.getIsImportant() == 1)
                 .color(schedule.getColor())
+                .category(schedule.getCategory())
+                .isAiGenerated(schedule.getIsAiGenerated() == 1)
                 .notes(schedule.getNotes())
                 .reminderMinutes(schedule.getReminderMinutes())
                 .repeatType(schedule.getRepeatType())

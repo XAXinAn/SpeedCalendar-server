@@ -64,14 +64,21 @@ public class DatabaseChatMemoryStore implements ChatMemoryStore {
      * 从数据库加载历史消息
      */
     private List<dev.langchain4j.data.message.ChatMessage> loadFromDatabase(String sessionId) {
+        // 增加判空逻辑，避免 sessionId 为 null 时报错
+        if (sessionId == null) {
+            return new ArrayList<>();
+        }
+        
         List<ChatMessage> dbMessages = chatMessageRepository.findBySessionIdOrderBySequenceNumAsc(sessionId);
         List<dev.langchain4j.data.message.ChatMessage> messages = new ArrayList<>();
 
-        for (ChatMessage msg : dbMessages) {
-            if (msg.getRole() == ChatMessage.MessageRole.user) {
-                messages.add(UserMessage.from(msg.getContent()));
-            } else if (msg.getRole() == ChatMessage.MessageRole.assistant) {
-                messages.add(AiMessage.from(msg.getContent()));
+        if (dbMessages != null) {
+            for (ChatMessage msg : dbMessages) {
+                if (msg.getRole() == ChatMessage.MessageRole.user) {
+                    messages.add(UserMessage.from(msg.getContent()));
+                } else if (msg.getRole() == ChatMessage.MessageRole.assistant) {
+                    messages.add(AiMessage.from(msg.getContent()));
+                }
             }
         }
 
@@ -109,7 +116,9 @@ public class DatabaseChatMemoryStore implements ChatMemoryStore {
      * 清除指定会话的缓存（供外部调用，比如会话删除时）
      */
     public void clearCache(String sessionId) {
-        memoryCache.remove(sessionId);
+        if (sessionId != null) {
+            memoryCache.remove(sessionId);
+        }
     }
 
     /**

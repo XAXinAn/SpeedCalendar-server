@@ -24,10 +24,19 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final JwtUtil jwtUtil;
 
+    /**
+     * 获取日程列表
+     * 支持按日期查询（单日）或按年月查询（整月，兼容旧接口）
+     *
+     * @param date  指定日期 (YYYY-MM-DD)，优先级高于 year/month
+     * @param year  年份
+     * @param month 月份
+     */
     @GetMapping
     public ApiResponse<List<ScheduleDTO>> getSchedules(
-            @RequestParam Integer year,
-            @RequestParam Integer month,
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month,
             HttpServletRequest httpRequest
     ) {
         try {
@@ -35,8 +44,21 @@ public class ScheduleController {
             if (userId == null) {
                 return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
             }
-            log.info("【获取日程列表】userId: {}, year: {}, month: {}", userId, year, month);
-            List<ScheduleDTO> schedules = scheduleService.getSchedulesByMonth(userId, year, month);
+
+            List<ScheduleDTO> schedules;
+
+            if (date != null && !date.isBlank()) {
+                // 按指定日期查询
+                log.info("【获取日程列表】userId: {}, date: {}", userId, date);
+                schedules = scheduleService.getSchedulesByDate(userId, date);
+            } else if (year != null && month != null) {
+                // 按年月查询（兼容旧逻辑）
+                log.info("【获取日程列表】userId: {}, year: {}, month: {}", userId, year, month);
+                schedules = scheduleService.getSchedulesByMonth(userId, year, month);
+            } else {
+                return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), "请提供 date 参数或 year/month 参数");
+            }
+
             return ApiResponse.success("获取成功", schedules);
         } catch (Exception e) {
             log.error("【获取日程列表失败】{}", e.getMessage(), e);

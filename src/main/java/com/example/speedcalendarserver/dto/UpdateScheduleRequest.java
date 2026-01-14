@@ -1,7 +1,6 @@
 package com.example.speedcalendarserver.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -21,8 +20,8 @@ public class UpdateScheduleRequest {
 
     /**
      * 日程日期 (YYYY-MM-DD)
+     * 可选，如果为空则尝试从 startTime 提取
      */
-    @NotBlank(message = "日程日期不能为空")
     private String scheduleDate;
 
     /**
@@ -42,9 +41,15 @@ public class UpdateScheduleRequest {
 
     /**
      * 是否全天
+     * 可选，默认为 false
      */
-    @NotNull(message = "是否全天不能为空")
     private Boolean isAllDay;
+
+    /**
+     * 是否重要
+     * 可选，默认为 false
+     */
+    private Boolean isImportant;
 
     /**
      * 关联的群组ID，个人日程则为null
@@ -55,6 +60,16 @@ public class UpdateScheduleRequest {
      * 日程颜色 (十六进制颜色值，如 #F44336)
      */
     private String color;
+
+    /**
+     * 日程分类
+     */
+    private String category;
+
+    /**
+     * 是否由AI生成
+     */
+    private Boolean isAiGenerated;
 
     /**
      * 日程备注/笔记

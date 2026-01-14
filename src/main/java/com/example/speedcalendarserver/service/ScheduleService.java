@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -31,13 +32,28 @@ public class ScheduleService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
+    /**
+     * 按月份查询日程
+     */
     public List<ScheduleDTO> getSchedulesByMonth(String userId, Integer year, Integer month) {
-        log.info("获取日程列表 - 用户ID: {}, 年: {}, 月: {}", userId, year, month);
-
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
+        return getSchedulesByDateRange(userId, startDate, endDate);
+    }
 
+    /**
+     * 按单日查询日程
+     */
+    public List<ScheduleDTO> getSchedulesByDate(String userId, String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr, DATE_FORMATTER);
+        return getSchedulesByDateRange(userId, date, date);
+    }
+
+    /**
+     * 按日期范围查询日程（内部复用）
+     */
+    private List<ScheduleDTO> getSchedulesByDateRange(String userId, LocalDate startDate, LocalDate endDate) {
         List<String> groupIds = userGroupRepository.findByUserId(userId).stream()
                 .map(UserGroup::getGroupId)
                 .collect(Collectors.toList());
@@ -56,8 +72,32 @@ public class ScheduleService {
 
         validateGroupAccess(userId, request.getGroupId());
 
-        LocalDate scheduleDate = LocalDate.parse(request.getScheduleDate(), DATE_FORMATTER);
-        LocalTime startTime = parseTime(request.getStartTime());
+        // 兼容处理：如果 scheduleDate 为空但 startTime 有值，尝试从 startTime 提取日期
+        String dateStr = request.getScheduleDate();
+        String startTimeStr = request.getStartTime();
+        
+        if (!StringUtils.hasText(dateStr) && StringUtils.hasText(startTimeStr) && startTimeStr.contains("T")) {
+            try {
+                LocalDateTime dt = LocalDateTime.parse(startTimeStr); // 解析 ISO 格式
+                dateStr = dt.toLocalDate().format(DATE_FORMATTER);
+                // 如果没有单独传 startTime，则使用 ISO 时间中的时间部分
+                if (startTimeStr.contains("T")) {
+                    startTimeStr = dt.toLocalTime().format(TIME_FORMATTER);
+                }
+            } catch (Exception e) {
+                log.warn("解析 startTime 中的日期失败: {}", startTimeStr);
+            }
+        }
+
+        // 默认值处理
+        if (dateStr == null) {
+            throw new IllegalArgumentException("日程日期不能为空");
+        }
+        
+        boolean isAllDay = request.getIsAllDay() != null ? request.getIsAllDay() : false;
+
+        LocalDate scheduleDate = LocalDate.parse(dateStr, DATE_FORMATTER);
+        LocalTime startTime = parseTime(startTimeStr);
         LocalTime endTime = parseTime(request.getEndTime());
         LocalDate repeatEndDate = parseDate(request.getRepeatEndDate());
 
@@ -66,12 +106,14 @@ public class ScheduleService {
                 .groupId(request.getGroupId())
                 .title(request.getTitle())
                 .scheduleDate(scheduleDate)
-                .startTime(request.getIsAllDay() ? null : startTime)
-                .endTime(request.getIsAllDay() ? null : endTime)
+                .startTime(isAllDay ? null : startTime)
+                .endTime(isAllDay ? null : endTime)
                 .location(request.getLocation())
-                .isAllDay(request.getIsAllDay() ? 1 : 0)
-                // 新增字段
+                .isAllDay(isAllDay ? 1 : 0)
+                .isImportant(request.getIsImportant() != null && request.getIsImportant() ? 1 : 0)
                 .color(request.getColor() != null ? request.getColor() : "#4AC4CF")
+                .category(request.getCategory() != null ? request.getCategory() : "其他")
+                .isAiGenerated(request.getIsAiGenerated() != null && request.getIsAiGenerated() ? 1 : 0)
                 .notes(request.getNotes())
                 .reminderMinutes(request.getReminderMinutes())
                 .repeatType(request.getRepeatType() != null ? request.getRepeatType() : "none")
@@ -94,27 +136,53 @@ public class ScheduleService {
         validateScheduleOwnership(userId, schedule);
         validateGroupAccess(userId, request.getGroupId());
 
-        LocalDate scheduleDate = LocalDate.parse(request.getScheduleDate(), DATE_FORMATTER);
-        LocalTime startTime = parseTime(request.getStartTime());
+        // 兼容处理：同 createSchedule
+        String dateStr = request.getScheduleDate();
+        String startTimeStr = request.getStartTime();
+        
+        if (!StringUtils.hasText(dateStr) && StringUtils.hasText(startTimeStr) && startTimeStr.contains("T")) {
+            try {
+                LocalDateTime dt = LocalDateTime.parse(startTimeStr);
+                dateStr = dt.toLocalDate().format(DATE_FORMATTER);
+                if (startTimeStr.contains("T")) {
+                    startTimeStr = dt.toLocalTime().format(TIME_FORMATTER);
+                }
+            } catch (Exception e) {
+                log.warn("解析 startTime 中的日期失败: {}", startTimeStr);
+            }
+        }
+        
+        if (dateStr == null) {
+             // 如果更新时没传日期，保持原日期？或者报错？这里假设必须传
+             // 为了稳健，如果没传，使用原日期
+             dateStr = schedule.getScheduleDate().format(DATE_FORMATTER);
+        }
+
+        boolean isAllDay = request.getIsAllDay() != null ? request.getIsAllDay() : (schedule.getIsAllDay() == 1);
+
+        LocalDate scheduleDate = LocalDate.parse(dateStr, DATE_FORMATTER);
+        LocalTime startTime = parseTime(startTimeStr);
         LocalTime endTime = parseTime(request.getEndTime());
         LocalDate repeatEndDate = parseDate(request.getRepeatEndDate());
 
         schedule.setTitle(request.getTitle());
         schedule.setScheduleDate(scheduleDate);
         schedule.setGroupId(request.getGroupId());
-        schedule.setStartTime(request.getIsAllDay() ? null : startTime);
-        schedule.setEndTime(request.getIsAllDay() ? null : endTime);
+        schedule.setStartTime(isAllDay ? null : startTime);
+        schedule.setEndTime(isAllDay ? null : endTime);
         schedule.setLocation(request.getLocation());
-        schedule.setIsAllDay(request.getIsAllDay() ? 1 : 0);
-        // 新增字段更新
-        if (request.getColor() != null) {
-            schedule.setColor(request.getColor());
+        schedule.setIsAllDay(isAllDay ? 1 : 0);
+        
+        if (request.getIsImportant() != null) {
+            schedule.setIsImportant(request.getIsImportant() ? 1 : 0);
         }
+        if (request.getColor() != null) schedule.setColor(request.getColor());
+        if (request.getCategory() != null) schedule.setCategory(request.getCategory());
+        if (request.getIsAiGenerated() != null) schedule.setIsAiGenerated(request.getIsAiGenerated() ? 1 : 0);
+        
         schedule.setNotes(request.getNotes());
         schedule.setReminderMinutes(request.getReminderMinutes());
-        if (request.getRepeatType() != null) {
-            schedule.setRepeatType(request.getRepeatType());
-        }
+        if (request.getRepeatType() != null) schedule.setRepeatType(request.getRepeatType());
         schedule.setRepeatEndDate(repeatEndDate);
 
         Schedule updatedSchedule = scheduleRepository.save(schedule);
@@ -138,7 +206,24 @@ public class ScheduleService {
 
     private LocalTime parseTime(String timeStr) {
         if (StringUtils.hasText(timeStr)) {
-            return LocalTime.parse(timeStr, TIME_FORMATTER);
+            // 如果包含 T (ISO格式)，只取时间部分
+            if (timeStr.contains("T")) {
+                try {
+                    return LocalDateTime.parse(timeStr).toLocalTime();
+                } catch (Exception e) {
+                    // 忽略，尝试直接解析
+                }
+            }
+            // 尝试解析 HH:mm:ss 或 HH:mm
+            try {
+                return LocalTime.parse(timeStr);
+            } catch (Exception e) {
+                 try {
+                    return LocalTime.parse(timeStr, TIME_FORMATTER);
+                 } catch (Exception ex) {
+                     return null;
+                 }
+            }
         }
         return null;
     }
