@@ -6,6 +6,7 @@
 --       新增日程附件表 (schedule_attachments)
 -- v1.3: 新增日程表字段 (category, is_ai_generated)
 -- v1.4: 新增日程表字段 (is_important)
+-- v1.5: 更新群组表结构 (description, created_at, joined_at)
 -- =============================================
 
 drop database if exists speed_calendar;
@@ -121,23 +122,30 @@ CREATE TABLE user_privacy_settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户隐私设置表';
 
 -- =============================================
--- 表5: group & user_group (群组相关表)
+-- 表5: group & user_group (群组相关表) - v1.5 更新
 -- =============================================
 CREATE TABLE `group` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `owner_id` varchar(255) DEFAULT NULL,
-  `invitation_code` varchar(255) NOT NULL,
+  `id` varchar(64) NOT NULL COMMENT '群组ID',
+  `name` varchar(255) NOT NULL COMMENT '群组名称',
+  `description` varchar(500) DEFAULT NULL COMMENT '群组简介',
+  `owner_id` varchar(64) NOT NULL COMMENT '群主ID',
+  `invitation_code` varchar(20) NOT NULL COMMENT '邀请码',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_invitation_code` (`invitation_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `uk_invitation_code` (`invitation_code`),
+  KEY `idx_owner_id` (`owner_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='群组表';
 
 CREATE TABLE `user_group` (
-  `user_id` varchar(255) NOT NULL,
-  `group_id` varchar(255) NOT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `user_id` varchar(64) NOT NULL COMMENT '用户ID',
+  `group_id` varchar(64) NOT NULL COMMENT '群组ID',
+  `role` varchar(20) DEFAULT 'member' COMMENT '角色：owner-群主, admin-管理员, member-成员',
+  `joined_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '加入时间',
+  PRIMARY KEY (`user_id`,`group_id`),
+  KEY `idx_group_id` (`group_id`),
+  CONSTRAINT `fk_user_group_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_group_group` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='群组用户关联表';
 
 -- =============================================
 -- 表6: schedules (日程表) - v1.4 更新
@@ -148,7 +156,7 @@ CREATE TABLE `user_group` (
 CREATE TABLE schedules (
     schedule_id VARCHAR(64) NOT NULL COMMENT '日程唯一ID (UUID)',
     user_id VARCHAR(64) NOT NULL COMMENT '创建者用户ID',
-    group_id VARCHAR(255) DEFAULT NULL COMMENT '关联的群组ID, NULL表示个人日程',
+    group_id VARCHAR(64) DEFAULT NULL COMMENT '关联的群组ID, NULL表示个人日程',
     title VARCHAR(200) NOT NULL COMMENT '日程标题',
     schedule_date DATE NOT NULL COMMENT '日程日期 (YYYY-MM-DD)',
     start_time TIME DEFAULT NULL COMMENT '开始时间 (HH:mm)',
@@ -267,11 +275,3 @@ CREATE TABLE user_read_messages (
     CONSTRAINT fk_user_read_messages_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_user_read_messages_message FOREIGN KEY (message_id) REFERENCES activity_messages(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户已读消息记录表';
-
--- =============================================
--- 插入测试数据: 活动消息
--- =============================================
-INSERT INTO activity_messages (id, title, content, image_url, tag, link_type, link_url, created_at, sort_order) VALUES
-('msg_001', '新的一天从 04:00 开始', '为了完整记录你的深夜学习，我们已将每日数据刷新时间延后至凌晨4点。\n\n升级到 V5.9.17 以上即可体验，不升级的话，则仍在 24 点结算。\n（鸿蒙设备需升级到 V5.8.35 以上）', NULL, '新功能', 'none', NULL, '2024-12-03 19:55:00', 10),
-('msg_002', '复习机制更新提醒', '为了提高复习效率，减少复习压力。新版本新增了「新学单词 - 次日仅复习错词」的复习方式。\n如需应用，可前往「学习设置」配置。', NULL, NULL, 'internal', '/settings', '2024-07-26 19:58:00', 5),
-('msg_003', '冲刺季打卡挑战开始报名啦！！', '年底最后一波冲刺，和好友一起坚持！\n轻轻松松赢酷币，戳我报名 >>>', 'https://example.com/banner.png', '打卡挑战', 'webview', 'https://example.com/activity', '2024-11-13 22:34:00', 8);

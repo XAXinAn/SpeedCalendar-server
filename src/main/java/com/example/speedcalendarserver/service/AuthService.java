@@ -5,6 +5,7 @@ import com.example.speedcalendarserver.dto.PasswordLoginRequest;
 import com.example.speedcalendarserver.dto.PhoneLoginRequest;
 import com.example.speedcalendarserver.dto.RegisterRequest;
 import com.example.speedcalendarserver.dto.SendCodeRequest;
+import com.example.speedcalendarserver.dto.UpdateProfileRequest;
 import com.example.speedcalendarserver.dto.UpdateUserInfoRequest;
 import com.example.speedcalendarserver.dto.UserInfo;
 import com.example.speedcalendarserver.entity.User;
@@ -23,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -475,15 +478,44 @@ public class AuthService {
     }
 
     /**
-     * 更新用户信息
-     *
-     * @param userId  用户ID
-     * @param request 更新请求
-     * @return 更新后的用户信息
+     * 更新用户信息 (旧方法)
      */
     @Transactional(rollbackFor = Exception.class)
     public UserInfo updateUserInfo(String userId, UpdateUserInfoRequest request) {
-        // 查找用户
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        if (request.getUsername() != null && !request.getUsername().trim().isEmpty()) {
+            user.setUsername(request.getUsername().trim());
+        }
+        if (request.getAvatar() != null && !request.getAvatar().trim().isEmpty()) {
+            user.setAvatar(request.getAvatar().trim());
+        }
+        if (request.getGender() != null) {
+            user.setGender(request.getGender());
+        }
+        if (request.getBirthday() != null && !request.getBirthday().trim().isEmpty()) {
+            try {
+                user.setBirthday(LocalDate.parse(request.getBirthday(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("生日格式错误，应为 yyyy-MM-dd");
+            }
+        }
+        if (request.getBio() != null) {
+            user.setBio(request.getBio().trim());
+        }
+
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+        log.info("【更新用户信息】userId: {}, username: {}", userId, user.getUsername());
+        return UserInfo.fromEntity(user);
+    }
+
+    /**
+     * 更新个人资料 (V2.0 新方法)
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProfile(String userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
@@ -492,18 +524,28 @@ public class AuthService {
             user.setUsername(request.getUsername().trim());
         }
 
+        // 更新性别 (中文转数字)
+        if (request.getGender() != null) {
+            int genderCode = 0; // 默认未知
+            switch (request.getGender()) {
+                case "男": genderCode = 1; break;
+                case "女": genderCode = 2; break;
+                case "保密": genderCode = 0; break;
+                default: break; // 保持默认
+            }
+            user.setGender(genderCode);
+        }
+
         // 更新头像
         if (request.getAvatar() != null && !request.getAvatar().trim().isEmpty()) {
             user.setAvatar(request.getAvatar().trim());
         }
 
-        // 保存更新
+        // 手机号和角色通常不允许在此接口修改，故忽略
+
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
-
-        log.info("【更新用户信息】userId: {}, username: {}", userId, user.getUsername());
-
-        return UserInfo.fromEntity(user);
+        log.info("【更新个人资料】userId: {}, username: {}, gender: {}", userId, user.getUsername(), user.getGender());
     }
 
     /**

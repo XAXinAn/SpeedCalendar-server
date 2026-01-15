@@ -8,14 +8,17 @@ import com.example.speedcalendarserver.dto.RefreshTokenRequest;
 import com.example.speedcalendarserver.dto.RefreshTokenResponse;
 import com.example.speedcalendarserver.dto.RegisterRequest;
 import com.example.speedcalendarserver.dto.SendCodeRequest;
+import com.example.speedcalendarserver.dto.UpdateProfileRequest;
 import com.example.speedcalendarserver.dto.UpdateUserInfoRequest;
 import com.example.speedcalendarserver.dto.UserInfo;
 import com.example.speedcalendarserver.service.AuthService;
 import com.example.speedcalendarserver.util.IpUtil;
+import com.example.speedcalendarserver.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtUtil jwtUtil;
 
     /**
      * 手机号密码注册（注册后自动登录）
@@ -205,15 +209,9 @@ public class AuthController {
     }
 
     /**
-     * 更新用户信息
+     * 更新用户信息 (旧接口，保留兼容)
      *
      * PUT /api/auth/user/{userId}
-     * 请求体: { "username": "新昵称", "avatar": "头像URL" }
-     * 响应: { "code": 200, "message": "更新成功", "data": { ... } }
-     *
-     * @param userId  用户ID
-     * @param request 更新请求
-     * @return 更新后的用户信息
      */
     @PutMapping("/user/{userId}")
     public ApiResponse<UserInfo> updateUserInfo(
@@ -221,13 +219,45 @@ public class AuthController {
             @Valid @RequestBody UpdateUserInfoRequest request) {
         try {
             log.info("【更新用户信息】userId: {}, request: {}", userId, request);
-
             UserInfo userInfo = authService.updateUserInfo(userId, request);
-
             return ApiResponse.success("更新成功", userInfo);
         } catch (Exception e) {
             log.error("【更新用户信息失败】{}", e.getMessage());
             return ApiResponse.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 更新个人资料 (V2.0 新接口)
+     *
+     * PUT /api/auth/profile
+     *
+     * @param request 更新请求
+     * @param httpRequest HTTP请求
+     * @return 成功响应
+     */
+    @PutMapping("/profile")
+    public ApiResponse<Void> updateProfile(
+            @RequestBody UpdateProfileRequest request,
+            HttpServletRequest httpRequest) {
+        try {
+            String userId = getUserIdFromRequest(httpRequest);
+            if (userId == null) {
+                return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
+            }
+
+            // 校验请求中的 userId 是否与 Token 一致
+            if (request.getUserId() != null && !request.getUserId().equals(userId)) {
+                return ApiResponse.error(HttpStatus.FORBIDDEN.value(), "无权修改其他用户的信息");
+            }
+
+            log.info("【更新个人资料】userId: {}, request: {}", userId, request);
+            authService.updateProfile(userId, request);
+
+            return ApiResponse.success("个人信息更新成功", null);
+        } catch (Exception e) {
+            log.error("【更新个人资料失败】{}", e.getMessage(), e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统繁忙，请稍后再试");
         }
     }
 
@@ -268,5 +298,16 @@ public class AuthController {
     @GetMapping("/health")
     public ApiResponse<String> health() {
         return ApiResponse.success("服务正常", "SpeedCalendar Auth Service is running");
+    }
+
+    private String getUserIdFromRequest(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            if (jwtUtil.validateToken(token)) {
+                return jwtUtil.getUserIdFromToken(token);
+            }
+        }
+        return null;
     }
 }
