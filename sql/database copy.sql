@@ -1,7 +1,7 @@
 -- =============================================
 -- SpeedCalendar 数据库完整初始化脚本
 -- 合并时间: 2025-12-17
--- v1.1: 修正了建表语句的排序规则(Collation)不一致问题
+-- v1.1: 修正了建表语句保持的排序规则(Collation)不一致问题
 -- v1.2: 新增日程表字段 (color, notes, reminder_minutes, repeat_type, repeat_end_date)
 --       新增日程附件表 (schedule_attachments)
 -- v1.3: 新增日程表字段 (category, is_ai_generated)
@@ -60,6 +60,12 @@ CREATE TABLE users (
     KEY idx_status (status),
     KEY idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
+
+INSERT INTO users (user_id, phone, email, password, username, avatar, gender, birthday, bio, status, login_type, last_login_time, last_login_ip, created_at, updated_at, is_deleted) VALUES
+('3791049e-973c-4872-9534-00f6b47f6974', '13958689939', NULL, '$2a$10$.N0CUCmM5UsQ.gTZe/xwyO84AMTz/HbCWrCp46ptpKxm1P9daIgnO', '用户9939', 'https://api.dicebear.com/7.x/initials/svg?seed=9939', NULL, NULL, NULL, 1, 'phone', '2026-01-15 21:18:06', '192.168.43.1', '2026-01-15 20:50:49', '2026-01-15 21:18:06', 0),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', '18006569106', NULL, '$2a$10$BT4R0Ojd9JjKALRz90MDeOmtllPSJE.TE9Z/qKH.dzisZ36UnzNpq', '用户9106', 'https://api.dicebear.com/7.x/initials/svg?seed=9106', NULL, NULL, NULL, 1, 'phone', '2026-01-15 21:22:19', '192.168.43.1', '2026-01-15 20:47:16', '2026-01-15 21:22:19', 0),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', '18258699359', NULL, '$2a$10$cmP6/.Mr2ZrXaF6WQ12Ll.z5drr/G8KPTlgeH0W1/qAuJWYwUm78a', '用户9359', 'https://api.dicebear.com/7.x/initials/svg?seed=9359', NULL, NULL, NULL, 1, 'phone', '2026-01-15 23:10:08', '192.168.43.1', '2026-01-15 20:57:38', '2026-01-15 23:10:08', 0),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', '13326027275', NULL, '$2a$10$kRv.Kh2jVQyu6TjssIzDEe2FDViFU5oOfFKmrsOBF2KdvCYiVWbRy', '用户7275', 'https://api.dicebear.com/7.x/initials/svg?seed=7275', NULL, NULL, NULL, 1, 'phone', '2026-01-15 21:00:25', '192.168.43.1', '2026-01-15 21:00:20', '2026-01-15 21:00:25', 0);
 
 -- =============================================
 -- 表2: verification_codes (验证码表)
@@ -136,6 +142,14 @@ CREATE TABLE `group` (
   KEY `idx_owner_id` (`owner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='群组表';
 
+INSERT INTO `group` (id, name, description, owner_id, invitation_code, created_at) VALUES
+('2e283c9a-d40e-4067-a487-d33f9164e9e9', '2群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'YZGDKF', '2026-01-15 20:48:04'),
+('43705e23-7790-4545-bd17-513e470ad9b5', '3群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'HURTXU', '2026-01-15 20:48:07'),
+('7104b3f7-118f-4532-be7d-4cca3624168b', '5群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'O2TKL2', '2026-01-15 20:48:15'),
+('8ee1787b-2246-4940-bbfa-bbf11bc14ae6', '4群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'IV6NOP', '2026-01-15 20:48:11'),
+('f1df54be-a39a-4de4-a885-01f388103d88', '1群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'PBMCC4', '2026-01-15 20:48:00'),
+('f79addf3-72d1-4369-a512-2adaca83436a', '6群', '', '41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'PMQNDO', '2026-01-15 20:48:19');
+
 CREATE TABLE `user_group` (
   `user_id` varchar(64) NOT NULL COMMENT '用户ID',
   `group_id` varchar(64) NOT NULL COMMENT '群组ID',
@@ -146,6 +160,32 @@ CREATE TABLE `user_group` (
   CONSTRAINT `fk_user_group_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_user_group_group` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='群组用户关联表';
+
+INSERT INTO `user_group` (user_id, group_id, role, joined_at) VALUES
+('3791049e-973c-4872-9534-00f6b47f6974', '2e283c9a-d40e-4067-a487-d33f9164e9e9', 'member', '2026-01-15 20:52:08'),
+('3791049e-973c-4872-9534-00f6b47f6974', '43705e23-7790-4545-bd17-513e470ad9b5', 'member', '2026-01-15 20:56:08'),
+('3791049e-973c-4872-9534-00f6b47f6974', '7104b3f7-118f-4532-be7d-4cca3624168b', 'member', '2026-01-15 20:56:18'),
+('3791049e-973c-4872-9534-00f6b47f6974', '8ee1787b-2246-4940-bbfa-bbf11bc14ae6', 'member', '2026-01-15 20:56:28'),
+('3791049e-973c-4872-9534-00f6b47f6974', 'f1df54be-a39a-4de4-a885-01f388103d88', 'member', '2026-01-15 20:56:37'),
+('3791049e-973c-4872-9534-00f6b47f6974', 'f79addf3-72d1-4369-a512-2adaca83436a', 'member', '2026-01-15 20:56:44'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', '2e283c9a-d40e-4067-a487-d33f9164e9e9', 'owner', '2026-01-15 20:48:04'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', '43705e23-7790-4545-bd17-513e470ad9b5', 'owner', '2026-01-15 20:48:07'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', '7104b3f7-118f-4532-be7d-4cca3624168b', 'owner', '2026-01-15 20:48:15'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', '8ee1787b-2246-4940-bbfa-bbf11bc14ae6', 'owner', '2026-01-15 20:48:11'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'f1df54be-a39a-4de4-a885-01f388103d88', 'owner', '2026-01-15 20:48:00'),
+('41f671a8-73bc-4ad1-b4cc-60afd5bdde86', 'f79addf3-72d1-4369-a512-2adaca83436a', 'owner', '2026-01-15 20:48:19'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', '2e283c9a-d40e-4067-a487-d33f9164e9e9', 'admin', '2026-01-15 20:52:08'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', '43705e23-7790-4545-bd17-513e470ad9b5', 'admin', '2026-01-15 20:56:08'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', '7104b3f7-118f-4532-be7d-4cca3624168b', 'admin', '2026-01-15 20:56:18'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', '8ee1787b-2246-4940-bbfa-bbf11bc14ae6', 'admin', '2026-01-15 20:56:28'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', 'f1df54be-a39a-4de4-a885-01f388103d88', 'admin', '2026-01-15 20:56:37'),
+('5ac36d14-46fa-4e24-81c3-6493b80ca204', 'f79addf3-72d1-4369-a512-2adaca83436a', 'admin', '2026-01-15 20:56:44'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', '2e283c9a-d40e-4067-a487-d33f9164e9e9', 'member', '2026-01-15 20:52:08'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', '43705e23-7790-4545-bd17-513e470ad9b5', 'member', '2026-01-15 20:56:08'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', '7104b3f7-118f-4532-be7d-4cca3624168b', 'member', '2026-01-15 20:56:18'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', '8ee1787b-2246-4940-bbfa-bbf11bc14ae6', 'member', '2026-01-15 20:56:28'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', 'f1df54be-a39a-4de4-a885-01f388103d88', 'member', '2026-01-15 20:56:37'),
+('dfa2e2e8-4f2b-4bda-9a59-908fbc34e375', 'f79addf3-72d1-4369-a512-2adaca83436a', 'member', '2026-01-15 20:56:44');
 
 -- =============================================
 -- 表6: schedules (日程表) - v1.4 更新

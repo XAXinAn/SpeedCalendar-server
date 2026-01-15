@@ -151,14 +151,12 @@ public class GroupService {
             throw new SecurityException("只有群主可以解散群组");
         }
 
-        // 级联删除由数据库外键约束处理，或者手动删除
-        // 这里依赖数据库外键级联删除 (ON DELETE CASCADE)
         groupRepository.delete(group);
         log.info("解散群组成功 - userId: {}, groupId: {}", userId, groupId);
     }
 
     /**
-     * 退出群组 (成员专用)
+     * 退出群组 (管理员及成员可用)
      */
     @Transactional(rollbackFor = Exception.class)
     public void quitGroup(String userId, String groupId) {
@@ -223,7 +221,7 @@ public class GroupService {
     }
 
     /**
-     * 设置/取消管理员 (群主专用)
+     * 设置/取消管理员 (仅群主专用)
      */
     @Transactional(rollbackFor = Exception.class)
     public void updateMemberRole(String currentUserId, String groupId, String targetUserId, String newRole) {
@@ -231,9 +229,9 @@ public class GroupService {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("群组不存在"));
 
-        // 2. 校验操作人权限：必须是群主
+        // 2. 校验操作人权限：必须是群主 (owner)
         if (!group.getOwnerId().equals(currentUserId)) {
-            throw new SecurityException("只有群主可以设置管理员");
+            throw new SecurityException("权限不足：只有群主可以修改成员角色");
         }
 
         // 3. 校验目标用户是否在群内
@@ -242,16 +240,63 @@ public class GroupService {
             throw new RuntimeException("目标用户不是该群组成员");
         }
 
-        // 4. 校验目标用户是否为群主（群主不能修改自己的角色，也不能被修改）
+        // 4. 禁止修改群主自己的角色
         if (targetUserId.equals(group.getOwnerId())) {
-            throw new RuntimeException("不能修改群主的角色");
+            throw new RuntimeException("不能修改群主本人的角色");
         }
 
-        // 5. 更新角色
+        // 5. 更新角色 (admin 或 member)
         targetUserGroup.setRole(newRole);
         userGroupRepository.save(targetUserGroup);
         
-        log.info("更新成员角色成功 - groupId: {}, targetUserId: {}, newRole: {}", groupId, targetUserId, newRole);
+        log.info("角色更新成功 - groupId: {}, targetUserId: {}, newRole: {}", groupId, targetUserId, newRole);
+    }
+
+    /**
+     * 批量移除群成员 (群主/管理员特权)
+     * 逻辑限制：
+     * 1. admin 只能移除 member
+     * 2. owner 可以移除 admin 和 member
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void removeMembers(String operatorId, String groupId, List<String> targetUserIds) {
+        // 1. 获取操作人在群内的角色
+        UserGroup operatorRelation = userGroupRepository.findByUserIdAndGroupId(operatorId, groupId);
+        if (operatorRelation == null) {
+            throw new SecurityException("您不是该群组成员");
+        }
+        
+        String operatorRole = operatorRelation.getRole();
+        if ("member".equals(operatorRole)) {
+            throw new SecurityException("普通成员无权移除他人");
+        }
+
+        // 2. 遍历执行移除
+        for (String targetUserId : targetUserIds) {
+            if (targetUserId.equals(operatorId)) {
+                continue; // 不能通过此接口移除自己（应使用退出接口）
+            }
+
+            UserGroup targetRelation = userGroupRepository.findByUserIdAndGroupId(targetUserId, groupId);
+            if (targetRelation == null) continue;
+
+            String targetRole = targetRelation.getRole();
+
+            // 权限互踢逻辑校验
+            if ("admin".equals(operatorRole)) {
+                // 管理员只能踢普通成员
+                if (!"member".equals(targetRole)) {
+                    log.warn("管理员 {} 尝试移除非法目标 {} (角色: {})", operatorId, targetUserId, targetRole);
+                    continue; // 跳过，或者抛异常
+                }
+            }
+            // owner 可以踢所有人 (除了自己，前面已拦截)
+
+            // 执行删除
+            userGroupRepository.delete(targetRelation);
+            log.info("成员已被移除 - groupId: {}, targetUserId: {}, operatorRole: {}", 
+                    groupId, targetUserId, operatorRole);
+        }
     }
 
     private int getRoleOrder(String role) {

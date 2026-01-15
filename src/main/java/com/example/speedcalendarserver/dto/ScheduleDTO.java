@@ -38,6 +38,11 @@ public class ScheduleDTO {
     private String groupId;
 
     /**
+     * 归属群组名称 (V1.2 新增)
+     */
+    private String groupName;
+
+    /**
      * 日程标题
      */
     private String title;
@@ -113,7 +118,7 @@ public class ScheduleDTO {
     private Long createdAt;
 
     /**
-     * 从Schedule实体转换
+     * 从Schedule实体转换 (基础转换)
      */
     public static ScheduleDTO fromEntity(Schedule schedule) {
         return ScheduleDTO.builder()
@@ -134,7 +139,8 @@ public class ScheduleDTO {
                 .reminderMinutes(schedule.getReminderMinutes())
                 .repeatType(schedule.getRepeatType())
                 .repeatEndDate(schedule.getRepeatEndDate() != null ? schedule.getRepeatEndDate().toString() : null)
-                .createdAt(schedule.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .createdAt(schedule.getCreatedAt() != null ? 
+                        schedule.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() : null)
                 .build();
     }
 }

@@ -1,11 +1,6 @@
 package com.example.speedcalendarserver.controller;
 
-import com.example.speedcalendarserver.dto.ApiResponse;
-import com.example.speedcalendarserver.dto.CreateGroupRequest;
-import com.example.speedcalendarserver.dto.GroupDTO;
-import com.example.speedcalendarserver.dto.GroupMemberDTO;
-import com.example.speedcalendarserver.dto.JoinGroupRequest;
-import com.example.speedcalendarserver.dto.UpdateGroupRoleRequest;
+import com.example.speedcalendarserver.dto.*;
 import com.example.speedcalendarserver.service.GroupService;
 import com.example.speedcalendarserver.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -137,7 +132,7 @@ public class GroupController {
     }
 
     /**
-     * 退出群组 (成员专用)
+     * 退出群组 (管理员及成员可用)
      */
     @PostMapping("/{groupId}/quit")
     public ApiResponse<Void> quitGroup(
@@ -180,9 +175,10 @@ public class GroupController {
     }
 
     /**
-     * 设置/取消管理员 (群主专用)
+     * 设置/解除管理员 (群主特权)
+     * URL: PUT /api/groups/{groupId}/members/{userId}/role
      */
-    @PostMapping("/{groupId}/members/{targetUserId}/role")
+    @PutMapping("/{groupId}/members/{targetUserId}/role")
     public ApiResponse<Void> updateMemberRole(
             @PathVariable String groupId,
             @PathVariable String targetUserId,
@@ -194,14 +190,43 @@ public class GroupController {
                 return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
             }
             
-            log.info("【设置管理员】operator: {}, target: {}, role: {}", currentUserId, targetUserId, request.getRole());
+            log.info("【角色变更】operator: {}, target: {}, role: {}", currentUserId, targetUserId, request.getRole());
             groupService.updateMemberRole(currentUserId, groupId, targetUserId, request.getRole());
             
             return ApiResponse.success("操作成功", null);
         } catch (SecurityException e) {
             return ApiResponse.error(HttpStatus.FORBIDDEN.value(), e.getMessage());
         } catch (Exception e) {
-            log.error("【设置管理员失败】{}", e.getMessage(), e);
+            log.error("【角色变更失败】{}", e.getMessage(), e);
+            return ApiResponse.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 批量移除群成员 (群主/管理员特权)
+     * URL: DELETE /api/groups/{groupId}/members
+     */
+    @DeleteMapping("/{groupId}/members")
+    public ApiResponse<Void> removeMembers(
+            @PathVariable String groupId,
+            @Valid @RequestBody RemoveMembersRequest request,
+            HttpServletRequest httpRequest) {
+        try {
+            String currentUserId = getUserIdFromRequest(httpRequest);
+            if (currentUserId == null) {
+                return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
+            }
+
+            log.info("【批量移除成员】operator: {}, groupId: {}, userIds: {}", 
+                    currentUserId, groupId, request.getUserIds());
+            
+            groupService.removeMembers(currentUserId, groupId, request.getUserIds());
+            
+            return ApiResponse.success("移除成功", null);
+        } catch (SecurityException e) {
+            return ApiResponse.error(HttpStatus.FORBIDDEN.value(), e.getMessage());
+        } catch (Exception e) {
+            log.error("【批量移除成员失败】{}", e.getMessage(), e);
             return ApiResponse.error(e.getMessage());
         }
     }
