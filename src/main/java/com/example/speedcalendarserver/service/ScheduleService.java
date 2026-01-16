@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
@@ -60,11 +61,55 @@ public class ScheduleService {
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
         
+        return getSchedulesByRange(userId, startDate, endDate);
+    }
+
+    /**
+     * 按时间范围获取日程列表 (个人 + 所属群组)
+     */
+    public List<ScheduleDTO> getSchedulesByRange(String userId, String startDateStr, String endDateStr) {
+        LocalDate startDate = LocalDate.parse(startDateStr);
+        LocalDate endDate = LocalDate.parse(endDateStr);
+        return getSchedulesByRange(userId, startDate, endDate);
+    }
+
+    /**
+     * 获取临近日程 (过去3h / 未来24h)
+     */
+    public List<ScheduleDTO> getNearbySchedules(String userId) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startTimeLimit = now.minusHours(3);
+        LocalDateTime endTimeLimit = now.plusHours(24);
+
+        // 获取日期跨度，可能跨2-3天
+        LocalDate startDate = startTimeLimit.toLocalDate();
+        LocalDate endDate = endTimeLimit.toLocalDate();
+
+        List<ScheduleDTO> allInRange = getSchedulesByRange(userId, startDate, endDate);
+
+        // 内存中根据精确时间过滤
+        return allInRange.stream()
+                .filter(dto -> {
+                    if (dto.getIsAllDay()) {
+                        // 全天日程，只要日期在范围内就包含
+                        return true;
+                    }
+                    if (dto.getStartDateTime() == null) return false;
+                    
+                    LocalDateTime scheduleStart = LocalDateTime.parse(
+                            dto.getStartDateTime().substring(0, 19)); // 简单截取处理
+                    return !scheduleStart.isBefore(startTimeLimit) && !scheduleStart.isAfter(endTimeLimit);
+                })
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 按时间范围获取日程列表 (内部实现)
+     */
+    private List<ScheduleDTO> getSchedulesByRange(String userId, LocalDate startDate, LocalDate endDate) {
         List<String> groupIds = getMemberGroupIds(userId);
-        
         List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(
                 userId, groupIds, startDate, endDate);
-        
         return enrichScheduleDTOs(schedules);
     }
 
@@ -160,7 +205,7 @@ public class ScheduleService {
     /**
      * 获取用户所属的所有群组ID
      */
-    private List<String> getMemberGroupIds(String userId) {
+    public List<String> getMemberGroupIds(String userId) {
         return userGroupRepository.findByUserIdOrderByJoinedAtDesc(userId)
                 .stream()
                 .map(UserGroup::getGroupId)

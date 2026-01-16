@@ -7,7 +7,11 @@ import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 日程信息DTO
@@ -61,6 +65,16 @@ public class ScheduleDTO {
      * 结束时间 (HH:mm)
      */
     private String endTime;
+
+    /**
+     * ISO8601 格式的开始日期时间 (V1.3 新增，带时区)
+     */
+    private String startDateTime;
+
+    /**
+     * ISO8601 格式的结束日期时间 (V1.3 新增，带时区)
+     */
+    private String endDateTime;
 
     /**
      * 日程地点
@@ -121,6 +135,27 @@ public class ScheduleDTO {
      * 从Schedule实体转换 (基础转换)
      */
     public static ScheduleDTO fromEntity(Schedule schedule) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        
+        String startIso = null;
+        String endIso = null;
+        
+        if (schedule.getScheduleDate() != null) {
+            if (schedule.getStartTime() != null) {
+                startIso = ZonedDateTime.of(schedule.getScheduleDate(), schedule.getStartTime(), zoneId)
+                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            } else {
+                // 全天日程默认为 00:00
+                startIso = ZonedDateTime.of(schedule.getScheduleDate(), java.time.LocalTime.MIN, zoneId)
+                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            }
+            
+            if (schedule.getEndTime() != null) {
+                endIso = ZonedDateTime.of(schedule.getScheduleDate(), schedule.getEndTime(), zoneId)
+                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            }
+        }
+
         return ScheduleDTO.builder()
                 .scheduleId(schedule.getScheduleId())
                 .userId(schedule.getUserId())
@@ -129,6 +164,8 @@ public class ScheduleDTO {
                 .scheduleDate(schedule.getScheduleDate().toString())
                 .startTime(schedule.getStartTime() != null ? schedule.getStartTime().toString() : null)
                 .endTime(schedule.getEndTime() != null ? schedule.getEndTime().toString() : null)
+                .startDateTime(startIso)
+                .endDateTime(endIso)
                 .location(schedule.getLocation())
                 .isAllDay(schedule.getIsAllDay() == 1)
                 .isImportant(schedule.getIsImportant() == 1)
@@ -140,7 +177,7 @@ public class ScheduleDTO {
                 .repeatType(schedule.getRepeatType())
                 .repeatEndDate(schedule.getRepeatEndDate() != null ? schedule.getRepeatEndDate().toString() : null)
                 .createdAt(schedule.getCreatedAt() != null ? 
-                        schedule.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() : null)
+                        schedule.getCreatedAt().atZone(zoneId).toInstant().toEpochMilli() : null)
                 .build();
     }
 }

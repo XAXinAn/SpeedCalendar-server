@@ -66,6 +66,53 @@ public class ScheduleController {
         }
     }
 
+    /**
+     * 时间范围查询接口 (A)
+     * GET /schedules/range?startDate=2023-10-01&endDate=2023-11-30
+     */
+    @GetMapping("/range")
+    public ApiResponse<List<ScheduleDTO>> getSchedulesInRange(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            HttpServletRequest httpRequest
+    ) {
+        try {
+            String userId = getUserIdFromRequest(httpRequest);
+            if (userId == null) {
+                return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
+            }
+
+            log.info("【范围获取日程】userId: {}, range: {} ~ {}", userId, startDate, endDate);
+            List<ScheduleDTO> schedules = scheduleService.getSchedulesByRange(userId, startDate, endDate);
+            return ApiResponse.success("获取成功", schedules);
+        } catch (Exception e) {
+            log.error("【范围获取日程失败】{}", e.getMessage(), e);
+            return ApiResponse.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取临近日程 (C)
+     * 逻辑：过去 3h ~ 未来 24h
+     * GET /schedules/nearby
+     */
+    @GetMapping("/nearby")
+    public ApiResponse<List<ScheduleDTO>> getNearbySchedules(HttpServletRequest httpRequest) {
+        try {
+            String userId = getUserIdFromRequest(httpRequest);
+            if (userId == null) {
+                return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
+            }
+
+            log.info("【获取临近日程】userId: {}", userId);
+            List<ScheduleDTO> schedules = scheduleService.getNearbySchedules(userId);
+            return ApiResponse.success("获取成功", schedules);
+        } catch (Exception e) {
+            log.error("【获取临近日程失败】{}", e.getMessage(), e);
+            return ApiResponse.error(e.getMessage());
+        }
+    }
+
     @PostMapping
     public ApiResponse<ScheduleDTO> createSchedule(
             @Valid @RequestBody CreateScheduleRequest request,
