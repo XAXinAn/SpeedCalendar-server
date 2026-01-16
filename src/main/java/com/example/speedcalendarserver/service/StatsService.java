@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.WeekFields;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,11 +23,10 @@ public class StatsService {
     private final ScheduleService scheduleService;
 
     /**
-     * 获取分类占比统计
-     * @param userId 用户ID
-     * @param monthStr 格式 YYYY-MM
+     * 获取分类占比统计 (饼状图数据)
+     * 返回示例: [{"category": "工作", "count": 12, "color": "#2196F3"}, ...]
      */
-    public Map<String, Long> getCategoryStats(String userId, String monthStr) {
+    public List<Map<String, Object>> getCategoryStats(String userId, String monthStr) {
         YearMonth yearMonth = YearMonth.parse(monthStr);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
@@ -35,47 +35,62 @@ public class StatsService {
         List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(
                 userId, groupIds, startDate, endDate);
 
-        return schedules.stream()
-                .collect(Collectors.groupingBy(
-                        s -> s.getCategory() == null ? "其他" : s.getCategory(),
-                        Collectors.counting()
-                ));
+        // 按分类分组统计
+        Map<String, List<Schedule>> groups = schedules.stream()
+                .collect(Collectors.groupingBy(s -> s.getCategory() == null ? "其他" : s.getCategory()));
+
+        return groups.entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    map.put("category", entry.getKey());
+                    map.put("count", (long) entry.getValue().size());
+                    // 取该分类下的第一个颜色作为代表色
+                    String color = entry.getValue().get(0).getColor();
+                    map.put("color", color != null ? color : "#9E9E9E");
+                    return map;
+                })
+                .sorted((a, b) -> Long.compare((long) b.get("count"), (long) a.get("count")))
+                .collect(Collectors.toList());
     }
 
     /**
-     * 获取周活跃度统计
-     * @param userId 用户ID
-     * @param startDateStr 开始日期 YYYY-MM-DD
-     * @param endDateStr 结束日期 YYYY-MM-DD
+     * 获取周度活跃趋势 (趋势图数据)
+     * 范围: currentDate 所在周的前 4 周 + 当前周 + 后 3 周 = 共 8 周
      */
-    public List<Map<String, Object>> getWeeklyActivityStats(String userId, String startDateStr, String endDateStr) {
-        LocalDate startDate = LocalDate.parse(startDateStr);
-        LocalDate endDate = LocalDate.parse(endDateStr);
+    public List<Map<String, Object>> getWeeklyTrends(String userId, String currentDateStr) {
+        LocalDate currentDate = LocalDate.parse(currentDateStr);
+        
+        // 1. 定位当前周的周一
+        LocalDate currentMonday = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        
+        // 2. 计算 8 周的起点和终点
+        LocalDate startDate = currentMonday.minusWeeks(4);
+        LocalDate endDate = currentMonday.plusWeeks(4).minusDays(1); // 加上当前周和后3周，共8周的周日
 
         List<String> groupIds = scheduleService.getMemberGroupIds(userId);
         List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(
                 userId, groupIds, startDate, endDate);
 
-        // 使用 ISO 周字段
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        List<Map<String, Object>> result = new ArrayList<>();
+        DateTimeFormatter labelFormatter = DateTimeFormatter.ofPattern("MM/dd");
+        DateTimeFormatter rangeFormatter = DateTimeFormatter.ofPattern("MM.dd");
 
-        // 按周分组
-        Map<String, Long> weeklyCounts = schedules.stream()
-                .collect(Collectors.groupingBy(s -> {
-                    LocalDate date = s.getScheduleDate();
-                    int month = date.getMonthValue();
-                    int weekOfMonth = date.get(weekFields.weekOfMonth());
-                    return String.format("%02d-W%d", month, weekOfMonth);
-                }, TreeMap::new, Collectors.counting()));
+        // 3. 循环 8 次生成每周统计
+        for (int i = 0; i < 8; i++) {
+            LocalDate weekStart = startDate.plusWeeks(i);
+            LocalDate weekEnd = weekStart.plusDays(6);
+            
+            long count = schedules.stream()
+                    .filter(s -> !s.getScheduleDate().isBefore(weekStart) && !s.getScheduleDate().isAfter(weekEnd))
+                    .count();
 
-        // 转换为前端要求的格式
-        return weeklyCounts.entrySet().stream()
-                .map(entry -> {
-                    Map<String, Object> item = new LinkedHashMap<>();
-                    item.put("week", entry.getKey());
-                    item.put("count", entry.getValue());
-                    return item;
-                })
-                .collect(Collectors.toList());
+            Map<String, Object> weekData = new LinkedHashMap<>();
+            weekData.put("weekLabel", weekStart.format(labelFormatter));
+            weekData.put("weekRange", String.format("%s-%s", weekStart.format(rangeFormatter), weekEnd.format(rangeFormatter)));
+            weekData.put("count", count);
+            result.add(weekData);
+        }
+
+        return result;
     }
 }

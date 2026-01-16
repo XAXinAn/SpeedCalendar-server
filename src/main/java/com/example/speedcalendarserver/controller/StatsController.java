@@ -25,11 +25,11 @@ public class StatsController {
     private final JwtUtil jwtUtil;
 
     /**
-     * 分类占比统计 (B1)
-     * GET /stats/categories?month=2023-11
+     * 分类占比统计 (饼状图)
+     * GET /api/stats/categories?month=2023-11
      */
     @GetMapping("/categories")
-    public ApiResponse<Map<String, Long>> getCategoryStats(
+    public ApiResponse<List<Map<String, Object>>> getCategoryStats(
             @RequestParam String month,
             HttpServletRequest httpRequest
     ) {
@@ -40,7 +40,7 @@ public class StatsController {
             }
 
             log.info("【分类统计】userId: {}, month: {}", userId, month);
-            Map<String, Long> stats = statsService.getCategoryStats(userId, month);
+            List<Map<String, Object>> stats = statsService.getCategoryStats(userId, month);
             return ApiResponse.success("获取成功", stats);
         } catch (Exception e) {
             log.error("【分类统计失败】{}", e.getMessage(), e);
@@ -49,13 +49,12 @@ public class StatsController {
     }
 
     /**
-     * 周活跃度统计 (B2)
-     * GET /stats/weekly-activity?startDate=2023-10-01&endDate=2023-11-30
+     * 周度活跃趋势统计 (趋势图)
+     * GET /api/stats/weekly-trends?currentDate=2024-11-20
      */
-    @GetMapping("/weekly-activity")
-    public ApiResponse<List<Map<String, Object>>> getWeeklyActivityStats(
-            @RequestParam String startDate,
-            @RequestParam String endDate,
+    @GetMapping("/weekly-trends")
+    public ApiResponse<List<Map<String, Object>>> getWeeklyTrends(
+            @RequestParam String currentDate,
             HttpServletRequest httpRequest
     ) {
         try {
@@ -64,11 +63,11 @@ public class StatsController {
                 return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
             }
 
-            log.info("【周活跃统计】userId: {}, range: {} ~ {}", userId, startDate, endDate);
-            List<Map<String, Object>> stats = statsService.getWeeklyActivityStats(userId, startDate, endDate);
+            log.info("【周度趋势统计】userId: {}, currentDate: {}", userId, currentDate);
+            List<Map<String, Object>> stats = statsService.getWeeklyTrends(userId, currentDate);
             return ApiResponse.success("获取成功", stats);
         } catch (Exception e) {
-            log.error("【周活跃统计失败】{}", e.getMessage(), e);
+            log.error("【周度趋势统计失败】{}", e.getMessage(), e);
             return ApiResponse.error(e.getMessage());
         }
     }
