@@ -3,7 +3,9 @@ package com.example.speedcalendarserver.config;
 import com.example.speedcalendarserver.service.CalendarAssistant;
 import com.example.speedcalendarserver.service.CalendarTools;
 import com.example.speedcalendarserver.service.DatabaseChatMemoryStore;
+import com.example.speedcalendarserver.service.QuickScheduleTools;
 import com.example.speedcalendarserver.service.StreamingCalendarAssistant;
+import com.example.speedcalendarserver.service.StreamingQuickScheduleAssistant;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
@@ -115,6 +117,28 @@ public class AiConfig {
                 .build();
 
         log.info("StreamingCalendarAssistant 构建完成，已启用流式响应、工具调用和会话记忆功能");
+        return assistant;
+    }
+
+    /**
+     * 创建流式快速日程助手 Bean（轻量级，专为悬浮窗 OCR 场景优化）
+     * 使用精简的系统提示词，减少模型推理时间
+     * 
+     * @param streamingChatModel 流式聊天模型
+     * @param calendarTools      日历工具类
+     * @return StreamingQuickScheduleAssistant 实例
+     */
+    @Bean
+    public StreamingQuickScheduleAssistant streamingQuickScheduleAssistant(StreamingChatModel streamingChatModel,
+            QuickScheduleTools quickScheduleTools) {
+        log.info("正在构建 StreamingQuickScheduleAssistant（轻量级悬浮窗快速日程助手）");
+
+        StreamingQuickScheduleAssistant assistant = AiServices.builder(StreamingQuickScheduleAssistant.class)
+                .streamingChatModel(streamingChatModel)
+                .tools(quickScheduleTools)
+                .build();
+
+        log.info("StreamingQuickScheduleAssistant 构建完成，已启用轻量级悬浮窗快速日程模式");
         return assistant;
     }
 
