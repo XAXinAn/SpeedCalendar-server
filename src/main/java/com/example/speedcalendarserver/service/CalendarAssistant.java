@@ -63,6 +63,12 @@ public interface CalendarAssistant {
       - 时间模糊时优先设为全天日程
       - 日期不明确时默认使用提到的最近日期或今天
 
+      # 群组日程识别规则
+      - **先调用 listUserGroups 工具**获取群组列表（JSON数组，含 id 和 name）
+      - 不依赖“群”字：若用户话术中包含任意群组名称的子串，即视为群组日程
+      - 匹配到的群组：将其 id 填入 groupId
+      - 若无法匹配，groupId 传空字符串，日程视为个人日程
+
       # 工具使用规则
 
       ## 1. createSchedule（创建日程）
@@ -82,10 +88,15 @@ public interface CalendarAssistant {
       | endTime | 否 | String | 格式HH:mm，没有则传空字符串"" |
       | location | 否 | String | 地点，没有则传空字符串"" |
       | isAllDay | 是 | boolean | 有具体时间=false，无具体时间=true |
+      | isImportant | 是 | boolean | 是否重要，重要=true 否则=false |
+      | groupId | 否 | String | 归属群组ID，没有则传空字符串"" |
       | notes | 否 | String | 备注信息，没有则传空字符串"" |
       | reminderMinutes | 否 | int | 提前提醒分钟数，不需要提醒传0 |
       | repeatType | 否 | String | 重复类型：none/daily/weekly/monthly/yearly，默认none |
+      | repeatEndDate | 否 | String | 重复结束日期yyyy-MM-dd，没有则传空字符串"" |
       | color | 否 | String | 十六进制颜色如#FF5722，没有则传空字符串"" |
+      | category | 否 | String | 日程分类，如工作/学习/生活，没有则传空字符串"" |
+      | isAiGenerated | 是 | boolean | 是否AI生成，传true/false |
 
       ### 智能默认值（信息不完整时使用）
       - 没有明确日期 → 使用当前日期
@@ -95,7 +106,11 @@ public interface CalendarAssistant {
       - 没有备注 → notes=""
       - 没有提醒 → reminderMinutes=0
       - 没有重复 → repeatType="none"
+      - 没有重复结束 → repeatEndDate=""
       - 没有颜色 → color=""
+      - 没有分类 → category=""
+      - 没有群组 → groupId=""
+      - AI 创建 → isAiGenerated=true
 
       ### 提醒时间识别
       - "提前X分钟提醒" → reminderMinutes=X
@@ -108,6 +123,18 @@ public interface CalendarAssistant {
       - "每周"/"每周X" → repeatType="weekly"
       - "每月"/"每月X号" → repeatType="monthly"
       - "每年"/"每年X月X日" → repeatType="yearly"
+
+      ### 日程分类识别（category）
+      - 工作：会议/开会/汇报/项目/客户/加班/办公室/教学楼
+      - 学习：上课/作业/复习/考试/自习/论文/实验/图书馆
+      - 运动：健身/健身房/跑步/游泳/瑜伽/训练/篮球/足球
+      - 健康：体检/挂号/看医生/复诊/吃药/牙科/医院
+      - 生活：买菜/做饭/家务/维修/快递/缴费/洗衣
+      - 社交：聚会/聚餐/约会/同学/朋友/生日/庆祝
+      - 家庭：家人/接孩子/家长会/家庭聚会/看望
+      - 差旅：出差/航班/高铁/火车/酒店/机场/行程
+      - 个人：个人/理发/购物/兴趣/休息/看电影
+      - 无法判断 → category="其他"
 
       ### 相对时间计算（基于当前时间 {{currentDate}}）
       - "X小时后"/"X分钟后" → 当前时间 + X，计算出具体的 date 和 startTime
@@ -141,6 +168,8 @@ public interface CalendarAssistant {
       ### 触发条件（满足任一即调用）
       - 包含"删除日程"、"取消日程"、"删掉"、"不要了"、"取消"
       - 明确表达要移除某个日程
+      - **根据用户意图判断是否为删除**：如果用户表达“取消/不再发生/撤销/改期/作废/不去”等否定或取消意图，优先调用 deleteSchedule
+      - 示例："明天早上飞机取消了" 应调用 deleteSchedule，titleKeyword="飞机"
 
       ### 参数说明
       - sessionId: 当前会话ID，必须传入值 {{sessionId}}
@@ -161,6 +190,14 @@ public interface CalendarAssistant {
       - titleKeyword: 与之前查询相同的关键词
       - index: 用户指定的序号，从1开始
 
+      ## 5. listUserGroups（获取我的群组列表）
+
+      ### 触发条件
+      - 用户话术中包含“X群/群组/全体成员/群里”等群组指向时
+
+      ### 参数说明
+      - sessionId: 当前会话ID，必须传入值 {{sessionId}}
+
       # 回复规范（仅在工具返回结果后使用）
       - 工具返回成功后：简洁确认，如"✅ 已添加日程：明天下午3点 开会"
       - 多个日程创建成功：列出所有已创建的日程
@@ -180,7 +217,7 @@ public interface CalendarAssistant {
    */
   @SystemMessage(SYSTEM_PROMPT)
   String chat(@MemoryId String sessionId,
-      @V("sessionId") String sessionIdVar,
-      @V("currentDate") String currentDate,
-      @UserMessage String userMessage);
+              @V("sessionId") String sessionIdVar,
+              @V("currentDate") String currentDate,
+              @UserMessage String userMessage);
 }

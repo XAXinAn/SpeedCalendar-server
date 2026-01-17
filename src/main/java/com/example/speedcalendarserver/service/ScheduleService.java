@@ -45,10 +45,10 @@ public class ScheduleService {
     public List<ScheduleDTO> getSchedulesByDate(String userId, String dateStr) {
         LocalDate date = LocalDate.parse(dateStr);
         List<String> groupIds = getMemberGroupIds(userId);
-        
+
         List<Schedule> schedules = scheduleRepository.findSchedulesForUserAndGroupsByDateRange(
                 userId, groupIds, date, date);
-        
+
         return enrichScheduleDTOs(schedules);
     }
 
@@ -60,7 +60,7 @@ public class ScheduleService {
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
-        
+
         return getSchedulesByRange(userId, startDate, endDate);
     }
 
@@ -94,8 +94,9 @@ public class ScheduleService {
                         // 全天日程，只要日期在范围内就包含
                         return true;
                     }
-                    if (dto.getStartDateTime() == null) return false;
-                    
+                    if (dto.getStartDateTime() == null)
+                        return false;
+
                     LocalDateTime scheduleStart = LocalDateTime.parse(
                             dto.getStartDateTime().substring(0, 19)); // 简单截取处理
                     return !scheduleStart.isBefore(startTimeLimit) && !scheduleStart.isAfter(endTimeLimit);
@@ -170,19 +171,32 @@ public class ScheduleService {
         }
 
         // 3. 更新字段
-        if (request.getTitle() != null) schedule.setTitle(request.getTitle());
-        if (request.getScheduleDate() != null) schedule.setScheduleDate(LocalDate.parse(request.getScheduleDate()));
-        if (request.getStartTime() != null) schedule.setStartTime(LocalTime.parse(request.getStartTime()));
-        if (request.getEndTime() != null) schedule.setEndTime(LocalTime.parse(request.getEndTime()));
-        if (request.getLocation() != null) schedule.setLocation(request.getLocation());
-        if (request.getIsAllDay() != null) schedule.setIsAllDay(request.getIsAllDay() ? 1 : 0);
-        if (request.getIsImportant() != null) schedule.setIsImportant(request.getIsImportant() ? 1 : 0);
-        if (request.getColor() != null) schedule.setColor(request.getColor());
-        if (request.getCategory() != null) schedule.setCategory(request.getCategory());
-        if (request.getNotes() != null) schedule.setNotes(request.getNotes());
-        if (request.getReminderMinutes() != null) schedule.setReminderMinutes(request.getReminderMinutes());
-        if (request.getRepeatType() != null) schedule.setRepeatType(request.getRepeatType());
-        if (request.getRepeatEndDate() != null) schedule.setRepeatEndDate(LocalDate.parse(request.getRepeatEndDate()));
+        if (request.getTitle() != null)
+            schedule.setTitle(request.getTitle());
+        if (request.getScheduleDate() != null)
+            schedule.setScheduleDate(LocalDate.parse(request.getScheduleDate()));
+        if (request.getStartTime() != null)
+            schedule.setStartTime(LocalTime.parse(request.getStartTime()));
+        if (request.getEndTime() != null)
+            schedule.setEndTime(LocalTime.parse(request.getEndTime()));
+        if (request.getLocation() != null)
+            schedule.setLocation(request.getLocation());
+        if (request.getIsAllDay() != null)
+            schedule.setIsAllDay(request.getIsAllDay() ? 1 : 0);
+        if (request.getIsImportant() != null)
+            schedule.setIsImportant(request.getIsImportant() ? 1 : 0);
+        if (request.getColor() != null)
+            schedule.setColor(request.getColor());
+        if (request.getCategory() != null)
+            schedule.setCategory(request.getCategory());
+        if (request.getNotes() != null)
+            schedule.setNotes(request.getNotes());
+        if (request.getReminderMinutes() != null)
+            schedule.setReminderMinutes(request.getReminderMinutes());
+        if (request.getRepeatType() != null)
+            schedule.setRepeatType(request.getRepeatType());
+        if (request.getRepeatEndDate() != null)
+            schedule.setRepeatEndDate(LocalDate.parse(request.getRepeatEndDate()));
 
         Schedule updated = scheduleRepository.save(schedule);
         return convertToDTO(updated);
@@ -210,6 +224,81 @@ public class ScheduleService {
                 .stream()
                 .map(UserGroup::getGroupId)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取用户所属的所有群组
+     *
+     * @param userId 用户ID
+     * @return 群组列表
+     */
+    public List<Group> getMemberGroups(String userId) {
+        List<String> groupIds = getMemberGroupIds(userId);
+        if (groupIds.isEmpty()) {
+            return List.of();
+        }
+        return groupRepository.findAllById(groupIds);
+    }
+
+    /**
+     * 解析群组ID或名称，并验证用户成员权限
+     * 
+     * 优先按 ID 校验成员资格；
+     * 再在用户已加入群组中按名称匹配；
+     * 同名群组给出提示。
+     *
+     * @param userId        用户ID
+     * @param groupIdOrName 群组ID或名称
+     * @return 解析后的群组ID，如果解析失败返回 null
+     * @throws IllegalArgumentException 如果有多个同名群组
+     */
+    public String resolveGroupIdForUser(String userId, String groupIdOrName) {
+        if (groupIdOrName == null || groupIdOrName.isBlank()) {
+            return null;
+        }
+
+        // 1. 优先按 ID 尝试匹配
+        UserGroup directRelation = userGroupRepository.findByUserIdAndGroupId(userId, groupIdOrName);
+        if (directRelation != null) {
+            return groupIdOrName;
+        }
+
+        // 2. 获取用户所有群组，按名称匹配
+        List<Group> memberGroups = getMemberGroups(userId);
+        if (memberGroups.isEmpty()) {
+            return null;
+        }
+
+        // 按名称精确匹配
+        List<Group> exactMatches = memberGroups.stream()
+                .filter(g -> g.getName().equals(groupIdOrName))
+                .collect(Collectors.toList());
+
+        if (exactMatches.size() == 1) {
+            return exactMatches.get(0).getId();
+        }
+
+        if (exactMatches.size() > 1) {
+            throw new IllegalArgumentException(
+                    String.format("您有 %d 个同名群组「%s」，请使用群组ID指定", exactMatches.size(), groupIdOrName));
+        }
+
+        // 3. 按名称子串匹配（包含关系）
+        List<Group> containsMatches = memberGroups.stream()
+                .filter(g -> g.getName().contains(groupIdOrName) || groupIdOrName.contains(g.getName()))
+                .collect(Collectors.toList());
+
+        if (containsMatches.size() == 1) {
+            return containsMatches.get(0).getId();
+        }
+
+        if (containsMatches.size() > 1) {
+            // 多个匹配，返回第一个（或者可以抛出异常让用户明确）
+            log.warn("【ScheduleService】群组名称「{}」匹配到多个群组，使用第一个匹配", groupIdOrName);
+            return containsMatches.get(0).getId();
+        }
+
+        return null;
     }
 
     /**

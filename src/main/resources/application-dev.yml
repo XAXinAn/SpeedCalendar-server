@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/speed_calendar?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: Xu821120
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
@@ -18,7 +18,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update  # 开发环境可自动更新表结构
+      ddl-auto: none  # 避免自动改表导致外键冲突
     properties:
       hibernate:
         format_sql: true

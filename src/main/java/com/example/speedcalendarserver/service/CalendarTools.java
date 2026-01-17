@@ -3,7 +3,10 @@ package com.example.speedcalendarserver.service;
 import com.example.speedcalendarserver.dto.CreateScheduleRequest;
 import com.example.speedcalendarserver.dto.ScheduleDTO;
 import com.example.speedcalendarserver.entity.ChatSession;
+import com.example.speedcalendarserver.entity.Group;
 import com.example.speedcalendarserver.repository.ChatSessionRepository;
+import com.example.speedcalendarserver.util.ToolResultContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 日历工具类
@@ -56,6 +61,10 @@ public class CalendarTools {
      * @param reminderMinutes 提醒分钟数（可选）
      * @param repeatType      重复类型（可选）
      * @param color           颜色（可选）
+     * @param isImportant     是否重要（可选）
+     * @param groupId         群组ID或名称（可选）
+     * @param repeatEndDate   重复结束日期（可选）
+     * @param category        分类（可选）
      * @return 创建结果消息
      */
     @Tool(name = "createSchedule", value = "创建一个新的日程安排。当用户说'帮我添加日程'、'创建日程'、'新建日程'或表达想要添加日程的意图时调用此工具。")
@@ -66,11 +75,15 @@ public class CalendarTools {
             @P("开始时间，可选，格式HH:mm如14:00，没有则传空字符串") String startTime,
             @P("结束时间，可选，格式HH:mm，没有则传空字符串") String endTime,
             @P("地点，可选，没有则传空字符串") String location,
-            @P("是否全天，有具体时间传false，没有具体时间传true") boolean isAllDay,
+            @P("是否全天，有具体时间传false，没有具体时间传true") Boolean isAllDay,
             @P("备注信息，可选，没有则传空字符串") String notes,
-            @P("提前提醒分钟数，可选，如10表示提前10分钟提醒，不需要提醒则传0") int reminderMinutes,
+            @P("提前提醒分钟数，可选，如10表示提前10分钟提醒，不需要提醒则传0") Integer reminderMinutes,
             @P("重复类型，可选，值为：none(不重复)/daily(每天)/weekly(每周)/monthly(每月)/yearly(每年)，默认none") String repeatType,
-            @P("日程颜色，可选，十六进制如#FF5722，没有则传空字符串") String color) {
+            @P("日程颜色，可选，十六进制如#FF5722，没有则传空字符串") String color,
+            @P("是否重要，可选，默认false") Boolean isImportant,
+            @P("群组ID或群组名称，可选，个人日程传空字符串") String groupId,
+            @P("重复结束日期，可选，格式yyyy-MM-dd，没有则传空字符串") String repeatEndDate,
+            @P("日程分类，可选，值为：工作/学习/运动/健康/生活/社交/家庭/差旅/个人/其他，默认根据内容自动识别") String category) {
 
         String userId = resolveUserIdFromSession(sessionId);
         if (userId == null) {
@@ -79,8 +92,9 @@ public class CalendarTools {
         }
 
         log.info(
-                "【CalendarTools】createSchedule 被调用 - userId: {}, title: {}, date: {}, startTime: {}, endTime: {}, location: {}, isAllDay: {}, notes: {}, reminder: {}, repeat: {}, color: {}",
-                userId, title, date, startTime, endTime, location, isAllDay, notes, reminderMinutes, repeatType, color);
+                "【CalendarTools】createSchedule 被调用 - userId: {}, title: {}, date: {}, startTime: {}, endTime: {}, location: {}, isAllDay: {}, notes: {}, reminder: {}, repeat: {}, color: {}, isImportant: {}, groupId: {}, repeatEndDate: {}, category: {}",
+                userId, title, date, startTime, endTime, location, isAllDay, notes, reminderMinutes, repeatType, color,
+                isImportant, groupId, repeatEndDate, category);
 
         try {
             // 验证必填字段
@@ -95,13 +109,29 @@ public class CalendarTools {
             LocalDate.parse(date, DATE_FORMATTER);
 
             // 处理可选字段：空字符串、null、"null"都视为无效
-            String actualStartTime = isBlankOrNull(startTime) ? null : startTime;
-            String actualEndTime = isBlankOrNull(endTime) ? null : endTime;
+                String actualStartTime = isBlankOrNull(startTime) ? null : startTime;
+                String actualEndTime = isBlankOrNull(endTime) ? null : endTime;
             String actualLocation = isBlankOrNull(location) ? null : location;
             String actualNotes = isBlankOrNull(notes) ? null : notes;
             String actualRepeatType = isBlankOrNull(repeatType) ? "none" : repeatType;
             String actualColor = isBlankOrNull(color) ? null : color;
-            Integer actualReminderMinutes = reminderMinutes > 0 ? reminderMinutes : null;
+                Integer actualReminderMinutes = (reminderMinutes != null && reminderMinutes > 0) ? reminderMinutes : null;
+            String actualRepeatEndDate = isBlankOrNull(repeatEndDate) ? null : repeatEndDate;
+            String actualCategory = isBlankOrNull(category) ? "其他" : category;
+                boolean actualIsAllDay = isAllDay != null ? isAllDay
+                    : (actualStartTime == null && actualEndTime == null);
+                boolean actualIsImportant = isImportant != null && isImportant;
+
+            // 解析群组ID（支持群组名称或ID）
+            String actualGroupId = null;
+            if (!isBlankOrNull(groupId)) {
+                try {
+                    actualGroupId = scheduleService.resolveGroupIdForUser(userId, groupId);
+                } catch (Exception e) {
+                    log.warn("【CalendarTools】解析群组失败: {}", e.getMessage());
+                    // 群组解析失败不影响创建，当作个人日程
+                }
+            }
 
             // 构建请求
             CreateScheduleRequest request = new CreateScheduleRequest();
@@ -110,30 +140,44 @@ public class CalendarTools {
             request.setStartTime(actualStartTime);
             request.setEndTime(actualEndTime);
             request.setLocation(actualLocation);
-            request.setIsAllDay(isAllDay);
+            request.setIsAllDay(actualIsAllDay);
             request.setNotes(actualNotes);
             request.setReminderMinutes(actualReminderMinutes);
             request.setRepeatType(actualRepeatType);
             request.setColor(actualColor);
+            request.setIsImportant(actualIsImportant);
+            request.setGroupId(actualGroupId);
+            request.setRepeatEndDate(actualRepeatEndDate);
+            request.setCategory(actualCategory);
+            request.setIsAiGenerated(true);
 
             // 调用服务创建日程
             ScheduleDTO result = scheduleService.createSchedule(userId, request);
 
-            String timeInfo = isAllDay ? "全天"
+                String timeInfo = actualIsAllDay ? "全天"
                     : String.format("%s - %s",
                             actualStartTime != null ? actualStartTime : "未设置",
                             actualEndTime != null ? actualEndTime : "未设置");
             String locationInfo = (actualLocation != null) ? "，地点：" + actualLocation : "";
             String reminderInfo = (actualReminderMinutes != null) ? "，提前" + actualReminderMinutes + "分钟提醒" : "";
             String repeatInfo = !"none".equals(actualRepeatType) ? "，" + getRepeatTypeText(actualRepeatType) : "";
+            String groupInfo = (actualGroupId != null && result.getGroupName() != null) ? "，群组：" + result.getGroupName()
+                    : "";
 
-            return String.format("✅ 日程创建成功！\n📅 标题：%s\n📆 日期：%s\n⏰ 时间：%s%s%s%s",
+            // 记录创建动作到上下文
+            ToolResultContext.recordCreateAction(
+                    String.format("创建日程成功：%s", result.getTitle()),
+                    result.getScheduleId(),
+                    result.getScheduleDate());
+
+            return String.format("✅ 日程创建成功！\n📅 标题：%s\n📆 日期：%s\n⏰ 时间：%s%s%s%s%s",
                     result.getTitle(),
                     result.getScheduleDate(),
                     timeInfo,
                     locationInfo,
                     reminderInfo,
-                    repeatInfo);
+                    repeatInfo,
+                    groupInfo);
 
         } catch (DateTimeParseException e) {
             log.error("【CalendarTools】日期格式错误", e);
@@ -273,6 +317,10 @@ public class CalendarTools {
                 ScheduleDTO toDelete = matchedSchedules.get(0);
                 scheduleService.deleteSchedule(userId, toDelete.getScheduleId());
 
+                // 记录删除动作
+                ToolResultContext.recordDeleteAction(
+                        String.format("删除日程成功：%s", toDelete.getTitle()));
+
                 return String.format("✅ 已删除日程：【%s】%s %s",
                         toDelete.getScheduleDate(),
                         toDelete.getTitle(),
@@ -291,6 +339,9 @@ public class CalendarTools {
                             s.getIsAllDay() ? "全天" : s.getStartTime()));
                 }
                 sb.append("\n请告诉我要删除哪一个，例如'删除第1个'或提供更精确的日期。");
+
+                // 记录待确认删除状态
+                ToolResultContext.recordPendingDelete(titleKeyword, sb.toString());
 
                 return sb.toString();
             }
@@ -345,6 +396,10 @@ public class CalendarTools {
             ScheduleDTO toDelete = matchedSchedules.get(index - 1);
             scheduleService.deleteSchedule(userId, toDelete.getScheduleId());
 
+            // 记录删除动作
+            ToolResultContext.recordDeleteAction(
+                    String.format("删除日程成功：%s", toDelete.getTitle()));
+
             return String.format("✅ 已删除日程：【%s】%s %s",
                     toDelete.getScheduleDate(),
                     toDelete.getTitle(),
@@ -382,6 +437,44 @@ public class CalendarTools {
         } catch (Exception e) {
             log.error("根据 sessionId 获取用户失败: {}", e.getMessage(), e);
             return null;
+        }
+    }
+
+    /**
+     * 获取用户群组列表
+     * 供模型识别用户所属的群组，用于创建群组日程时匹配群组
+     *
+     * @param sessionId 会话ID
+     * @return JSON 格式的群组列表，包含 id 和 name
+     */
+    @Tool(name = "listUserGroups", value = "获取当前用户所属的群组列表。当用户提到群组日程或需要识别群组时调用此工具。")
+    public String listUserGroups(@P("会话ID，必须传入当前会话ID") String sessionId) {
+        String userId = resolveUserIdFromSession(sessionId);
+        if (userId == null) {
+            log.error("【CalendarTools】listUserGroups 失败：无法根据 sessionId 获取用户");
+            return "[]";
+        }
+
+        log.info("【CalendarTools】listUserGroups 被调用 - userId: {}", userId);
+
+        try {
+            List<Group> groups = scheduleService.getMemberGroups(userId);
+
+            if (groups.isEmpty()) {
+                return "[]";
+            }
+
+            // 构建 JSON 数组
+            List<Map<String, String>> groupList = groups.stream()
+                    .map(g -> Map.of("id", g.getId(), "name", g.getName()))
+                    .collect(Collectors.toList());
+
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(groupList);
+
+        } catch (Exception e) {
+            log.error("【CalendarTools】获取群组列表失败", e);
+            return "[]";
         }
     }
 }

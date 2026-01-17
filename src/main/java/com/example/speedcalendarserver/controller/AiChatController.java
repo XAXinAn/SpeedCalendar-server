@@ -297,6 +297,60 @@ public class AiChatController {
     }
 
     /**
+     * 快速日程创建（JSON 响应版本）
+     *
+     * POST /api/ai/quick-schedule/create
+     * Headers: Authorization: Bearer {token}
+     * Body: { "text": "OCR识别的文本内容" }
+     * 响应: {
+     * "code": 200,
+     * "message": "操作成功",
+     * "data": {
+     * "action": "create",
+     * "schedule": { ... },
+     * "message": "✅ 日程创建成功！",
+     * "scheduleDate": "2026-01-18"
+     * }
+     * }
+     *
+     * <p>
+     * 专为需要 JSON 响应的场景设计：
+     * - 无会话、不存储消息历史
+     * - 返回结构化 JSON 响应
+     * - 支持创建/删除/待确认等动作
+     *
+     * @param request     快速日程请求
+     * @param httpRequest HTTP请求
+     * @return JSON 响应
+     */
+    @PostMapping("/quick-schedule/create")
+    public ApiResponse<QuickScheduleActionResponse> quickScheduleCreate(
+            @Valid @RequestBody QuickScheduleRequest request,
+            HttpServletRequest httpRequest) {
+        try {
+            String userId = getUserIdFromRequest(httpRequest);
+            if (userId == null) {
+                return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "未授权，请先登录");
+            }
+
+            String text = request.getText();
+            if (text == null || text.isBlank()) {
+                return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), "text 不能为空");
+            }
+
+            log.info("【快速日程JSON】userId: {}, text: {}", userId, truncateMessage(text, 100));
+
+            // 调用服务处理
+            QuickScheduleActionResponse result = aiChatService.quickScheduleAction(userId, text);
+
+            return ApiResponse.success("操作成功", result);
+        } catch (Exception e) {
+            log.error("【快速日程JSON失败】{}", e.getMessage(), e);
+            return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "AI服务暂时不可用，请稍后重试");
+        }
+    }
+
+    /**
      * 发送消息（非流式，兼容旧接口）
      *
      * POST /api/ai/chat/message

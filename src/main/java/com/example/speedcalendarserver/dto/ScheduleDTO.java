@@ -43,7 +43,9 @@ public class ScheduleDTO {
 
     /**
      * 归属群组名称 (V1.2 新增)
+     * 强制返回（即使为 null），避免前端缺字段
      */
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     private String groupName;
 
     /**
@@ -136,10 +138,10 @@ public class ScheduleDTO {
      */
     public static ScheduleDTO fromEntity(Schedule schedule) {
         ZoneId zoneId = ZoneId.systemDefault();
-        
+
         String startIso = null;
         String endIso = null;
-        
+
         if (schedule.getScheduleDate() != null) {
             if (schedule.getStartTime() != null) {
                 startIso = ZonedDateTime.of(schedule.getScheduleDate(), schedule.getStartTime(), zoneId)
@@ -149,7 +151,7 @@ public class ScheduleDTO {
                 startIso = ZonedDateTime.of(schedule.getScheduleDate(), java.time.LocalTime.MIN, zoneId)
                         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
             }
-            
+
             if (schedule.getEndTime() != null) {
                 endIso = ZonedDateTime.of(schedule.getScheduleDate(), schedule.getEndTime(), zoneId)
                         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
@@ -176,8 +178,9 @@ public class ScheduleDTO {
                 .reminderMinutes(schedule.getReminderMinutes())
                 .repeatType(schedule.getRepeatType())
                 .repeatEndDate(schedule.getRepeatEndDate() != null ? schedule.getRepeatEndDate().toString() : null)
-                .createdAt(schedule.getCreatedAt() != null ? 
-                        schedule.getCreatedAt().atZone(zoneId).toInstant().toEpochMilli() : null)
+                .createdAt(schedule.getCreatedAt() != null
+                        ? schedule.getCreatedAt().atZone(zoneId).toInstant().toEpochMilli()
+                        : null)
                 .build();
     }
 }

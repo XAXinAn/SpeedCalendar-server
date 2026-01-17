@@ -1,9 +1,12 @@
 package com.example.speedcalendarserver.service;
 
+import com.example.speedcalendarserver.dto.QuickScheduleActionResponse;
+import com.example.speedcalendarserver.dto.ScheduleDTO;
 import com.example.speedcalendarserver.entity.ChatMessage;
 import com.example.speedcalendarserver.entity.ChatSession;
 import com.example.speedcalendarserver.repository.ChatMessageRepository;
 import com.example.speedcalendarserver.repository.ChatSessionRepository;
+import com.example.speedcalendarserver.util.ToolResultContext;
 import com.example.speedcalendarserver.util.UserContextHolder;
 import dev.langchain4j.service.TokenStream;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * AI 聊天服务
@@ -42,6 +47,7 @@ public class AiChatService {
     private final ChatSessionRepository chatSessionRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final DatabaseChatMemoryStore chatMemoryStore;
+    private final CalendarTools calendarTools;
 
     /**
      * 创建新的聊天会话
@@ -481,6 +487,126 @@ public class AiChatService {
             UserContextHolder.clear();
             throw e;
         }
+    }
+
+    /**
+     * 快速日程动作（JSON 响应版本）
+     * 支持创建/删除/待确认等多种动作
+     *
+     * @param userId 用户ID
+     * @param text   用户输入的文本
+     * @return 动作响应
+     */
+    public QuickScheduleActionResponse quickScheduleAction(String userId, String text) {
+        final String quickSessionId = "quick-schedule-" + userId;
+
+        log.info("【quickScheduleAction】userId: {}, text: {}", userId, text);
+
+        // 清理该用户的快速日程内存缓存
+        chatMemoryStore.clearCache(quickSessionId);
+
+        // 设置用户上下文
+        UserContextHolder.setUserId(userId);
+        UserContextHolder.bindSession(quickSessionId, userId);
+        UserContextHolder.setSessionId(quickSessionId);
+
+        // 清理工具结果上下文
+        ToolResultContext.clear();
+
+        try {
+            // 生成当前日期字符串
+            String currentDate = getCurrentDateString();
+
+            // 构造提示词
+            String prompt = "帮我添加日程：" + text;
+
+            // 调用 AI（同步）
+            String aiReply = calendarAssistant.chat(quickSessionId, quickSessionId, currentDate, prompt);
+
+            log.info("【quickScheduleAction】AI 回复: {}", aiReply);
+
+            // 检查是否是"删除第X个"的回复，需要自动处理
+            Integer deleteIndex = parseDeleteIndex(aiReply);
+            if (deleteIndex != null) {
+                String pendingKeyword = ToolResultContext.getPendingDeleteKeyword();
+                if (pendingKeyword != null) {
+                    log.info("【quickScheduleAction】检测到删除确认，自动执行删除第 {} 个，关键词: {}", deleteIndex, pendingKeyword);
+                    // 自动调用删除工具
+                    String deleteResult = calendarTools.deleteScheduleByIndex(quickSessionId, pendingKeyword,
+                            deleteIndex);
+                    return QuickScheduleActionResponse.builder()
+                            .action("delete")
+                            .message(deleteResult)
+                            .build();
+                }
+            }
+
+            // 根据工具上下文构建响应
+            String actionType = ToolResultContext.getLastActionType();
+            String actionMessage = ToolResultContext.getLastActionMessage();
+
+            if ("create".equals(actionType)) {
+                String scheduleId = ToolResultContext.get(ToolResultContext.LAST_CREATED_SCHEDULE_ID);
+                String scheduleDate = ToolResultContext.get(ToolResultContext.LAST_CREATED_SCHEDULE_DATE);
+
+                return QuickScheduleActionResponse.builder()
+                        .action("create")
+                        .message(aiReply)
+                        .scheduleDate(scheduleDate)
+                        .build();
+            } else if ("delete".equals(actionType)) {
+                return QuickScheduleActionResponse.builder()
+                        .action("delete")
+                        .message(aiReply)
+                        .build();
+            } else if ("delete_pending".equals(actionType)) {
+                String pendingKeyword = ToolResultContext.getPendingDeleteKeyword();
+                return QuickScheduleActionResponse.builder()
+                        .action("delete_pending")
+                        .message(aiReply)
+                        .pendingKeyword(pendingKeyword)
+                        .build();
+            } else {
+                // 默认返回 AI 回复
+                return QuickScheduleActionResponse.builder()
+                        .action("message")
+                        .message(aiReply)
+                        .build();
+            }
+
+        } finally {
+            // 清理
+            chatMemoryStore.clearCache(quickSessionId);
+            UserContextHolder.unbindSession(quickSessionId);
+            UserContextHolder.clear();
+            ToolResultContext.clear();
+        }
+    }
+
+    /**
+     * 从 AI 回复中解析"删除第X个"的序号
+     *
+     * @param aiReply AI 回复内容
+     * @return 序号（从1开始），如果没有匹配则返回 null
+     */
+    private Integer parseDeleteIndex(String aiReply) {
+        if (aiReply == null) {
+            return null;
+        }
+
+        // 匹配模式：删除第X个、第X个、删掉第X个
+        Pattern pattern = Pattern.compile("(?:删除|删掉)?第\\s*(\\d+)\\s*个");
+        Matcher matcher = pattern.matcher(aiReply);
+
+        if (matcher.find()) {
+            try {
+                return Integer.parseInt(matcher.group(1));
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /**

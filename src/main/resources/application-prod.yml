@@ -22,7 +22,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: update  # 首次部署用 update，稳定后可改为 validate
+      ddl-auto: none  # 避免自动改表导致外键冲突
     properties:
       hibernate:
         format_sql: false
